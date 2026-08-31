@@ -36,7 +36,6 @@ function cacheEls() {
   els.regionNameInHeading = document.getElementById("regionNameInHeading");
   els.regionSpendingSum = document.getElementById("regionSpendingSum");
   els.regionUnifiedNote = document.getElementById("regionUnifiedNote");
-  els.regionChartWrap = document.getElementById("regionChartWrap");
 
   els.stateTrack = document.getElementById("stateChart");
   els.stateTable = document.getElementById("stateTable");
@@ -244,24 +243,22 @@ function render() {
     kommunSegments
   );
 
-  // Region spending breakdown (annual kr). Gotland has no separate regional
-  // tax (kommun and region are the same authority there), so region.taxRate
-  // is 0 and there is nothing meaningful to chart.
+  // Region spending breakdown (annual kr). Gotland is both kommun and region in
+  // one, and legally levies a single combined tax rate rather than a separate
+  // regional one - but it still spends real money on regional services like
+  // hospitals, so region.taxRate is an imputed split of that combined rate
+  // (see gotland_imputed_region_rate in build.py) rather than 0, and the chart
+  // renders normally. Only the explanatory note differs for a unified region.
   els.regionNameInHeading.textContent = t("inParens", { name: region.name });
-  const regionIsUnified = region.taxRate === 0;
-  els.regionUnifiedNote.hidden = !regionIsUnified;
-  els.regionChartWrap.hidden = regionIsUnified;
-  els.regionSpendingSum.hidden = regionIsUnified;
-  if (!regionIsUnified) {
-    const regionShares = currentSpendingShares(region);
-    const regionDetail = currentSpendingDetail(region);
-    const regionSegments = buildCategorySegments(DATA.meta.categoriesRegion, regionShares, result.regionalSkatt, regionDetail);
-    els.regionSpendingSum.textContent = `${formatCurrency(result.regionalSkatt)}${t("perYear")}` + (region.estimated ? ` · ${t("estimatedNote")}` : "");
-    renderStackBar(
-      { trackEl: els.regionTrack, legendEl: getOrCreateLegend(els.regionTrack), tableEl: els.regionTable },
-      regionSegments
-    );
-  }
+  els.regionUnifiedNote.hidden = !region.taxRateUnified;
+  const regionShares = currentSpendingShares(region);
+  const regionDetail = currentSpendingDetail(region);
+  const regionSegments = buildCategorySegments(DATA.meta.categoriesRegion, regionShares, result.regionalSkatt, regionDetail);
+  els.regionSpendingSum.textContent = `${formatCurrency(result.regionalSkatt)}${t("perYear")}` + (region.estimated ? ` · ${t("estimatedNote")}` : "");
+  renderStackBar(
+    { trackEl: els.regionTrack, legendEl: getOrCreateLegend(els.regionTrack), tableEl: els.regionTable },
+    regionSegments
+  );
 
   els.budgetCaveat.hidden = !usingFallbackBudget();
 

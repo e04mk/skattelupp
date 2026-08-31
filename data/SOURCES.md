@@ -221,6 +221,23 @@ Gotland's real healthcare spend remains fully represented in `regions["09"].spen
 After this fix, Gotland's kommun-level shares (34% school, 22% elderly care, 19%
 individ/familjeomsorg, ...) are in line with comparable kommuner.
 
+**Gotland's tax rate is also split for display, not shown as a real 0% regional rate.**
+Skatteverket's own data has `landsting_rates["09"] = 0` and the full combined
+kommunal+regional rate (33.6% for 2026) under `kommunal_rates["0980"]`, since Gotland
+legally levies one combined rate rather than a separate regional tax. Showing that
+verbatim would make it look like Gotland residents pay 0 kr toward regional services
+(hospitals, dental care, public transport) even though they clearly do, just via that one
+combined rate. Instead, `build.py` imputes a kommunal/regional split of the combined rate,
+weighted by Gotland's own reported net-cost totals for its kommun-template and
+region-template RS returns for 2024 (4,287.9 mnkr kommun-side vs. 2,886.0 mnkr
+region-side — a real, reported 59.8%/40.2% split, not a guess): `taxRate` = 20.08% for
+kommun `0980`, 13.52% for region `09` (they sum back to the real combined 33.6%). Both
+entries carry `"taxRateUnified": true` so the frontend can explain the calculation instead
+of presenting it as an ordinary legislated rate. The spending shares themselves are
+untouched by this — `regions["09"].spendingShares` already correctly showed ~97% going to
+Hälso- och sjukvård; only the kr amount it's applied to (Gotland's imputed regional tax,
+rather than 0) changes.
+
 - **To refresh next year**: re-run the same `/data` queries against TAB4199/TAB4242 with
   `valuecodes[Tid]=<latest complete year>` once next year's RS data is published (typically
   released ~September the following year, e.g. 2025 data around September 2026). No code

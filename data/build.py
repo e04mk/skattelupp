@@ -439,6 +439,25 @@ def main():
     assert riket_kommun_shares is not None
     assert riket_region_shares is not None
 
+    # Region Gotland reports ONE combined kommunal+landsting tax rate - Skatteverket's
+    # own data has landsting_rates["09"] = 0 and the full combined rate under
+    # kommunal_rates["0980"] (see GOTLAND_EXCLUDE_CODES above). Left as-is, the site
+    # would show 0 kr of regional spending for Gotland residents even though they very
+    # much do fund hospitals etc. - just via that one combined rate instead of a
+    # separate regional tax line. Rather than guess a split, we derive one from
+    # Gotland's OWN reported net-cost totals for its kommun-template (TAB4199) and
+    # region-template (TAB4242) RS returns: whatever fraction of its combined spend
+    # went to each side is the fraction of the combined tax rate attributed to it.
+    GOTLAND_REGION_LAN_CODE = "09"
+    gotland_region_code_in_table = next(c for c in region_table if c.startswith(GOTLAND_KOMMUN_CODE))
+    gotland_kommun_total_mnkr = kommun_totals[GOTLAND_KOMMUN_CODE] / 1000.0  # tkr -> mnkr
+    gotland_region_total_mnkr = region_totals[gotland_region_code_in_table]
+    gotland_combined_total = gotland_kommun_total_mnkr + gotland_region_total_mnkr
+    gotland_kommun_fraction = gotland_kommun_total_mnkr / gotland_combined_total
+    gotland_combined_rate = kommunal_rates[GOTLAND_KOMMUN_CODE]
+    gotland_imputed_kommun_rate = round(gotland_combined_rate * gotland_kommun_fraction, 4)
+    gotland_imputed_region_rate = round(gotland_combined_rate - gotland_imputed_kommun_rate, 4)
+
     # --- Build regions dict ---
     regions_out = {}
     for lan_code, name in sorted(region_names.items()):
@@ -458,6 +477,9 @@ def main():
             "name": name,
             "taxRate": rate,
         }
+        if lan_code == GOTLAND_REGION_LAN_CODE:
+            entry["taxRate"] = gotland_imputed_region_rate
+            entry["taxRateUnified"] = True
         shares = region_shares.get(matched_code) if matched_code else None
         if shares is None:
             entry["spendingShares"] = riket_region_shares
@@ -481,6 +503,9 @@ def main():
             "regionCode": lan_code,
             "taxRate": rate,
         }
+        if kod == GOTLAND_KOMMUN_CODE:
+            entry["taxRate"] = gotland_imputed_kommun_rate
+            entry["taxRateUnified"] = True
         shares = kommun_shares.get(kod)
         if shares is None:
             entry["spendingShares"] = riket_kommun_shares
@@ -694,12 +719,10 @@ def main():
         s = sum(entry["spendingShares"].values())
         assert abs(s - 1.0) < 1e-3, f"kommun {kod} shares sum to {s}"
         combined = entry["taxRate"] + regions_out[entry["regionCode"]]["taxRate"]
-        # Gotland (0980) reports its combined kommun+region rate entirely under "kommunal"
-        # (landsting portion = 0 for lan 09), so its kommunal rate alone is ~33-34%.
-        if kod == "0980":
-            assert 0.30 <= entry["taxRate"] <= 0.38, f"Gotland suspicious combined-as-kommunal rate {entry['taxRate']}"
-        else:
-            assert 0.15 <= entry["taxRate"] <= 0.25, f"kommun {kod} suspicious taxRate {entry['taxRate']}"
+        # Gotland's taxRate is now the imputed kommunal portion of its one combined
+        # rate (see gotland_imputed_kommun_rate above), which lands within the same
+        # normal range as every other kommun.
+        assert 0.15 <= entry["taxRate"] <= 0.25, f"kommun {kod} suspicious taxRate {entry['taxRate']}"
         assert 0.28 <= combined <= 0.38, f"kommun {kod} suspicious combined taxRate {combined}"
         # Detail sub-items for a category should sum back to that category's own
         # top-level share. Each leaf is floored at 0 individually (a negative row
@@ -720,8 +743,11 @@ def main():
         s = sum(entry["spendingShares"].values())
         assert abs(s - 1.0) < 1e-3, f"region {rc} shares sum to {s}"
         if rc == "09":
-            # Gotland: the region/landsting rate is folded into the kommun's rate (see above).
-            assert entry["taxRate"] == 0.0, f"Gotland region rate expected 0, got {entry['taxRate']}"
+            # Gotland's taxRate is now the imputed regional portion of its one combined
+            # rate (see gotland_imputed_region_rate above) - real-data-derived, and a
+            # touch above every other region's range given Gotland's small population
+            # running a full regional healthcare system.
+            assert 0.09 <= entry["taxRate"] <= 0.15, f"Gotland suspicious imputed region rate {entry['taxRate']}"
         else:
             assert 0.09 <= entry["taxRate"] <= 0.135, f"region {rc} suspicious taxRate {entry['taxRate']}"
         for cat, items in entry["spendingDetail"].items():

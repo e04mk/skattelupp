@@ -583,7 +583,8 @@
     },
     "09": {
       "name": "Gotland",
-      "taxRate": 0.0,
+      "taxRate": 0.1352,
+      "taxRateUnified": true,
       "spendingShares": {
         "Hälso- och sjukvård": 0.972626,
         "Tandvård": 0.023562,
@@ -19327,7 +19328,8 @@
     "0980": {
       "name": "Gotland",
       "regionCode": "09",
-      "taxRate": 0.336,
+      "taxRate": 0.2008,
+      "taxRateUnified": true,
       "spendingShares": {
         "Förskola & grundskola": 0.335466,
         "Gymnasieskola & vuxenutbildning": 0.083986,
