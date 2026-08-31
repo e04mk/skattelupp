@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skattelupp</title>
+<meta name="description" content="Se hur din lön blir till skatt och nettolön, och vart din kommunal- och regionskatt går.">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">🧾</span>
+      <span class="brand-name">Skattelupp</span>
+    </div>
+    <button id="langToggle" class="lang-toggle" type="button" aria-label="Switch language / Byt språk">
+      <span class="lang-opt" data-lang="sv">SV</span>
+      <span class="lang-sep">/</span>
+      <span class="lang-opt" data-lang="en">EN</span>
+    </button>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <p class="intro" data-i18n="intro">
+    Ange din månadslön före skatt och välj kommun för att se hur mycket skatt du betalar,
+    vad du får kvar själv, och vart din kommunal- och regionskatt går.
+  </p>
+
+  <details class="panel controls" open>
+    <summary class="panel-summary"><h2 data-i18n="controlsHeading">Dina uppgifter</h2></summary>
+    <div class="panel-body">
+      <div class="control-grid">
+        <div class="field">
+          <label for="kommunSelect" data-i18n="kommunLabel">Kommun</label>
+          <select id="kommunSelect"></select>
+        </div>
+        <div class="field">
+          <label for="salaryNumber" data-i18n="salaryLabel">Månadslön före skatt</label>
+          <div class="salary-input-group">
+            <input type="number" id="salaryNumber" min="0" max="300000" step="500" value="35000" inputmode="numeric">
+            <span class="unit">kr/mån</span>
+          </div>
+        </div>
+      </div>
+      <input type="range" id="salarySlider" min="0" max="150000" step="500" value="35000" aria-label="Månadslön, reglage">
+      <div class="basis-row">
+        <span class="fieldset-label" id="basisLabel" data-i18n="basisLabel">Vad ska visas i fördelningen?</span>
+        <div class="segmented" role="radiogroup" aria-labelledby="basisLabel">
+          <button type="button" class="segmented-opt is-active" data-basis="outcome" role="radio" aria-checked="true" data-i18n="basisOutcome">Senaste bokslutet</button>
+          <button type="button" class="segmented-opt" data-basis="budget" role="radio" aria-checked="false" data-i18n="basisBudget">Årets budget</button>
+        </div>
+      </div>
+      <p class="hint" id="basisHint" data-i18n="basisHintOutcome">Bygger på det senast redovisade bokslutet (SCB:s räkenskapssammandrag).</p>
+    </div>
+  </details>
+
+  <details class="panel hero-panel" open>
+    <summary class="panel-summary"><h2 data-i18n="heroHeading">Din nettolön</h2></summary>
+    <div class="panel-body">
+      <div class="hero-figure-row">
+        <div class="hero-figure">
+          <span class="hero-label" data-i18n="netLabel">Du får kvar</span>
+          <span class="hero-value" id="netValue">0 kr</span>
+          <span class="hero-sub" id="netValueYear">0 kr / år</span>
+        </div>
+        <dl class="stat-list">
+          <div class="stat">
+            <dt data-i18n="grossLabel">Bruttolön</dt>
+            <dd id="statGross">0 kr</dd>
+          </div>
+          <div class="stat">
+            <dt data-i18n="taxLabel">Total skatt</dt>
+            <dd id="statTax">0 kr</dd>
+          </div>
+          <div class="stat">
+            <dt data-i18n="rateLabel">Effektiv skattesats</dt>
+            <dd id="statRate">0 %</dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </details>
+
+  <details class="panel chart-panel" open>
+    <summary class="panel-summary"><h2 data-i18n="overviewHeading">Så fördelas din bruttolön</h2></summary>
+    <div class="panel-body">
+      <p class="chart-note" data-i18n="overviewNote">Inklusive jobbskatteavdrag, som höjer det du får kvar.</p>
+      <div id="overviewChart" class="stackbar-chart"></div>
+      <details class="table-toggle">
+        <summary data-i18n="tableToggle">Visa som tabell</summary>
+        <div id="overviewTable" class="data-table-wrap"></div>
+      </details>
+    </div>
+  </details>
+
+  <div class="chart-grid">
+    <details class="panel chart-panel" open>
+      <summary class="panel-summary"><h2><span data-i18n="kommunSpendingHeading">Din kommunalskatt gick till</span> <span id="kommunNameInHeading"></span></h2></summary>
+      <div class="panel-body">
+        <p class="chart-note" id="kommunSpendingSum"></p>
+        <div id="kommunChart" class="stackbar-chart"></div>
+        <details class="table-toggle">
+          <summary data-i18n="tableToggle">Visa som tabell</summary>
+          <div id="kommunTable" class="data-table-wrap"></div>
+        </details>
+      </div>
+    </details>
+
+    <details class="panel chart-panel" open>
+      <summary class="panel-summary"><h2><span data-i18n="regionSpendingHeading">Din regionskatt gick till</span> <span id="regionNameInHeading"></span></h2></summary>
+      <div class="panel-body">
+        <p class="chart-note" id="regionSpendingSum"></p>
+        <p class="chart-note" id="regionUnifiedNote" hidden data-i18n="regionUnifiedNote">
+          I den här regionen är kommun och region samma huvudman — regionens verksamhet finansieras direkt av din kommunalskatt ovan, i stället för en separat regionskatt.
+        </p>
+        <div id="regionChartWrap">
+          <div id="regionChart" class="stackbar-chart"></div>
+          <details class="table-toggle">
+            <summary data-i18n="tableToggle">Visa som tabell</summary>
+            <div id="regionTable" class="data-table-wrap"></div>
+          </details>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <p class="budget-caveat" id="budgetCaveat" hidden data-i18n="budgetCaveat">
+    Det finns ingen samlad, strukturerad budgetuppdelning per verksamhet för alla kommuner och regioner.
+    Fördelningen ovan bygger därför på senaste bokslutets fördelning, tillämpad på årets skattesatser.
+  </p>
+
+  <details class="panel chart-panel" open>
+    <summary class="panel-summary"><h2 data-i18n="stateSpendingHeading">Din statliga skatt gick till</h2></summary>
+    <div class="panel-body">
+      <p class="chart-note" id="stateSpendingSum"></p>
+      <p class="chart-note" id="stateZeroNote" hidden data-i18n="stateZeroNote">
+        Vid den här lönen betalar du 0 kr i statlig inkomstskatt (den tas bara ut på inkomster över brytpunkten) — du bidrar alltså inte till något av det nedan.
+      </p>
+      <div id="stateChartWrap">
+        <div id="stateChart" class="stackbar-chart"></div>
+        <details class="table-toggle">
+          <summary data-i18n="tableToggle">Visa som tabell</summary>
+          <div id="stateTable" class="data-table-wrap"></div>
+        </details>
+      </div>
+      <p class="budget-caveat" id="stateBudgetCaveat" hidden data-i18n="stateBudgetCaveat">
+        Det finns ingen strukturerad uppdelning av statens budget för innevarande år tillgänglig.
+        Fördelningen ovan bygger därför på senaste utfallets fördelning mellan utgiftsområden.
+      </p>
+    </div>
+  </details>
+
+  <footer class="site-footer">
+    <p data-i18n="privacyNote">Den här sidan sparar inga kakor och skickar ingen data om dig till någon server — allt beräknas i din webbläsare.</p>
+    <p class="sources-note">
+      <span data-i18n="sourcesNote">Källor: Skatteverket och SCB.</span>
+      <span id="dataGeneratedAt"></span>
+    </p>
+  </footer>
+
+</main>
+
+<script src="js/i18n.js"></script>
+<script src="js/tax-calc.js"></script>
+<script src="js/chart.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

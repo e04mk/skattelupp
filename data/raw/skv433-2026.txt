@@ -1,0 +1,1526 @@
+                                                                           Teknisk beskrivning
+                                                                           Datum
+                                                                           2025-12-10
+
+
+
+
+Innehåll
+1      Inledning/Nyheter .......................................................................................................... 3
+2      Förutsättningar som skattetabellerna grundas på........................................................ 4
+3      Tabellernas indelning i kolumner ................................................................................. 4
+4      Skattetabellernas indelning i löneperioder ................................................................... 7
+5      Inkomstintervaller i tabellerna m.m. ............................................................................. 7
+               Månadstabellen ................................................................................................................. 7
+               Tvåveckorstabellen ........................................................................................................... 7
+6      Avdrag som beaktas i preliminärskattetabellerna ........................................................ 8
+               Grundavdrag ..................................................................................................................... 8
+               Förhöjt grundavdrag för personer över 66 år ............................................................. 10
+7      Beräkning av de skatter och avgifter som ingår i skattetabellerna ............................ 13
+               Årsinkomst ...................................................................................................................... 13
+               Statlig inkomstskatt ........................................................................................................ 13
+               Kommunal inkomstskatt, begravningsavgift och avgift till registrerat trossamfund
+               14
+               Allmän pensionsavgift .................................................................................................... 14
+               Skattereduktion .............................................................................................................. 15
+       7.5.1       Skattereduktion för allmän pensionsavgift .................................................................................16
+       7.5.2       Skattereduktion för arbetsinkomst .............................................................................................16
+       7.5.3       Skattereduktion för sjuk- och aktivitetsersättning ......................................................................21
+       7.5.4       Skattereduktion för förvärvsinkomst ..........................................................................................23
+               Public service-avgiften.................................................................................................... 24
+8      Fördelning av årsskatt på löneperiod.......................................................................... 25
+9      Kontroll m.m. ............................................................................................................... 26
+10        Tabell för engångsbelopp ........................................................................................ 26
+            Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av
+    arbetsinkomster till den som inte fyllt 66 år vid årets ingång, kolumn 1 ............................... 26
+            Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av pension
+    m.m. till den som vid årets ingång fyllt 66 år, kolumn 2 .......................................................... 27
+           Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av löner,
+    arvoden och liknande ersättningar till den som vid årets ingång fyllt 66 år, kolumn 3 ........ 27
+            Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av sjuk- och
+    aktivitetsersättning till den som vid årets ingång inte fyllt 66 år, kolumn 4 .......................... 27
+                                                                  Teknisk beskrivning
+                                                                  Datum
+                                                                  2025-12-10
+
+
+
+
+        Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av andra
+ pensionsgrundande ersättningar än löner m.m., t.ex. ersättning från arbetslöshetskassa och
+ egen arbetsskadelivränta, till den som är född 1938 eller senare, kolumn 5 .......................... 28
+        Tabell för engångsbelopp där den huvudsakliga årsinkomsten inkomster (t.ex.
+ pensioner) till den som vid årets ingång inte fyllt 66 år, kolumn 6 ......................................... 28
+          Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av löner, arvoden
+ och liknande ersättningar avseende sjöinkomst närfart till den som vid årets ingång inte
+ fyllt 66 år, kolumn 1..................................................................................................................... 29
+         Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av löner, arvoden
+ och liknande till den som fyllt 66 år vid årets ingång, sjöinkomst närfart, kolumn 2 ........... 29
+ 10.09 Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av löner,
+ arvoden och liknande ersättningar avseende sjöinkomst fjärrfart till den som vid årets
+ ingång inte fyllt 66 år, kolumn 1................................................................................................. 30
+ 10.10 Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av löner, arvoden
+ och liknande till den som fyllt 66 år vid årets ingång, sjöinkomst fjärrfart, kolumn 2 ......... 30
+
+
+Bilaga 1                               Grundavdrag 2026
+Bilaga 2                               Förhöjt grundavdrag 2026
+Bilaga 3                               Exempelsamling
+Bilaga 4                               Månadslön, tabell 34
+                                       Tvåveckorslön, tabell 34
+
+
+
+
+                                                                    2
+                              Teknisk beskrivning
+                              Datum
+                              2025-12-10
+
+
+
+
+Sammanfattning
+
+Skatteverket ger i slutet av varje år ut information om vilka
+förutsättningar som gäller för beräkning av skatteavdrag
+enligt tabell för det kommande inkomståret. Informationen
+riktar sig i första hand till arbetsgivare, programföretag
+m.fl., som gör egna beräkningsprogram för A-skatteavdrag
+enligt tabell.
+
+De allmänna skattetabellerna för inkomstår 2026 kommer att
+fastställas i enlighet med vad som framgår av denna
+information. Tabellerna ingår i Skatteverkets föreskrift
+SKVFS 2025:20 som träder i kraft den 1 januari 2026 och som
+ska tillämpas beträffande skatteavdrag från
+inkomster under 2026.
+
+1 Inledning/Nyheter
+Följande lagändringar påverkar beräkningen av skatteavdrag
+enligt tabell för inkomstår 2026.
+
+  •   Prisbasbeloppet för 2026 har fastställts till
+      59 200 kr. Prisbasbeloppet ligger till grund för bl.a.
+      beräkning av grundavdrag, det förhöjda grundavdraget för
+      pensionärer samt skattereduktion för arbetsinkomst.
+  •   Inkomstbasbeloppet, som bl.a. används för uträkning av
+      avgiftstaket för den allmänna pensionsavgiften, har
+      fastställts till 83 400 kr.
+  •   Statlig inkomstskatt på förvärvsinkomster utgör
+      20 procent av den beskattningsbara förvärvsinkomsten som
+      överstiger 643 000 kr, se avsnitt 7.2.
+  •   Förändringar avseende det förhöjda grundavdraget för
+      personer över 66 år. Se mer information i avsnitt 6.2.
+  •   Förändring av beräkning i jobbskatteavdraget för
+      inkomstår 2026. Mer information finns under avsnitt
+      7.5.2.
+  •   Inga förändringar i skattereduktion för förvärvsinkomst,
+      endast ändring av prisbasbelopp.
+  •   Förändringar i Public service-avgiften (Radio- och TV-
+      avgiften) för inkomståret 2026. Mer information finns
+      under avsnitt 7.6.
+
+
+
+
+                               3
+                              Teknisk beskrivning
+                              Datum
+                              2025-12-10
+
+
+
+
+  •   Förändring av beräkning i skattereduktion sjuk- och
+      aktivitetsersättning för inkomståret 2026. Mer
+      information finns under avsnitt 7.5.3.
+  •   Engångstabeller tas fram för samtliga kolumner i de
+      allmänna tabellerna samt sjöinkomsttabellerna, totalt 10
+      st för inkomståret 2026.
+  •   Genomsnittliga skattesatsen för inkomståret 2026 har
+      beräknats till 34 %.
+
+2 Förutsättningar som skattetabellerna grundas på
+Tabellerna grundas på följande förutsättningar, nämligen
+  • att inkomsten är oförändrad under inkomståret
+  • att skattebetalaren kommer att beskattas endast för den
+     inkomst som anges i tabellen
+  • att skattebetalaren inte ska betala annan skatt
+     eller avgift än kommunal och statlig inkomstskatt på
+     förvärvsinkomster, allmän pensionsavgift,
+     begravningsavgift, avgift till registrerat trossamfund
+     samt public service-avgift
+  • att inga andra avdrag medges än grundavdrag och det
+     förhöjda grundavdraget
+  • att skattereduktion för allmän pensionsavgift och
+     skattereduktion för arbetsinkomster medges
+  • att skattereduktion för sjuk- och aktivitetsersättning
+     medges.
+  • att skattereduktion för förvärvsinkomst ska medges
+
+3 Tabellernas indelning i kolumner
+I de lägsta inkomstskikten blir skatteavdraget större om
+allmän pensionsavgift ska betalas på inkomsten. Denna avgift
+betalas av personer som är födda 1938 eller senare.
+Skattereduktionen för arbetsinkomster (jobbskatteavdrag)
+påverkar kolumnindelningen eftersom storleken på reduktionen
+är beroende av om skattebetalaren är över eller under 66 år
+vid inkomstårets ingång och också av hur stora inkomsterna
+är. Samma skatteavdrag kan förekomma i vissa inkomstskikt i
+fler än en kolumn.
+
+
+
+
+                               4
+                             Teknisk beskrivning
+                             Datum
+                             2025-12-10
+
+
+
+
+Kolumn 1 avser löner, arvoden och liknande ersättningar till
+         den som vid årets ingång inte fyllt 66 år. Allmän
+         pensionsavgift ska betalas och inkomsten ger rätt
+         till skattereduktion för arbetsinkomst och för
+         förvärvsinkomst.
+Kolumn 2 avser inkomster (t.ex. pensioner) till den som vid
+         årets ingång fyllt 66 år. Allmän pensionsavgift ska
+         inte betalas och inkomsten ger inte rätt till någon
+         skattereduktion för arbetsinkomst. Personen har rätt
+         till förhöjt grundavdrag. Skattereduktion för
+         förvärvsinkomst medges.
+Kolumn 3 avser löner, arvoden och liknande ersättningar till
+         den som vid årets ingång fyllt 66 år. Allmän
+         pensionsavgift ska betalas och inkomsten ger rätt
+         till en högre skattereduktion för arbetsinkomst än
+         enligt kolumn 1. Personen har rätt till förhöjt
+         grundavdrag. Skattereduktion för förvärvsinkomst
+         medges. Kolumnen används även för personer födda
+         1937 eller tidigare som har förvärvsinkomst.
+Kolumn 4 avser sjuk- och aktivitetsersättning till den som
+         vid årets ingång inte fyllt 66 år. Allmän
+         pensionsavgift ska inte betalas. Ersättningen ger
+         inte rätt till förhöjt grundavdrag eller
+         skattereduktion för arbetsinkomst men ger rätt till
+         skattereduktion för sjuk- och aktivitetsersättning
+         och för förvärvsinkomst.
+Kolumn 5 avser andra pensionsgrundande ersättningar än löner
+         m.m., t.ex. ersättning från arbetslöshetskassa och
+         egen arbetsskadelivränta, till den som är född 1938
+         eller senare. Allmän pensionsavgift ska betalas på
+         inkomsten men denna ger inte någon rätt till
+         skattereduktion för arbetsinkomst. Skattereduktion
+         för förvärvsinkomst medges.
+Kolumn 6 avser inkomster (t.ex. pensioner) till den som vid
+         årets ingång inte fyllt 66 år. Allmän pensionsavgift
+         ska inte betalas och inkomsten ger inte rätt till
+         någon skattereduktion för arbetsinkomst.
+         Skattereduktion för förvärvsinkomst medges.
+
+
+
+
+                              5
+                                       Teknisk beskrivning
+                                       Datum
+                                       2025-12-10
+
+
+
+
+Av nedanstående tablå framgår vad som beaktas i de sex
+kolumnerna.
+
+Skatter m.m.        Kol 1      Kol          Kol 3      Kol 4 K Kol 5K Kol 6
+som ingår i         Inte
+                    fyllt 66
+                               2            Fyllt 66
+                                            år
+                                                       Inte fyllt
+                                                       66 år
+                                                                    f.1938
+                                                                    eller
+                                                                                Inte
+                                                                                fyllt 66
+skatte-                        Fyllt
+                    år                                              senare   66 år
+                               66 år
+tabellerna
+Statlig inkomst-    Ja         Ja           Ja         Ja           Ja         Ja
+Skatt
+Kommunal inkomst-   Ja         Ja           Ja         Ja           Ja         Ja
+skatt,
+begravningsavgift
+och avgift
+till trossamfund
+Allmän              Ja         Nej          Ja         Nej          Ja         Nej
+pensionsavgift
+Public              Ja         Ja           Ja         Ja           Ja         Ja
+Service-avgift
+Avdrag och
+skattereduktion
+som beaktas i
+skattetabellerna
+Grundavdrag         Ja                                 Ja           Ja         Ja
+Förhöjt                        Ja           Ja
+grundavdrag
+Skattereduktion     Ja         Nej          Ja         Nej          Ja         Nej
+för allmän
+pensionsavgift
+Skattereduktion     Ja         Nej                     Nej          Nej        Nej
+för arbetsinkomst
+Förhöjd                                     Ja
+skattereduktion
+för arbetsinkomst
+Skattereduktion     Nej        Nej          Nej        Ja           Nej        Nej
+för
+sjuk- och
+aktivitetsersättn
+ing
+Skattereduktion     Ja         Ja           Ja         Ja           Ja         Ja
+för
+förvärvsinkomst
+
+
+
+
+                                        6
+                               Teknisk beskrivning
+                               Datum
+                               2025-12-10
+
+
+
+
+4 Skattetabellernas indelning i löneperioder
+Skattetabeller tas fram för månadslön och tvåveckorslön. Dock
+finns skattetabell för tvåveckorslön endast tillgänglig på
+www.skatteverket.se. Skatteavdrag ska göras med 30 % om
+anställningen är avsedd att vara kortare tid än en vecka.
+
+Antalet lönetillfällen per år beräknas enligt följande:
+Månadslön         12 st.
+Tvåveckorslön     26 st.
+
+För halvmånads- och veckolön tas det inte fram några
+skattetabeller. Skatteavdraget ska i stället göras med hjälp
+av tabellen för månads- och tvåveckorslön genom att:
+
+  •   halvmånadslönen multipliceras med två. Sedan läser man
+      av skatteavdraget för det beloppet i tabellen för
+      månadslön och delar det avdragsbeloppet med två och har
+      då fått fram skatteavdraget för halvmånadslön
+  •   veckolönen multipliceras med två. Sedan läser man
+      skatteavdraget för det beloppet i tabellen för
+      tvåveckorslön och delar avdragsbeloppet med två och har
+      då fått fram skatteavdraget för veckolön.
+
+5 Inkomstintervaller i tabellerna m.m.
+         Månadstabellen
+
+I månadstabellen anges skatteavdraget i kronor för inkomster
+upp t.o.m. 80 000 kr. För inkomster som överstiger 80 000 kr
+anges skatteavdraget i procent.
+
+Inkomstintervallerna är 100 kr för inkomster upp t.o.m.
+20 000 kr. Fr.o.m. 20 001 kr t.o.m. 80 000 kr är
+inkomstintervallerna 200 kr. Från 80 001 kr och uppåt bryts
+intervallerna först när procentsatsen ändras.
+Intervallerna kan variera beroende på vilken skatte- och
+avgiftssats som tabellen avser.
+
+         Tvåveckorstabellen
+
+I tvåveckorstabellen anges skatteavdraget i kronor för
+inkomster upp t.o.m. 40 000 kr. För inkomster som
+överstiger 40 000 kr anges skatteavdraget i procent.
+
+
+                                7
+                              Teknisk beskrivning
+                              Datum
+                              2025-12-10
+
+
+
+
+Inkomstintervallerna är 50 kr för inkomster upp t.o.m.
+10 000 kr. Fr.o.m. 10 001 kr och t.o.m. 40 000 kr är
+inkomstintervallerna 100 kr. Från 40 001 kr och uppåt bryts
+intervallerna först när procentsatsen ändras. Intervallerna
+kan variera beroende på vilken skatte- och avgiftssats som
+tabellen avser.
+
+6 Avdrag som beaktas i preliminärskattetabellerna
+        Grundavdrag
+
+Med fastställd förvärvsinkomst (FFI) menas i detta
+sammanhang årsinkomsten beräknad på det sätt som anges i
+avsnitt 7.1.
+
+Grundavdraget baseras på det prisbasbelopp som fastställts
+för inkomståret. Prisbasbeloppet för 2026 har fastställts
+till 59 200 kr.
+
+Grundavdraget beräknas på följande sätt:
+
+Fastställd                 Grundavdrag
+förvärvsinkomst
+Överstiger inte 0,99       0,423 prisbasbelopp, dvs.
+prisbasbelopp, dvs.        25 041,60
+58 608                     0,423 PBB
+överstiger 0,99 men inte   0,423 prisbasbelopp
+2,72 prisbasbelopp,        (25 041,60) ökat med 20
+dvs. 58 608 men inte       procent av det belopp med
+161 024                    vilket den fastställda
+                           förvärvsinkomsten överstiger
+                           0,99 prisbasbelopp, dvs.
+                           58 608
+                           0,423 PBB + ((FFI – 0,99 PBB)
+                           * 0,20)
+överstiger 2,72 men inte   0,77 prisbasbelopp, dvs.
+3,11 prisbasbelopp, dvs.   45 584,00
+161 024 men inte 184 112   0,77 PBB
+överstiger 3,11 men inte   0,77 prisbasbelopp, dvs.
+7,88 prisbasbelopp, dvs.   45 584,00, minskat med 10
+184 112 men inte           procent av det belopp med
+466 496                    vilket den fastställda
+                           förvärvsinkomsten överstiger
+
+
+                               8
+                                Teknisk beskrivning
+                                Datum
+                                2025-12-10
+
+
+
+
+                             3,11 prisbasbelopp,
+                             dvs. 184 112
+                             0,77 PBB – ((FFI – 3,11 PBB) *
+                             0,10)
+överstiger 7,88              0,293 prisbasbelopp,
+prisbasbelopp, dvs.          dvs. 17 345,60
+466 496                      0,293 PBB
+
+Grundavdraget får inte överstiga den fastställda
+förvärvsinkomsten, dvs. bruttolönen för hela året. Grund-
+avdraget avrundas uppåt till jämnt hundratal kronor.
+
+Här följer två exempel på beräkning av grundavdrag.
+
+Exempel 1
+Prisbasbelopp för 2026                                     59 200
+Bruttolön per månad                                        10 000
+Bruttolön för hela året                                   120 000
+Fastställd förvärvsinkomst                                120 000
+
+Grundavdrag
+0,423 PBB x 59 200                                      25 041,60
++ 20 % (120000-58608 = 61392)                         + 12 278,40
+                                                        37 320,00
+
+Efter avrundning uppåt till jämnt hundratal blir
+grundavdraget 37 400 kr.
+
+Exempel 2
+Prisbasbelopp för 2026                                     59 200
+Bruttolön per månad                                        27 000
+Bruttolön för hela året                                   324 000
+Fastställd förvärvsinkomst                                324 000
+
+Grundavdrag
+0,77 PBB x 59 200                                       45 584,00
+- 10 % (324000-184112 = 139888)                       - 13 988,80
+                                                        31 595,20
+
+Efter avrundning uppåt till jämnt hundratal blir
+grundavdraget 31 600 kr.
+
+Kontroll av att grundavdraget beräknats på ett korrekt sätt i
+enlighet med ovanstående regler, kan göras mot tabellen i
+
+
+                                 9
+                                 Teknisk beskrivning
+                                 Datum
+                                 2025-12-10
+
+
+
+
+bilaga 1. Tabellen visar hur stort grundavdraget blir vid en
+viss fastställd förvärvsinkomst.
+
+        Förhöjt grundavdrag för personer över 66 år
+
+Det förhöjda grundavdraget avser personer över 66 år och
+påverkar kolumn 2 och 3 i de allmänna tabellerna och kolumn 2
+i sjömansskattetabellerna. Även det förhöjda grundavdraget
+baseras på det prisbasbelopp som fastställts för inkomståret.
+Prisbasbeloppet för 2026 har fastställts till 59 200 kr, se
+avsnitt 6.1.
+
+Det förhöjda grundavdraget beräknas på följande sätt:
+
+Fastställd förvärvsinkomst     Förhöjt grundavdrag
+överstiger inte 0,91           0,687 PBB (40 670,40)
+prisbasbelopp, dvs.
+53 872
+överstiger 0,91                0,885 prisbasbelopp (52 392,00)
+prisbasbelopp men inte         minskat med 20 procent av den
+1,11 prisbasbelopp, dvs.       fastställda förvärvsinkomsten
+53 872 men inte 65 712         0,885 PBB – (FFI * 0,2)
+överstiger 1,11                0,600 prisbasbelopp (35 520,00)
+prisbasbelopp men inte         ökat med 5,7 procent av den
+1,965 prisbasbelopp, dvs.      fastställda förvärvsinkomsten
+65 712 men inte 116 328        0,600 PBB + (FFI * 0,057)
+överstiger 1,965               0,333 prisbasbelopp (19 713,60)
+prisbasbelopp men inte         ökat med 19,49 procent av den
+2,72 prisbasbelopp, dvs.       fastställda förvärvsinkomsten
+116 328 men inte 161 024       0,333 PBB + (FFI * 0,1949)
+överstiger 2,72                39,49 procent av den fastställda
+prisbasbelopp men inte         förvärvsinkomsten minskat med 0,212
+3,11 prisbasbelopp, dvs.       prisbasbelopp (12 550,40)
+161 024 men inte 184 112       (FFI * 0,3949) – 0,212 PBB
+överstiger 3,11                49,49 procent av den fastställda
+prisbasbelopp men inte         förvärvsinkomsten minskat med 0,523
+3,24 prisbasbelopp, dvs.       prisbasbelopp (30 961,60)
+184 112 men inte 191 808       (FFI * 0,4949) – 0,523 PBB
+överstiger 3,24                35,6 procent av den fastställda
+prisbasbelopp men inte         förvärvsinkomsten minskat med 0,073
+5,00 prisbasbelopp, dvs.       prisbasbelopp (4 321,60)
+191 808 men inte 296 000       (FFI * 0,356) – 0,073 PBB
+
+
+
+
+                                  10
+                                Teknisk beskrivning
+                                Datum
+                                2025-12-10
+
+
+
+
+överstiger 5,00              0,017 prisbasbelopp (1 006,40) ökat
+prisbasbelopp men inte       med 33,80 procent av den
+7,88 prisbasbelopp, dvs.     fastställda förvärvsinkomsten
+296 000 men inte 466 496     0,017 PBB + (FFI * 0,338)
+överstiger 7,88              0,703 prisbasbelopp (41 617,60)
+prisbasbelopp men inte       ökat med 25,10 procent av den
+8,08 prisbasbelopp, dvs.     fastställda förvärvsinkomsten
+466 496 men inte 478 336     0,703 PBB + (FFI * 0,251)
+överstiger 8,08              2,732 prisbasbelopp (161 734,40)
+prisbasbelopp men inte
+11,16 prisbasbelopp, dvs.
+478 336 men inte 660 672
+överstiger 11,16             9,651 prisbasbelopp (571 339,20)
+prisbasbelopp men inte       minskat med 62 procent av den
+12,84 prisbasbelopp, dvs.    fastställda förvärvsinkomsten
+660 672 men inte 760 128     9,651 PBB – (FFI * 0,62)
+överstiger 12,84             1,691 prisbasbelopp (100 107,20)
+prisbasbelopp, dvs 760 128
+
+Det förhöjda grundavdraget summeras med ordinarie
+grundavdrag, varefter summan avrundas uppåt till närmaste
+hundratal kronor. Observera att delvärdena för det ordinarie
+och det förhöjda grundavdraget inte ska avrundas innan
+summeringen.
+
+Här följer exempel på uträkning av grundavdrag samt den
+förhöjda delen.
+
+Exempel 1
+>66 år
+
+Fastställd förvärvsinkomst (FFI)        200 000
+
+Förhöjd del av grundavdraget
+35,60 % av FFI (200 000 x 35,60%)                  71 200,00
+- 0,073 PBB x 59 200                              - 4 321,60
+                                                 = 66 878,40
+
+
+
+Grundavdraget
+0,77 PBB x 59 200                                 45 584,00
+- 10 % av FFI (200000-184112)                -     1 588,80
+                                                  43 995,20
+
+
+                                11
+                                Teknisk beskrivning
+                                Datum
+                                2025-12-10
+
+
+
+
+Det förhöjda grundavdraget blir efter avrundning uppåt till
+närmaste hundratal 110 900 kr (66 878,40 + 43 995,20 =
+110 873,60).
+
+
+Exempel 2
+>66 år
+
+Fastställd förvärvsinkomst              90 000 kr
+
+Förhöjd del av grundavdraget
+0,600 PBB x 59 200                                  35 520,00
++ 5,7 % av FFI (90 000 x 5,7%)               +       5 130,00
+                                                    40 650,00
+Grundavdraget
+0,423 PBB x 59 200                                  25 041,60
++ 20 % x (90000-58608=31392)                  +      6 278,40
+                                                    31 320,00
+
+Det förhöjda grundavdraget blir efter avrundning uppåt till
+närmaste hundratal 72 000 kr (40 650,00 + 31 320,00 =
+71 970,00).
+
+
+Exempel 3
+>66 år
+
+Fastställd förvärvsinkomst              390 000
+
+Förhöjd del av grundavdraget
+0,017 PBB x 59 200                                        1 006,40
++ 33,80 % av FFI (390 000 x 33,80%)                 +   131 820,00
+                                                        132 826,40
+
+0,77 PBB x 59 200                                       45 584,00
+- 10 % av FFI (390000-184112)                     -     20 588,80
+                                                        24 995,20
+
+Det förhöjda grundavdraget blir efter avrundning uppåt till
+närmaste hundratal 157 900 kr (132 826,40 + 24 995,20 =
+157 821,60).
+
+
+
+
+                                 12
+                               Teknisk beskrivning
+                               Datum
+                               2025-12-10
+
+
+
+
+7 Beräkning av de skatter och avgifter som ingår i
+  skattetabellerna
+
+    Årsinkomst
+Årsinkomsten räknas fram på så sätt att det högsta
+beloppet inom varje inkomstskikt i skattetabellerna
+multipliceras med antalet lönetillfällen per år, se
+avsnitt 4. Avrundning ska göras nedåt till helt
+hundratal.
+
+Om det t.ex. är fråga om en månadslön som ligger inom
+inkomstskiktet 21 201 – 21 400 kr i månadstabellen,
+multipliceras 21 400 med 12. Om månadsinkomsten skulle vara
+lägre än det högsta beloppet i inkomstskiktet kan man inte
+göra en exakt beräkning och multiplicera detta lägre belopp
+med 12 för att få fram årsinkomsten.
+
+      Statlig inkomstskatt
+
+Uträknat belopp (högsta beloppet i inkomstskiktet x 12) utgör
+beräknad årsinkomst. Beloppet utgör även beräknad fastställd
+förvärvsinkomst till statlig inkomstskatt. Från den
+fastställda förvärvsinkomsten görs sedan avdrag för
+grundavdrag/förhöjt grundavdrag samt i förekommande fall även
+skattereduktion för sjöinkomst för att få fram den
+beskattningsbara förvärvsinkomsten.
+
+Statlig inkomstskatt ska betalas med 20 % av den del av den
+beskattningsbara förvärvsinkomsten som överstiger 643 000 kr
+(när underlaget för skatten är minst 200 kr överstigande
+skiktgränsen).
+
+På den beskattningsbara förvärvsinkomsten beräknas
+statlig inkomstskatt på följande sätt:
+
+Exempel
+Den beskattningsbara förvärvsinkomsten uppgår till
+695 000 kr.
+
+Statlig inkomstskatt ska betalas med:
+20 % x (695 000 – 643 000) 52 000 = 10 400 kr.
+
+
+
+
+                               13
+                                  Teknisk beskrivning
+                                  Datum
+                                  2025-12-10
+
+
+
+
+     Kommunal inkomstskatt, begravningsavgift och avgift till registrerat
+     trossamfund
+
+Den till kommunal inkomstskatt fastställda och
+beskattningsbara förvärvsinkomsten beräknas på samma sätt som
+sägs om statlig inkomstskatt, se avsnitt 7.2.
+
+Den kommunala inkomstskatten består av kommunalskatt och
+landstingsskatt/regional skatt.
+
+Skattetabellerna ska ange skatteavdraget med utgångspunkt
+från att kommunal inkomstskatt, begravningsavgift och avgift
+till registrerat trossamfund beräknas efter en sammanlagd
+skatte- och avgiftssats i hela krontal.
+För att få fram kommunal inkomstskatt, begravningsavgift och
+avgift till trossamfund ska den kommunalt
+beskattningsbara förvärvsinkomsten multipliceras med den
+sammanlagda skatte- och avgiftssatsen. Begravningsavgift och
+avgift till trossamfund ska anses ingå i den sammanlagda
+skatte- och avgiftssatsen med 1,16 procentenheter. Efter
+uträkning bortfaller öretal.
+
+Exempel
+Den till kommunal inkomstskatt beskattningsbara
+förvärvsinkomsten uppgår till 200 000 kr. Den sammanlagda
+skatte- och avgiftssatsen är 34 %, varav begravningsavgift
+och avgift till trossamfund ingår med 1,16 procentenheter.
+
+Sammanlagd skatt och avgift uppgår till 68 000 kr (34% av
+200 000 kr) varav begravningsavgift och avgift till
+trossamfund ingår med 2 320 kr.
+
+        Allmän pensionsavgift
+
+I skattetabellerna beräknas avgiften på ett underlag som
+motsvarar den framräknade årsinkomsten enligt avsnitt 7.
+
+Allmän pensionsavgift ska inte betalas av personer som är
+födda 1937 eller tidigare. Någon nedre åldersgräns för uttag
+av avgiften finns inte. Allmän pensionsavgift betalas inte
+för pensionsinkomster även om pensionären är född 1938 eller
+senare. Allmän pensionsavgift betalas inte heller av den som
+har pensionsgrundande inkomster under 2026 som understiger
+
+
+
+                                   14
+                             Teknisk beskrivning
+                             Datum
+                             2025-12-10
+
+
+
+
+42,3 % av prisbasbeloppet (59 200) 25 041,60 kr. För
+inkomstår 2026 innebär detta att om underlaget
+understiger 25 042 kr (0,423 x 59 200) tas inte någon avgift
+ut.
+
+För inkomståret 2026 ska allmän pensionsavgift betalas med
+7 % på avgiftsunderlaget. I detta sammanhang utgörs
+avgiftsunderlaget av fastställd förvärvsinkomst
+(=årsinkomst). Avgift tas ut på ett underlag som uppgår till
+högst 673 038 kr (8,07 x 83 400 kr). Allmän pensionsavgift
+ska avrundas till närmast hela hundratal kronor. Avgift som
+slutar på 50 kr avrundas till närmaste lägre hundratal
+kronor. Den högsta avgift som kan tas ut för 2026 är 47 100
+kr (7 % x 673 038 = 47 112 kr som avrundas till 47 100 kr).
+
+Exempel
+Årsinkomsten uppgår till 181 200 kr. Den allmänna pensions-
+avgiften blir 12 700 kr (181 200 x 7% = 12 684 kr som
+avrundas till närmaste hundratal).
+
+        Skattereduktion
+
+I de allmänna skattetabellerna ingår för inkomståret 2026
+fyra typer av skattereduktion. Dessa är skattereduktion för
+allmän pensionsavgift, skattereduktion för arbetsinkomst,
+skattereduktion för sjuk- och aktivitetsersättning samt
+skattereduktion för förvärvsinkomst.
+Allmän pensionsavgift, avgift till trossamfund,
+begravningsavgift och public service-avgift får inte påverkas
+av någon skattereduktion. Dessa avgifter ingår i de
+sammanlagda skatte- och avgiftssatserna (29-42) som
+tabellerna är upprättade i. Vid beräkning av den totala
+skatten har det betydelse vid låga inkomstskikt.
+
+För att få korrekta skatteavdrag i tabellverken ska – vid
+beräkning av skattereduktion – begravningsavgift och avgift
+till registrerat trossamfund beräknas ingå i de sammanlagda
+skatte- och avgiftssatserna med 1,16 procentenheter. Se
+exempel i bilaga 3.
+
+Skattereduktion för förvärvsinkomst ska göras efter
+skattereduktion för allmän pensionsavgift, arbetsinkomst samt
+sjuk- och aktivitetsersättning.
+
+
+
+                              15
+                                    Teknisk beskrivning
+                                    Datum
+                                    2025-12-10
+
+
+
+
+7.5.1   Skattereduktion för allmän pensionsavgift
+
+Skattereduktionen för allmän pensionsavgift är 100 % av
+avgiften, som beräknas enligt avsnitt 7.4.
+Skattereduktion för allmän pensionsavgift får inte
+överstiga summan av statlig och kommunal inkomstskatt enligt
+avsnitten 7.2 och 7.3.
+
+Exempel
+Årsinkomsten uppgår till 181 200 kr. Den allmänna
+pensionsavgiften blir 12 684 som avrundas till närmast hela
+hundratal = 12 700 kr. Skattereduktion för allmän
+pensionsavgift medges med 100 % av 12 700.
+
+7.5.2   Skattereduktion för arbetsinkomst
+
+Med arbetsinkomst menas i detta sammanhang fastställd
+förvärvsinkomst eller årsinkomst.
+
+Skattereduktionen för arbetsinkomst ska endast räknas av mot
+kommunal inkomstskatt. Vid beräkningen av
+skattereduktionen ska arbetsinkomsten avrundas nedåt till
+helt hundratal kronor. Uträkningen av reduktionen görs med
+decimaler och avrundas nedåt till hel krona.
+
+Skattereduktion för den som vid inkomstårets ingång inte
+fyllt 66 år räknas på följande sätt:
+
+ Arbetsinkomst                     Skattereduktion
+ överstiger inte 0,91 PBB,         arbetsinkomsten minskat med
+ dvs. 53 872                       grundavdraget,
+                                   multiplicerat med
+                                   skattesatsen för kommunal
+                                   inkomstskatt (exkl. 1,16
+                                   procentenheter för
+                                   begravningsavgift och
+                                   avgift till trossamfund)
+                                   (AI-GA)* KI
+ överstiger 0,91 men inte          0,91 PBB (53 872) ökat med
+ 3,24 PBB, dvs. 53 872 men         38,74 procent av
+ inte 191 808                      arbetsinkomsten mellan 0,91
+                                   och 3,24 PBB minskat med
+                                   grundavdraget,
+                                   multiplicerat med
+
+
+                                    16
+                              Teknisk beskrivning
+                              Datum
+                              2025-12-10
+
+
+
+
+                              skattesatsen för kommunal
+                              inkomstskatt (exkl.
+                              1,16 procentenheter för
+                              begravningsavgift och
+                              avgift till trossamfund)
+                              ((0,91 PBB+0,3874*(AI-0,91
+                              PBB)-GA)*KI
+överstiger 3,24 men inte      1,813 PBB (107 329,60) ökat
+8,08 PBB, dvs. 191 808 men    med 25,10 procent av
+inte 478 336                  arbetsinkomsten mellan 3,24
+                              och 8,08 PBB minskat med
+                              grundavdraget,
+                              multiplicerat med
+                              skattesatsen för kommunal
+                              inkomstskatt (exkl. 1,16
+                              procentenheter för
+                              begravningsavgift och
+                              avgift till trossamfund)
+                              ((1,813 PBB+0,251*(AI-3,24
+                              PBB)-GA)*KI
+Överstiger 8,08 PBB, dvs.     3,027 PBB (179 198,40)
+478 336                       minskat med grundavdraget,
+                              multiplicerat med
+                              skattesatsen för kommunal
+                              inkomstskatt (exkl. 1,16
+                              procentenheter för
+                              begravningsavgift och
+                              avgift till trossamfund)
+                              (3,027 PBB-GA)*KI
+
+Skattereduktion för den som vid inkomstårets ingång fyllt 66
+år räknas på följande sätt:
+
+Arbetsinkomst                 Skattereduktion
+överstiger inte 1,75 PBB      arbetsinkomsten
+(103 600)                     multiplicerad med 22
+                              procent
+överstiger 1,75 PBB (103      0,2635 PBB (15 599,20) ökat
+600) men inte 5,24 PBB (310   med 7 procent av
+208)                          arbetsinkomsten
+överstiger 5,24 PBB (310      0,6293 PBB (37 254,56)
+208)
+
+
+
+
+                              17
+                             Teknisk beskrivning
+                             Datum
+                             2025-12-10
+
+
+
+
+Här följer exempel på uträkning av skattereduktion på
+arbetsinkomst. I samtliga exempel har tabell 34 använts.
+Efter uträkning bortfaller öretal.
+
+Exempel 1
+Under 66 år
+Arbetsinkomst 90 000
+
+Minska arbetsinkomsten med 53 872 kr och multiplicera
+skillnaden med 38,74 %. Lägg till 53 872 kr och dra sedan av
+ditt grundavdrag. Multiplicera skillnaden med KI.
+
+0,91 PBB x 59 200                              53 872,00
++ 38,74% x (90000–53 872 = 36 128)           + 13 995,98
+                                               67 867,98
+Grundavdrag
+0,423 PBB x 59 200                           25 041,60
++ 20 % x (90000-58608 = 31392)              + 6 278,40
+                                             31 320,00
+                                           = 31 400
+
+67 867,98 – 31 400 =                           36 467,98
+Komm. skattesats (34–1,16)                      x 32,84
+                                               11 976,08
+
+Skattereduktionen blir då 11 976 kr.
+
+Exempel 2
+Under 66 år
+Arbetsinkomst 240 000
+
+Minska arbetsinkomsten med 191 808 och multiplicera
+skillnaden med 25,1 %. Lägg till 107 329,6 och dra av ditt
+grundavdrag. Multiplicera resterande med KI.
+
+1,813 PBB x 59 200                             107 329,60
++25,10% x (240000-191808 = 48 192)         +    12 096,19
+                                               119 425,79
+
+Grundavdrag
+0,77 PBB x 59 200                              45 584,00
+- 10 % (240000-184112 = 55 888)            -    5 588,80
+                                               39 995,20
+                                           =   40 000
+
+
+                                 18
+                               Teknisk beskrivning
+                               Datum
+                               2025-12-10
+
+
+
+
+119 425,79 – 40 000                              79 425,79
+Komm. skattesats (34-1,16)                        x 32,84
+                                                 26 083,42
+
+Skattereduktionen blir då 26 083 kr.
+
+
+Jobbskatteavdrag sjöinkomst
+
+Vid beräkning av jobbskatteavdrag för sjömän påverkas
+framräknad arbetsinkomst av sjöinkomstavdraget. Sjömän i
+närfart har ett sjöinkomstavdrag om 35 000 kr
+respektive 36 000 kr för fjärrfart.
+
+Exempel 3
+Sjöman under 66 år Fjärrfart
+
+Arbetsinkomst 240 000 – sjöinkomstavdraget 36 000
+= 204 000 kr
+1,813 PBB x 59 200                          107 329,60
++ 25,10 % x (204000-191808 = 12 192)        + 3 060,19
+                                            110 389,79
+Grundavdrag
+0,77 PBB x 59 200                            45 584,00
+- 10 % X (240000-184112 = 55 888)           - 5 588,80
+                                             39 995,20
+                                           = 40 000
+
+110 389,79 – 40 000                               70 389,79
+Komm. skattesats (34-1,16)                      x     32,84
+                                                  23 116,00
+
+Skattereduktionen blir då 23 116 kr.
+
+Eftersom skattereduktionen inte får påverka den del av
+skatteavdraget som utgörs av allmän pensionsavgift,
+begravningsavgift samt avgift till trossamfund påverkas
+skatteavdraget i de allra lägsta inkomstskikten av
+allmän pensionsavgift.
+
+Här följer två exempel som visar detta. Se även exempel i
+bilaga 3.
+
+
+
+                               19
+                                     Teknisk beskrivning
+                                     Datum
+                                     2025-12-10
+
+
+
+
+Exempel 1
+Under 66 år
+Årsinkomst (arbetsinkomst)                                   28 000
+Avgår grundavdrag                                          - 25 100
+Beskattningsbar förvärvsinkomst                               2 900
+
+Skatteuträkning
+Kommunal inkomstskatt (skattesats 34-1,16=32,84)                 952
+Allmän pensionsavgift                                          2 000
+Avgår skattereduktion för allmän
+pensionsavgift                                             -    952
+Avgår skattereduktion för arbets-
+inkomst (952 kr , men kan inte utnyttja någon del)                0
+Skattereduktion förvärvsinkomst                                   0
+Public service (1 %)                                             29
+Tillkommer begravnings- och trossam-
+fundsavgift (1,16 %)                                             33
+
+Summa skatt                                                    2 062
+
+Exempel 2
+Under 66 år
+Årsinkomst (arbetsinkomst)                                   55 000
+Avgår grundavdrag                                          - 25 100
+Beskattningsbar förvärvsinkomst                              29 900
+
+Skatteuträkning
+Kommunal inkomstskatt (skattesats 34-1,16=32,84)               9 819
+Allmän pensionsavgift                                          3 800
+Avgår skattereduktion för allmän
+Pensionsavgift                                             - 3 800
+Avgår skattereduktion för arbets-
+Inkomst (9 592 kr men kan endast nyttja
+6 019 kr)                                                  - 6 019
+Skattereduktion för förvärvsinkomst                        -     0
+Tillkommer begravnings- och tros-
+samfundsavgift (1,16 %)                                         346
+Public service (1 %)                                            299
+
+Summa skatt                                                    4 445
+
+
+
+
+                                      20
+                                     Teknisk beskrivning
+                                     Datum
+                                     2025-12-10
+
+
+
+
+7.5.3   Skattereduktion för sjuk- och aktivitetsersättning
+
+Skattereduktion för sjuk- och aktivitetsersättning är kolumn 4
+i de allmänna tabellerna. Beräkningen av skattereduktionen
+utformas    på   motsvarande    sätt    som   beräkningen    av
+jobbskatteavdraget med undantaget att det inte finns nivåer
+för skattereduktionens storlek för underlag som överstiger 8,08
+prisbasbelopp och skattereduktionen ska alltid uppgå till minst
+4,5 procent av underlaget multiplicerad med skattesatsen för
+kommunal inkomstskatt. Underlaget ska avrundas nedåt till helt
+hundratal kronor.
+
+Denna skattereduktion ska räknas av efter jobbskatteavdraget
+men före skattereduktion för förvärvsinkomst. Den ska precis
+som jobbskatteavdraget räknas av mot kommunal inkomstskatt.
+
+Skattetabellerna som ligger till grund för preliminär-
+skatteavdrag ska ta hänsyn till denna skattereduktion. Öretal
+bortfaller vid uträkning.
+
+Om underlag för skattereduktion för sjuk- och
+aktivitetsersättning finns ska skattereduktion beräknas till:
+
+ Underlag                                  Skattereduktion
+ Överstiger inte 0,91                      Skillnaden mellan underlaget
+ prisbasbelopp, dvs 53 872                 och grundavdraget,
+                                           multiplicerat med
+                                           skattesatsen för kommunal
+                                           inkomstskatt
+                                           UL – GA *KI
+ Överstiger 0,91 prisbasbelopp             Skillnaden mellan å ena sidan
+ men inte 3,24 prisbasbelopp,              summan av 0,91 PBB (53 872)
+ dvs 53 872 men inte 191 808               och 38,74 procent av
+                                           underlaget mellan 0,91 och
+                                           3,24 PBB minskat med
+                                           grundavdraget, multiplicerat
+                                           med skattesatsen för kommunal
+                                           inkomstskatt
+                                           ((0,91 PBB+0,3874*(UL-0,91
+                                           PBB)-GA)*KI
+ Överstiger 3,24                           Skillnaden mellan å ena sidan
+ prisbasbelopp, dvs 191 808                summan av 1,813 PBB
+                                           (107 329,60) och 25,1 procent
+
+
+                                      21
+                               Teknisk beskrivning
+                               Datum
+                               2025-12-10
+
+
+
+
+                                    av underlaget som överstiger
+                                    3,24 PBB och å andra sidan
+                                    grundavdraget, multiplicerat
+                                    med skattesatsen för kommunal
+                                    inkomstskatt
+                                    ((1,813 PBB+0,251*(UL-3,24
+                                    PBB)-GA)*KI
+
+Nedan följer tre exempel:
+
+Exempel 1
+Ersättning        40 000 kr
+
+Underlag                                                40 000
+Grundavdrag 0,423 PBB=25 041,60                       - 25 100,00
+                                                        14 900,00
+                                                         x 32,84
+                                                         4 893,16
+Skattereduktionen blir 4 893 kr.
+
+Exempel 2
+Ersättning        150 000 kr
+
+Minska underlaget med 53 872 och multiplicera resultatet med
+38,74%. Lägg till 53 872 och dra av grundavdraget från
+summan. Multiplicera resultatet med KI.
+
+Underlag 150 000
+0,91 PBB                                             + 53 872,00
+150 000 – 53 872 = 96 128 * 38,74 %                  + 37 239,98
+                                                       91 111,98
+GA 25041,60+20% (150000-58608=91392)=43320           - 43 400,00
+                                                       47 711,98
+                                                        * 32,84
+                                                       15 668,61
+
+Skattereduktion blir 15 668 kr.
+
+
+
+
+                               22
+                                         Teknisk beskrivning
+                                         Datum
+                                         2025-12-10
+
+
+
+
+Exempel 3
+Ersättning                250 000
+
+Minska underlaget med 191 808 och multiplicera resultatet med
+25,1 %. Lägg till 107 329,6 och dra av grundavdraget från
+summan. Multiplicera resultatet med KI.
+
+Underlag 250 000
+1,813 PBB                                                      + 107 329,60
+250000-191808= 58 192 *25,1 %                                  + 14 606,19
+                                                                 121 935,79
+Grundavdrag
+0,77 PBB = 45 584
+–(250000-184112=65888*10%)6588,8=38995,2                        - 39 000,00
+                                                                  82 935,79
+                                                                    * 32,84
+                                                                  27 236,11
+Skattereduktionen blir 27 236 kr.
+
+7.5.4    Skattereduktion för förvärvsinkomst
+
+Skattereduktionen ska medges personer som har inkomst av
+tjänst, d.v.s. både arbetsinkomster och inkomster från
+socialförsäkringsförmåner t.ex. pension eller
+föräldrapenning. Även inkomst av näringsverksamhet eller
+handelsbolag ska omfattas. Skattereduktion ska medges med
+maximalt 1 500 kr per år. För personer som har en
+beskattningsbar förvärvsinkomst mellan 40 000 kr och 240 000
+kr ska i stället skattereduktionen uppgå till 0,75 procent av
+skillnaden mellan den beskattningsbara förvärvsinkomsten och
+40 000 kr. Skattereduktionen påverkar samtliga kolumner i
+skattetabellerna. Skattereduktion för förvärvsinkomst ska
+endast räknas av mot kommunal inkomstskatt. Öretal bortfaller
+efter uträkning.
+
+        Beskattningsbar                 0,75 % av skillnaden
+        förvärvsinkomst mellan          mellan beskattningsbar
+        40 000 – 240 000                förvärvsinkomst och
+                                        40 000
+                                        BFI – 40 000 *0,75 %
+
+
+
+
+                                          23
+                              Teknisk beskrivning
+                              Datum
+                              2025-12-10
+
+
+
+
+   Beskattningsbar           1 500 kr
+   förvärvsinkomst över
+   240 000
+
+
+
+Exempel 1
+Beskattningsbar förvärvsinkomst       200 000 kr
+200 000 – 40 000 = 160 000 * 0,75%             = 1200 kr per år
+
+Exempel 2
+Beskattningsbar förvärvsinkomst 400 000 kr          = 1500 kr
+
+   Public service-avgiften
+
+Public service-avgift (Radio- och TV-avgift) ingår i
+skattetabellerna. Avgiften ska betalas av personer som vid
+beskattningsårets ingång har fyllt 18 år och ska betalas till
+och med det år personen avlider och ingår i samtliga kolumner
+både i de Allmänna skattetabellerna samt i
+Sjöinkomsttabellerna. Avgiften baseras på inkomstbasbeloppet
+och den maximala avgiften har för inkomståret 2026 beräknats
+till 1 184 kr (83 400 x 1,42 = 118 428 kr x 1 %). Öretal
+bortfaller efter uträkningen.
+
+Beskattningsbar förvärvs-         Avgift
+inkomst
+Överstiger inte 1,42              1 procent av beskattningsbar
+inkomstbasbelopp,                 förvärvsinkomst
+dvs 118 428 kr.
+Överstiger 1,42                   1 procent av 1,42
+inkomstbasbelopp,                 inkomstbasbelopp (1 184 kr)
+dvs 118 428 kr.
+
+
+Exempel 1
+Beskattningsbar förvärvsinkomst                 100 000 kr
+
+100 000 x 1 % = 1 000 kr
+
+Public service-avgiften blir 1 000 kr.
+
+
+
+
+                              24
+                              Teknisk beskrivning
+                              Datum
+                              2025-12-10
+
+
+
+
+Exempel 2
+Beskattningsbar förvärvsinkomst                 175 000 kr
+
+175 000 * 1 % = 1 750 kr
+
+Maximala avgiften är 1 184 kr vilket också blir avgiften för
+2026.
+
+8 Fördelning av årsskatt på löneperiod
+Årsskatten som ska fördelas för
+
+  •   kolumn 1 utgörs av statlig inkomstskatt + kommunal
+      inkomstskatt – skattereduktion för allmän
+      pensionsavgift – skattereduktion för arbetsinkomst –
+      skattereduktion förvärvsinkomst + begravningsavgift och
+      avgift till trossamfund + allmän pensionsavgift + public
+      service-avgift.
+
+  •   kolumn 2 och 6 utgörs av statlig inkomstskatt + kommunal
+      inkomstskatt – skattereduktion förvärvsinkomst +
+      begravningsavgift och
+      avgift till trossamfund + public service-avgift.
+
+  •   kolumn 3 utgörs av statlig inkomstskatt + kommunal
+      inkomstskatt – skattereduktion för allmän pensionsavgift
+      – skattereduktion för arbetsinkomst – skattereduktion
+      förvärvsinkomst + begravningsavgift och avgift till
+      trossamfund + allmän pensionsavgift + public service-
+      avgift.
+
+  •   kolumn 4 utgörs av statlig inkomstskatt + kommunal
+      inkomstskatt - skattereduktion för sjuk- och
+      aktivitetsersättning – skattereduktion förvärvsinkomst +
+      begravningsavgift och avgift till trossamfund + public
+      service-avgift.
+
+  •   kolumn 5 utgörs av statlig inkomstskatt + kommunal
+      inkomstskatt – skattereduktion för allmän pensionsavgift
+      – skattereduktion förvärvsinkomst + begravningsavgift
+      och avgift till trossamfund + allmän pensionsavgift +
+      public service-avgift.
+
+
+
+
+                               25
+                                    Teknisk beskrivning
+                                    Datum
+                                    2025-12-10
+
+
+
+
+9 Kontroll m.m.
+Tre exempel på beräkning av skatteavdrag för månadslön enligt
+tabell 34, kolumn 1, bifogas, se bilaga 3.
+
+Kontroll av gjorda beräkningar av skatteavdrag kan göras med
+ledning av tabellerna för månadslön och tvåveckorslön, se
+bilaga 3. Tabellerna visar hur stort skatteavdrag som ska
+göras i olika inkomstskikt vid en skatte- och avgiftssats av
+34 %.
+
+I tvåveckorstabellen har, för inkomster på 40 001 kr och
+högre, skatteavdraget angivits i procent i stället för
+kronor. Samma sak gäller för inkomster på 80 001 kr och högre
+i månadstabellen.
+
+Även i dessa högre inkomstlägen får skatteavdraget beräknas
+på samma sätt som beskrivits ovan med 200-kronorsintervaller
+för månadslön och 100-kronorsintervaller för tvåveckorslön.
+
+10 Tabell för engångsbelopp
+Den genomsnittliga skatte- och avgiftssatsen har fastställts
+till 34 kr för 2026.
+
+Engångstabeller tas fram för alla kolumner i de allmänna
+tabellerna samt för kolumn 1 och 2 gällande sjöinkomst, både
+närfart och fjärrfart.
+
+
+
+    Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av
+    arbetsinkomster till den som inte fyllt 66 år vid årets ingång, kolumn 1
+
+        Årslön i kronor         Preliminärt
+                                skatteavdrag,
+                                procent av
+        Lägst        Högst      engångsbeloppet
+               0      25 041                   0
+          25 042      82 800                  10
+          82 801     192 000                  21
+         192 001     477 600                  26
+         477 601     660 000                  34
+         660 001                              54
+
+
+                                    26
+                                 Teknisk beskrivning
+                                 Datum
+                                 2025-12-10
+
+
+
+
+Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av
+pension m.m. till den som vid årets ingång fyllt 66 år, kolumn 2
+
+    Årslön i kronor      Preliminärt
+                         skatteavdrag,
+                         procent av
+    Lägst        Högst   engångsbeloppet
+           0      65 800                0
+      65 801     477 600               26
+     477 601     660 000               34
+     660 001                           55
+
+
+Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av
+löner, arvoden och liknande ersättningar till den som vid årets ingång
+fyllt 66 år, kolumn 3
+
+    Årslön i kronor         Preliminärt
+                            skatteavdrag,
+                            procent av
+    Lägst        Högst      engångsbeloppet
+           0      25 041                   0
+      25 042     331 200                  10
+     331 201     477 600                  26
+     477 601     660 000                  34
+     660 001                              55
+
+
+
+Tabell för engångsbelopp där den huvudsakliga årsinkomsten utgörs av
+sjuk- och aktivitetsersättning till den som vid årets ingång inte fyllt 66
+år, kolumn 4
+
+    Årslön i kronor         Preliminärt
+                            skatteavdrag,
+                            procent av
+    Lägst        Högst      engångsbeloppet
+           0      25 041                   0
+      25 042      54 000                   3
+      54 001     192 000                  22
+     192 001     660 000                  26
+     660 001                              46
+
+
+
+                                 27
+                                  Teknisk beskrivning
+                                  Datum
+                                  2025-12-10
+
+
+
+
+Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av
+andra pensionsgrundande ersättningar än löner m.m., t.ex. ersättning
+från arbetslöshetskassa och egen arbetsskadelivränta, till den som är
+född 1938 eller senare, kolumn 5
+
+     Årslön i kronor         Preliminärt
+                             skatteavdrag,
+                             procent av
+    Lägst         Högst      engångsbeloppet
+           0       25 041                   0
+      25 042       32 400                  10
+      32 401      160 800                  29
+     160 801      184 800                  34
+     184 801      660 000                  38
+     660 001                               54
+
+
+
+Tabell för engångsbelopp där den huvudsakliga årsinkomsten
+inkomster (t.ex. pensioner) till den som vid årets ingång inte fyllt 66 år,
+kolumn 6
+
+     Årslön i kronor         Preliminärt
+                             skatteavdrag,
+                             procent av
+    Lägst         Högst      engångsbeloppet
+           0       25 041                   0
+      25 042      160 800                  29
+     160 801      184 800                  34
+     184 801      660 000                  38
+     660 001                               54
+
+
+
+
+                                   28
+                                Teknisk beskrivning
+                                Datum
+                                2025-12-10
+
+
+
+
+Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av
+löner, arvoden och liknande ersättningar avseende sjöinkomst närfart
+till den som vid årets ingång inte fyllt 66 år, kolumn 1
+
+    Årslön i kronor         Preliminärt
+                            skatteavdrag,
+                            procent av
+    Lägst        Högst      engångsbeloppet
+           0      25 041                   0
+      25 042     210 000                  10
+     210 001     513 600                  26
+     513 601     696 000                  34
+     696 001                              54
+
+
+Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs av
+löner, arvoden och liknande till den som fyllt 66 år vid årets ingång,
+sjöinkomst närfart, kolumn 2
+
+    Årslön i kronor         Preliminärt
+                            skatteavdrag,
+                            procent av
+    Lägst        Högst      engångsbeloppet
+           0      25 041                   0
+      25 042     446 400                  10
+     446 401     477 600                  26
+     477 601     660 000                  34
+     660 001                              54
+
+
+
+
+                                 29
+                                   Teknisk beskrivning
+                                   Datum
+                                   2025-12-10
+
+
+
+
+10.09 Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs
+av löner, arvoden och liknande ersättningar avseende sjöinkomst fjärrfart
+till den som vid årets ingång inte fyllt 66 år, kolumn 1
+
+       Årslön i kronor        Preliminärt
+                              skatteavdrag,
+                              procent av
+      Lägst        Högst      engångsbeloppet
+             0      25 041                   0
+        25 042     246 000                  10
+       246 001     513 600                  26
+       513 601     696 000                  34
+       696 001                              54
+
+
+10.10 Tabell för engångsbelopp där den huvudsakliga inkomsten utgörs
+av löner, arvoden och liknande till den som fyllt 66 år vid årets ingång,
+sjöinkomst fjärrfart, kolumn 2
+
+
+       Årslön i kronor     Preliminärt
+                           skatteavdrag,
+                           procent av
+      Lägst        Högst   engångsbeloppet
+             0      25 041                0
+        25 042     477 600               10
+       477 601     660 000               34
+       660 001                           54
+
+
+
+
+                                   30
+

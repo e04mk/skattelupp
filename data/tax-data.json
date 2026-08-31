@@ -1,0 +1,4823 @@
+{
+  "meta": {
+    "generatedAt": "2026-08-31",
+    "taxRatesYear": 2026,
+    "outcomeYear": 2024,
+    "budgetYear": 2026,
+    "budgetDataIsRealBudget": false,
+    "budgetNote": "No structured, cross-kommun machine-readable dataset of adopted CURRENT-YEAR budgeted spending-by-verksamhetsomrade exists at SCB or elsewhere for all ~290 kommuner and 21 regioner (budgets are published individually, mostly as PDFs, per kommun/region). The 'budget' toggle in the frontend therefore reuses these same outcomeYear (2024) actual-outcome shares as an ESTIMATE/proxy and must be labeled to the end user as such - see SOURCES.md.",
+    "categoriesKommun": [
+      "Förskola & grundskola",
+      "Gymnasieskola & vuxenutbildning",
+      "Äldreomsorg",
+      "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning",
+      "Infrastruktur, skydd & miljö",
+      "Kultur & fritid",
+      "Politisk verksamhet & administration",
+      "Övrigt"
+    ],
+    "categoriesRegion": [
+      "Hälso- och sjukvård",
+      "Tandvård",
+      "Kollektivtrafik",
+      "Regional utveckling",
+      "Politisk verksamhet & administration",
+      "Övrigt"
+    ],
+    "categoriesState": [
+      "Vård, omsorg & socialförsäkringar",
+      "Arbetsmarknad, näringsliv & infrastruktur",
+      "Utbildning & forskning",
+      "Allmänna bidrag till kommuner och regioner",
+      "Rättsväsende, försvar & samhällsskydd",
+      "Migration",
+      "Bistånd & internationellt",
+      "Rikets styrelse & allmän förvaltning",
+      "Räntor på statsskulden",
+      "Övrigt"
+    ],
+    "stateBudgetDataIsRealBudget": true,
+    "stateBudgetNote": "Unlike the kommun/region case, the central government has exactly one budget, published in structured form. spendingSharesBudget for 'state' is real budget-year (2026) data from the government's own 'Specifikation av budgetens utgifter for 2026' spreadsheet (prop. 2025/26:1), not a reused-outcome-year proxy - see SOURCES.md."
+  },
+  "national": {
+    "stateTaxRate": 0.2,
+    "skiktgrans": 643000,
+    "prisbasbelopp": 59200,
+    "grundavdrag": {
+      "description": "Grundavdrag for personer som inte fyllt 66 ar vid inkomstarets ingang, inkomstar 2026. Piecewise-linear function of fastställd förvärvsinkomst (FFI), expressed in fractions of prisbasbeloppet (PBB). Result is capped at FFI and rounded UP to the nearest 100 kr. Source: Skatteverket SKV 433 Teknisk beskrivning 2026, avsnitt 6 'Grundavdrag'.",
+      "prisbasbelopp": 59200,
+      "roundingKr": 100,
+      "roundingDirection": "up",
+      "cappedAtIncome": true,
+      "segments": [
+        {
+          "fromFraction": 0,
+          "toFraction": 0.99,
+          "fromKr": 0,
+          "toKr": 58608,
+          "type": "flat",
+          "valueFraction": 0.423,
+          "valueKr": 25041.6,
+          "formula": "grundavdrag = 0.423 * PBB"
+        },
+        {
+          "fromFraction": 0.99,
+          "toFraction": 2.72,
+          "fromKr": 58608,
+          "toKr": 161024,
+          "type": "linear",
+          "baseFraction": 0.423,
+          "baseKr": 25041.6,
+          "slope": 0.2,
+          "formula": "grundavdrag = 0.423*PBB + 0.20 * (FFI - 0.99*PBB)"
+        },
+        {
+          "fromFraction": 2.72,
+          "toFraction": 3.11,
+          "fromKr": 161024,
+          "toKr": 184112,
+          "type": "flat",
+          "valueFraction": 0.77,
+          "valueKr": 45584.0,
+          "formula": "grundavdrag = 0.77 * PBB"
+        },
+        {
+          "fromFraction": 3.11,
+          "toFraction": 7.88,
+          "fromKr": 184112,
+          "toKr": 466496,
+          "type": "linear",
+          "baseFraction": 0.77,
+          "baseKr": 45584.0,
+          "slope": -0.1,
+          "formula": "grundavdrag = 0.77*PBB - 0.10 * (FFI - 3.11*PBB)"
+        },
+        {
+          "fromFraction": 7.88,
+          "toFraction": null,
+          "fromKr": 466496,
+          "toKr": null,
+          "type": "flat",
+          "valueFraction": 0.293,
+          "valueKr": 17345.6,
+          "formula": "grundavdrag = 0.293 * PBB"
+        }
+      ]
+    },
+    "jobbskatteavdrag": {
+      "description": "Skattereduktion for arbetsinkomst (jobbskatteavdrag), inkomstar 2026, for personer som INTE fyllt 66 ar vid inkomstarets ingang. Reduces municipal income tax ONLY (not state or regional tax). AI (arbetsinkomst) is rounded DOWN to nearest 100 kr before use; GA is the grundavdrag amount (rounded, see 'grundavdrag' object above); KI is the person's kommunal tax rate as a fraction (e.g. 0.2118), i.e. the pure kommunal rate, NOT including begravningsavgift or kyrkoavgift. Final result rounded DOWN to whole kr. Source: Skatteverket SKV 433 Teknisk beskrivning 2026, avsnitt 7.5.2 'Skattereduktion for arbetsinkomst'.",
+      "prisbasbelopp": 59200,
+      "appliesTo": "kommunalSkattOnly",
+      "arbetsinkomstRounding": {
+        "toKr": 100,
+        "direction": "down"
+      },
+      "resultRounding": {
+        "toKr": 1,
+        "direction": "down"
+      },
+      "under66": {
+        "segments": [
+          {
+            "fromFraction": 0,
+            "toFraction": 0.91,
+            "fromKr": 0,
+            "toKr": 53872,
+            "formula": "reduction = (AI - GA) * KI"
+          },
+          {
+            "fromFraction": 0.91,
+            "toFraction": 3.24,
+            "fromKr": 53872,
+            "toKr": 191808,
+            "baseFraction": 0.91,
+            "baseKr": 53872,
+            "slope": 0.3874,
+            "formula": "reduction = (0.91*PBB + 0.3874*(AI - 0.91*PBB) - GA) * KI"
+          },
+          {
+            "fromFraction": 3.24,
+            "toFraction": 8.08,
+            "fromKr": 191808,
+            "toKr": 478336,
+            "baseFraction": 1.813,
+            "baseKr": 107329.6,
+            "slope": 0.251,
+            "formula": "reduction = (1.813*PBB + 0.251*(AI - 3.24*PBB) - GA) * KI"
+          },
+          {
+            "fromFraction": 8.08,
+            "toFraction": null,
+            "fromKr": 478336,
+            "toKr": null,
+            "baseFraction": 3.027,
+            "baseKr": 179198.4,
+            "formula": "reduction = (3.027*PBB - GA) * KI"
+          }
+        ]
+      },
+      "age66Plus": {
+        "note": "Simplified/different formula for persons who turned 66 before the start of the income year; does NOT subtract grundavdrag and does NOT multiply by KI (the kommunal tax rate) - it is a flat percentage of arbetsinkomst. Provided for completeness; the site's default calculator targets under-66 earners.",
+        "segments": [
+          {
+            "fromFraction": 0,
+            "toFraction": 1.75,
+            "fromKr": 0,
+            "toKr": 103600,
+            "formula": "reduction = AI * 0.22"
+          },
+          {
+            "fromFraction": 1.75,
+            "toFraction": 5.24,
+            "fromKr": 103600,
+            "toKr": 310208,
+            "baseFraction": 0.2635,
+            "baseKr": 15599.2,
+            "formula": "reduction = 0.2635*PBB + 0.07*AI"
+          },
+          {
+            "fromFraction": 5.24,
+            "toFraction": null,
+            "fromKr": 310208,
+            "toKr": null,
+            "valueFraction": 0.6293,
+            "valueKr": 37254.56,
+            "formula": "reduction = 0.6293*PBB (flat)"
+          }
+        ]
+      }
+    }
+  },
+  "regions": {
+    "01": {
+      "name": "Stockholm",
+      "taxRate": 0.1233,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.842417,
+        "Tandvård": 0.01387,
+        "Kollektivtrafik": 0.129511,
+        "Regional utveckling": 0.007174,
+        "Politisk verksamhet & administration": 0.003705,
+        "Övrigt": 0.003323
+      }
+    },
+    "03": {
+      "name": "Uppsala",
+      "taxRate": 0.1171,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.880484,
+        "Tandvård": 0.020501,
+        "Kollektivtrafik": 0.08035,
+        "Regional utveckling": 0.012423,
+        "Politisk verksamhet & administration": 0.006242,
+        "Övrigt": 0.0
+      }
+    },
+    "04": {
+      "name": "Sörmland",
+      "taxRate": 0.1083,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.904213,
+        "Tandvård": 0.029077,
+        "Kollektivtrafik": 0.040957,
+        "Regional utveckling": 0.012378,
+        "Politisk verksamhet & administration": 0.013375,
+        "Övrigt": 0.0
+      }
+    },
+    "05": {
+      "name": "Östergötland",
+      "taxRate": 0.1155,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.905755,
+        "Tandvård": 0.02439,
+        "Kollektivtrafik": 0.050439,
+        "Regional utveckling": 0.014763,
+        "Politisk verksamhet & administration": 0.004653,
+        "Övrigt": 0.0
+      }
+    },
+    "06": {
+      "name": "Jönköping",
+      "taxRate": 0.1176,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.868283,
+        "Tandvård": 0.024945,
+        "Kollektivtrafik": 0.07712,
+        "Regional utveckling": 0.024945,
+        "Politisk verksamhet & administration": 0.004707,
+        "Övrigt": 0.0
+      }
+    },
+    "07": {
+      "name": "Kronoberg",
+      "taxRate": 0.12,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.896978,
+        "Tandvård": 0.030338,
+        "Kollektivtrafik": 0.043863,
+        "Regional utveckling": 0.021742,
+        "Politisk verksamhet & administration": 0.007079,
+        "Övrigt": 0.0
+      }
+    },
+    "08": {
+      "name": "Kalmar",
+      "taxRate": 0.1186,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.88511,
+        "Tandvård": 0.023686,
+        "Kollektivtrafik": 0.064767,
+        "Regional utveckling": 0.021032,
+        "Politisk verksamhet & administration": 0.005405,
+        "Övrigt": 0.0
+      }
+    },
+    "09": {
+      "name": "Gotland",
+      "taxRate": 0.0,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.972626,
+        "Tandvård": 0.023562,
+        "Kollektivtrafik": 0.0,
+        "Regional utveckling": 0.0,
+        "Politisk verksamhet & administration": 0.003812,
+        "Övrigt": 0.0
+      }
+    },
+    "10": {
+      "name": "Blekinge",
+      "taxRate": 0.1204,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.885399,
+        "Tandvård": 0.031842,
+        "Kollektivtrafik": 0.053643,
+        "Regional utveckling": 0.023092,
+        "Politisk verksamhet & administration": 0.006024,
+        "Övrigt": 0.0
+      }
+    },
+    "12": {
+      "name": "Skåne",
+      "taxRate": 0.1118,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.901131,
+        "Tandvård": 0.022442,
+        "Kollektivtrafik": 0.054021,
+        "Regional utveckling": 0.018145,
+        "Politisk verksamhet & administration": 0.004261,
+        "Övrigt": 0.0
+      }
+    },
+    "13": {
+      "name": "Halland",
+      "taxRate": 0.114,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.907322,
+        "Tandvård": 0.022056,
+        "Kollektivtrafik": 0.04671,
+        "Regional utveckling": 0.019976,
+        "Politisk verksamhet & administration": 0.003936,
+        "Övrigt": 0.0
+      }
+    },
+    "14": {
+      "name": "Västra Götaland",
+      "taxRate": 0.1148,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.837481,
+        "Tandvård": 0.022944,
+        "Kollektivtrafik": 0.097698,
+        "Regional utveckling": 0.036285,
+        "Politisk verksamhet & administration": 0.005592,
+        "Övrigt": 0.0
+      }
+    },
+    "17": {
+      "name": "Värmland",
+      "taxRate": 0.1228,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.874926,
+        "Tandvård": 0.027309,
+        "Kollektivtrafik": 0.065833,
+        "Regional utveckling": 0.026624,
+        "Politisk verksamhet & administration": 0.005308,
+        "Övrigt": 0.0
+      }
+    },
+    "18": {
+      "name": "Örebro",
+      "taxRate": 0.123,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.889285,
+        "Tandvård": 0.025245,
+        "Kollektivtrafik": 0.060937,
+        "Regional utveckling": 0.019943,
+        "Politisk verksamhet & administration": 0.00459,
+        "Övrigt": 0.0
+      }
+    },
+    "19": {
+      "name": "Västmanland",
+      "taxRate": 0.1088,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.933955,
+        "Tandvård": 0.023692,
+        "Kollektivtrafik": 0.02479,
+        "Regional utveckling": 0.013081,
+        "Politisk verksamhet & administration": 0.004482,
+        "Övrigt": 0.0
+      }
+    },
+    "20": {
+      "name": "Dalarna",
+      "taxRate": 0.1199,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.868717,
+        "Tandvård": 0.025215,
+        "Kollektivtrafik": 0.07829,
+        "Regional utveckling": 0.023562,
+        "Politisk verksamhet & administration": 0.004216,
+        "Övrigt": 0.0
+      }
+    },
+    "21": {
+      "name": "Gävleborg",
+      "taxRate": 0.1151,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.904793,
+        "Tandvård": 0.019288,
+        "Kollektivtrafik": 0.052774,
+        "Regional utveckling": 0.018795,
+        "Politisk verksamhet & administration": 0.00435,
+        "Övrigt": 0.0
+      }
+    },
+    "22": {
+      "name": "Västernorrland",
+      "taxRate": 0.1129,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.929112,
+        "Tandvård": 0.024678,
+        "Kollektivtrafik": 0.020647,
+        "Regional utveckling": 0.02045,
+        "Politisk verksamhet & administration": 0.005113,
+        "Övrigt": 0.0
+      }
+    },
+    "23": {
+      "name": "Jämtland Härjedalen",
+      "taxRate": 0.117,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.889849,
+        "Tandvård": 0.021432,
+        "Kollektivtrafik": 0.056488,
+        "Regional utveckling": 0.026582,
+        "Politisk verksamhet & administration": 0.005649,
+        "Övrigt": 0.0
+      }
+    },
+    "24": {
+      "name": "Västerbotten",
+      "taxRate": 0.1185,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.919219,
+        "Tandvård": 0.031866,
+        "Kollektivtrafik": 0.022583,
+        "Regional utveckling": 0.017852,
+        "Politisk verksamhet & administration": 0.00848,
+        "Övrigt": 0.0
+      }
+    },
+    "25": {
+      "name": "Norrbotten",
+      "taxRate": 0.1134,
+      "spendingShares": {
+        "Hälso- och sjukvård": 0.923583,
+        "Tandvård": 0.027763,
+        "Kollektivtrafik": 0.018142,
+        "Regional utveckling": 0.023548,
+        "Politisk verksamhet & administration": 0.006964,
+        "Övrigt": 0.0
+      }
+    }
+  },
+  "kommuner": {
+    "0114": {
+      "name": "Upplands Väsby",
+      "regionCode": "01",
+      "taxRate": 0.1942,
+      "spendingShares": {
+        "Förskola & grundskola": 0.387629,
+        "Gymnasieskola & vuxenutbildning": 0.082725,
+        "Äldreomsorg": 0.137578,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208406,
+        "Infrastruktur, skydd & miljö": 0.112384,
+        "Kultur & fritid": 0.050827,
+        "Politisk verksamhet & administration": 0.014645,
+        "Övrigt": 0.005806
+      }
+    },
+    "0115": {
+      "name": "Vallentuna",
+      "regionCode": "01",
+      "taxRate": 0.189,
+      "spendingShares": {
+        "Förskola & grundskola": 0.41985,
+        "Gymnasieskola & vuxenutbildning": 0.099186,
+        "Äldreomsorg": 0.152077,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.191316,
+        "Infrastruktur, skydd & miljö": 0.066628,
+        "Kultur & fritid": 0.055963,
+        "Politisk verksamhet & administration": 0.011932,
+        "Övrigt": 0.003048
+      }
+    },
+    "0117": {
+      "name": "Österåker",
+      "regionCode": "01",
+      "taxRate": 0.166,
+      "spendingShares": {
+        "Förskola & grundskola": 0.443269,
+        "Gymnasieskola & vuxenutbildning": 0.095737,
+        "Äldreomsorg": 0.153537,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.172696,
+        "Infrastruktur, skydd & miljö": 0.071621,
+        "Kultur & fritid": 0.048101,
+        "Politisk verksamhet & administration": 0.013208,
+        "Övrigt": 0.001831
+      }
+    },
+    "0120": {
+      "name": "Värmdö",
+      "regionCode": "01",
+      "taxRate": 0.1898,
+      "spendingShares": {
+        "Förskola & grundskola": 0.432364,
+        "Gymnasieskola & vuxenutbildning": 0.100134,
+        "Äldreomsorg": 0.155719,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.163589,
+        "Infrastruktur, skydd & miljö": 0.056905,
+        "Kultur & fritid": 0.050293,
+        "Politisk verksamhet & administration": 0.014093,
+        "Övrigt": 0.026903
+      }
+    },
+    "0123": {
+      "name": "Järfälla",
+      "regionCode": "01",
+      "taxRate": 0.1919,
+      "spendingShares": {
+        "Förskola & grundskola": 0.405896,
+        "Gymnasieskola & vuxenutbildning": 0.091426,
+        "Äldreomsorg": 0.15586,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.209958,
+        "Infrastruktur, skydd & miljö": 0.076073,
+        "Kultur & fritid": 0.048043,
+        "Politisk verksamhet & administration": 0.01031,
+        "Övrigt": 0.002434
+      }
+    },
+    "0125": {
+      "name": "Ekerö",
+      "regionCode": "01",
+      "taxRate": 0.1912,
+      "spendingShares": {
+        "Förskola & grundskola": 0.42937,
+        "Gymnasieskola & vuxenutbildning": 0.09163,
+        "Äldreomsorg": 0.152494,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.176901,
+        "Infrastruktur, skydd & miljö": 0.084997,
+        "Kultur & fritid": 0.047841,
+        "Politisk verksamhet & administration": 0.014062,
+        "Övrigt": 0.002705
+      }
+    },
+    "0126": {
+      "name": "Huddinge",
+      "regionCode": "01",
+      "taxRate": 0.1938,
+      "spendingShares": {
+        "Förskola & grundskola": 0.446533,
+        "Gymnasieskola & vuxenutbildning": 0.1011,
+        "Äldreomsorg": 0.114416,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.17838,
+        "Infrastruktur, skydd & miljö": 0.100642,
+        "Kultur & fritid": 0.044531,
+        "Politisk verksamhet & administration": 0.010263,
+        "Övrigt": 0.004135
+      }
+    },
+    "0127": {
+      "name": "Botkyrka",
+      "regionCode": "01",
+      "taxRate": 0.199,
+      "spendingShares": {
+        "Förskola & grundskola": 0.408301,
+        "Gymnasieskola & vuxenutbildning": 0.104331,
+        "Äldreomsorg": 0.143565,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.240461,
+        "Infrastruktur, skydd & miljö": 0.036223,
+        "Kultur & fritid": 0.050233,
+        "Politisk verksamhet & administration": 0.01083,
+        "Övrigt": 0.006056
+      }
+    },
+    "0128": {
+      "name": "Salem",
+      "regionCode": "01",
+      "taxRate": 0.1967,
+      "spendingShares": {
+        "Förskola & grundskola": 0.438554,
+        "Gymnasieskola & vuxenutbildning": 0.101483,
+        "Äldreomsorg": 0.190128,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.14441,
+        "Infrastruktur, skydd & miljö": 0.063041,
+        "Kultur & fritid": 0.033271,
+        "Politisk verksamhet & administration": 0.015721,
+        "Övrigt": 0.013392
+      }
+    },
+    "0136": {
+      "name": "Haninge",
+      "regionCode": "01",
+      "taxRate": 0.1895,
+      "spendingShares": {
+        "Förskola & grundskola": 0.432942,
+        "Gymnasieskola & vuxenutbildning": 0.087963,
+        "Äldreomsorg": 0.14896,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.223566,
+        "Infrastruktur, skydd & miljö": 0.046412,
+        "Kultur & fritid": 0.048722,
+        "Politisk verksamhet & administration": 0.011435,
+        "Övrigt": 0.0
+      }
+    },
+    "0138": {
+      "name": "Tyresö",
+      "regionCode": "01",
+      "taxRate": 0.195,
+      "spendingShares": {
+        "Förskola & grundskola": 0.404058,
+        "Gymnasieskola & vuxenutbildning": 0.093183,
+        "Äldreomsorg": 0.139677,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.205982,
+        "Infrastruktur, skydd & miljö": 0.076838,
+        "Kultur & fritid": 0.053049,
+        "Politisk verksamhet & administration": 0.01368,
+        "Övrigt": 0.013533
+      }
+    },
+    "0139": {
+      "name": "Upplands-Bro",
+      "regionCode": "01",
+      "taxRate": 0.194,
+      "spendingShares": {
+        "Förskola & grundskola": 0.42574,
+        "Gymnasieskola & vuxenutbildning": 0.09008,
+        "Äldreomsorg": 0.133907,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182355,
+        "Infrastruktur, skydd & miljö": 0.087047,
+        "Kultur & fritid": 0.051975,
+        "Politisk verksamhet & administration": 0.016975,
+        "Övrigt": 0.011921
+      }
+    },
+    "0140": {
+      "name": "Nykvarn",
+      "regionCode": "01",
+      "taxRate": 0.1997,
+      "spendingShares": {
+        "Förskola & grundskola": 0.407169,
+        "Gymnasieskola & vuxenutbildning": 0.086583,
+        "Äldreomsorg": 0.127686,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.18527,
+        "Infrastruktur, skydd & miljö": 0.105247,
+        "Kultur & fritid": 0.050776,
+        "Politisk verksamhet & administration": 0.01752,
+        "Övrigt": 0.019749
+      }
+    },
+    "0160": {
+      "name": "Täby",
+      "regionCode": "01",
+      "taxRate": 0.1755,
+      "spendingShares": {
+        "Förskola & grundskola": 0.407066,
+        "Gymnasieskola & vuxenutbildning": 0.091554,
+        "Äldreomsorg": 0.173536,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.164741,
+        "Infrastruktur, skydd & miljö": 0.087397,
+        "Kultur & fritid": 0.053134,
+        "Politisk verksamhet & administration": 0.011864,
+        "Övrigt": 0.010708
+      }
+    },
+    "0162": {
+      "name": "Danderyd",
+      "regionCode": "01",
+      "taxRate": 0.1825,
+      "spendingShares": {
+        "Förskola & grundskola": 0.378547,
+        "Gymnasieskola & vuxenutbildning": 0.09736,
+        "Äldreomsorg": 0.207209,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.150224,
+        "Infrastruktur, skydd & miljö": 0.089236,
+        "Kultur & fritid": 0.054604,
+        "Politisk verksamhet & administration": 0.013367,
+        "Övrigt": 0.009453
+      }
+    },
+    "0163": {
+      "name": "Sollentuna",
+      "regionCode": "01",
+      "taxRate": 0.1812,
+      "spendingShares": {
+        "Förskola & grundskola": 0.44623,
+        "Gymnasieskola & vuxenutbildning": 0.102871,
+        "Äldreomsorg": 0.128833,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.18152,
+        "Infrastruktur, skydd & miljö": 0.076313,
+        "Kultur & fritid": 0.043718,
+        "Politisk verksamhet & administration": 0.013687,
+        "Övrigt": 0.006828
+      }
+    },
+    "0180": {
+      "name": "Stockholm",
+      "regionCode": "01",
+      "taxRate": 0.1822,
+      "spendingShares": {
+        "Förskola & grundskola": 0.445711,
+        "Gymnasieskola & vuxenutbildning": 0.076808,
+        "Äldreomsorg": 0.165613,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.196306,
+        "Infrastruktur, skydd & miljö": 0.04924,
+        "Kultur & fritid": 0.052461,
+        "Politisk verksamhet & administration": 0.009072,
+        "Övrigt": 0.004789
+      }
+    },
+    "0181": {
+      "name": "Södertälje",
+      "regionCode": "01",
+      "taxRate": 0.2005,
+      "spendingShares": {
+        "Förskola & grundskola": 0.373807,
+        "Gymnasieskola & vuxenutbildning": 0.096302,
+        "Äldreomsorg": 0.153757,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.247949,
+        "Infrastruktur, skydd & miljö": 0.060711,
+        "Kultur & fritid": 0.053764,
+        "Politisk verksamhet & administration": 0.01371,
+        "Övrigt": 0.0
+      }
+    },
+    "0182": {
+      "name": "Nacka",
+      "regionCode": "01",
+      "taxRate": 0.1778,
+      "spendingShares": {
+        "Förskola & grundskola": 0.412878,
+        "Gymnasieskola & vuxenutbildning": 0.085378,
+        "Äldreomsorg": 0.151872,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.180062,
+        "Infrastruktur, skydd & miljö": 0.106464,
+        "Kultur & fritid": 0.050005,
+        "Politisk verksamhet & administration": 0.013341,
+        "Övrigt": 0.0
+      }
+    },
+    "0183": {
+      "name": "Sundbyberg",
+      "regionCode": "01",
+      "taxRate": 0.1925,
+      "spendingShares": {
+        "Förskola & grundskola": 0.417746,
+        "Gymnasieskola & vuxenutbildning": 0.08532,
+        "Äldreomsorg": 0.147427,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.203661,
+        "Infrastruktur, skydd & miljö": 0.069549,
+        "Kultur & fritid": 0.055797,
+        "Politisk verksamhet & administration": 0.01646,
+        "Övrigt": 0.00404
+      }
+    },
+    "0184": {
+      "name": "Solna",
+      "regionCode": "01",
+      "taxRate": 0.1737,
+      "spendingShares": {
+        "Förskola & grundskola": 0.444707,
+        "Gymnasieskola & vuxenutbildning": 0.07474,
+        "Äldreomsorg": 0.191803,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.157612,
+        "Infrastruktur, skydd & miljö": 0.057589,
+        "Kultur & fritid": 0.056149,
+        "Politisk verksamhet & administration": 0.0174,
+        "Övrigt": 0.0
+      }
+    },
+    "0186": {
+      "name": "Lidingö",
+      "regionCode": "01",
+      "taxRate": 0.1734,
+      "spendingShares": {
+        "Förskola & grundskola": 0.407771,
+        "Gymnasieskola & vuxenutbildning": 0.083097,
+        "Äldreomsorg": 0.210117,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.164111,
+        "Infrastruktur, skydd & miljö": 0.08193,
+        "Kultur & fritid": 0.039744,
+        "Politisk verksamhet & administration": 0.01323,
+        "Övrigt": 0.0
+      }
+    },
+    "0187": {
+      "name": "Vaxholm",
+      "regionCode": "01",
+      "taxRate": 0.193,
+      "spendingShares": {
+        "Förskola & grundskola": 0.425894,
+        "Gymnasieskola & vuxenutbildning": 0.094558,
+        "Äldreomsorg": 0.178464,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.109689,
+        "Infrastruktur, skydd & miljö": 0.107229,
+        "Kultur & fritid": 0.058451,
+        "Politisk verksamhet & administration": 0.016885,
+        "Övrigt": 0.00883
+      }
+    },
+    "0188": {
+      "name": "Norrtälje",
+      "regionCode": "01",
+      "taxRate": 0.1972,
+      "spendingShares": {
+        "Förskola & grundskola": 0.351153,
+        "Gymnasieskola & vuxenutbildning": 0.070668,
+        "Äldreomsorg": 0.212846,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.212529,
+        "Infrastruktur, skydd & miljö": 0.086153,
+        "Kultur & fritid": 0.047952,
+        "Politisk verksamhet & administration": 0.014811,
+        "Övrigt": 0.003888
+      }
+    },
+    "0191": {
+      "name": "Sigtuna",
+      "regionCode": "01",
+      "taxRate": 0.195,
+      "spendingShares": {
+        "Förskola & grundskola": 0.43319,
+        "Gymnasieskola & vuxenutbildning": 0.085338,
+        "Äldreomsorg": 0.122783,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.185879,
+        "Infrastruktur, skydd & miljö": 0.09677,
+        "Kultur & fritid": 0.054476,
+        "Politisk verksamhet & administration": 0.011068,
+        "Övrigt": 0.010496
+      }
+    },
+    "0192": {
+      "name": "Nynäshamn",
+      "regionCode": "01",
+      "taxRate": 0.1985,
+      "spendingShares": {
+        "Förskola & grundskola": 0.370904,
+        "Gymnasieskola & vuxenutbildning": 0.091566,
+        "Äldreomsorg": 0.181464,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192743,
+        "Infrastruktur, skydd & miljö": 0.101098,
+        "Kultur & fritid": 0.043995,
+        "Politisk verksamhet & administration": 0.015172,
+        "Övrigt": 0.003058
+      }
+    },
+    "0305": {
+      "name": "Håbo",
+      "regionCode": "03",
+      "taxRate": 0.2159,
+      "spendingShares": {
+        "Förskola & grundskola": 0.399333,
+        "Gymnasieskola & vuxenutbildning": 0.092316,
+        "Äldreomsorg": 0.186527,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.188191,
+        "Infrastruktur, skydd & miljö": 0.071179,
+        "Kultur & fritid": 0.048947,
+        "Politisk verksamhet & administration": 0.012829,
+        "Övrigt": 0.000678
+      }
+    },
+    "0319": {
+      "name": "Älvkarleby",
+      "regionCode": "03",
+      "taxRate": 0.2269,
+      "spendingShares": {
+        "Förskola & grundskola": 0.375023,
+        "Gymnasieskola & vuxenutbildning": 0.089626,
+        "Äldreomsorg": 0.232225,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.185859,
+        "Infrastruktur, skydd & miljö": 0.061949,
+        "Kultur & fritid": 0.037613,
+        "Politisk verksamhet & administration": 0.015574,
+        "Övrigt": 0.002131
+      }
+    },
+    "0330": {
+      "name": "Knivsta",
+      "regionCode": "03",
+      "taxRate": 0.2091,
+      "spendingShares": {
+        "Förskola & grundskola": 0.488489,
+        "Gymnasieskola & vuxenutbildning": 0.100977,
+        "Äldreomsorg": 0.108942,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.154894,
+        "Infrastruktur, skydd & miljö": 0.075183,
+        "Kultur & fritid": 0.055059,
+        "Politisk verksamhet & administration": 0.014093,
+        "Övrigt": 0.002363
+      }
+    },
+    "0331": {
+      "name": "Heby",
+      "regionCode": "03",
+      "taxRate": 0.225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.351399,
+        "Gymnasieskola & vuxenutbildning": 0.081477,
+        "Äldreomsorg": 0.241636,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.210407,
+        "Infrastruktur, skydd & miljö": 0.056505,
+        "Kultur & fritid": 0.036359,
+        "Politisk verksamhet & administration": 0.014943,
+        "Övrigt": 0.007274
+      }
+    },
+    "0360": {
+      "name": "Tierp",
+      "regionCode": "03",
+      "taxRate": 0.2129,
+      "spendingShares": {
+        "Förskola & grundskola": 0.334108,
+        "Gymnasieskola & vuxenutbildning": 0.092321,
+        "Äldreomsorg": 0.196193,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.229523,
+        "Infrastruktur, skydd & miljö": 0.074633,
+        "Kultur & fritid": 0.058993,
+        "Politisk verksamhet & administration": 0.014229,
+        "Övrigt": 0.0
+      }
+    },
+    "0380": {
+      "name": "Uppsala",
+      "regionCode": "03",
+      "taxRate": 0.2114,
+      "spendingShares": {
+        "Förskola & grundskola": 0.341193,
+        "Gymnasieskola & vuxenutbildning": 0.088794,
+        "Äldreomsorg": 0.160838,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.22621,
+        "Infrastruktur, skydd & miljö": 0.102822,
+        "Kultur & fritid": 0.05732,
+        "Politisk verksamhet & administration": 0.008877,
+        "Övrigt": 0.013946
+      }
+    },
+    "0381": {
+      "name": "Enköping",
+      "regionCode": "03",
+      "taxRate": 0.2134,
+      "spendingShares": {
+        "Förskola & grundskola": 0.363157,
+        "Gymnasieskola & vuxenutbildning": 0.086576,
+        "Äldreomsorg": 0.203205,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.219116,
+        "Infrastruktur, skydd & miljö": 0.053143,
+        "Kultur & fritid": 0.050432,
+        "Politisk verksamhet & administration": 0.012064,
+        "Övrigt": 0.012307
+      }
+    },
+    "0382": {
+      "name": "Östhammar",
+      "regionCode": "03",
+      "taxRate": 0.2159,
+      "spendingShares": {
+        "Förskola & grundskola": 0.337918,
+        "Gymnasieskola & vuxenutbildning": 0.097618,
+        "Äldreomsorg": 0.27671,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.153068,
+        "Infrastruktur, skydd & miljö": 0.078378,
+        "Kultur & fritid": 0.034541,
+        "Politisk verksamhet & administration": 0.017072,
+        "Övrigt": 0.004695
+      }
+    },
+    "0428": {
+      "name": "Vingåker",
+      "regionCode": "04",
+      "taxRate": 0.2267,
+      "spendingShares": {
+        "Förskola & grundskola": 0.338219,
+        "Gymnasieskola & vuxenutbildning": 0.086123,
+        "Äldreomsorg": 0.21262,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.19643,
+        "Infrastruktur, skydd & miljö": 0.071108,
+        "Kultur & fritid": 0.047708,
+        "Politisk verksamhet & administration": 0.015274,
+        "Övrigt": 0.032518
+      }
+    },
+    "0461": {
+      "name": "Gnesta",
+      "regionCode": "04",
+      "taxRate": 0.2212,
+      "spendingShares": {
+        "Förskola & grundskola": 0.378787,
+        "Gymnasieskola & vuxenutbildning": 0.087522,
+        "Äldreomsorg": 0.212261,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182245,
+        "Infrastruktur, skydd & miljö": 0.052948,
+        "Kultur & fritid": 0.052365,
+        "Politisk verksamhet & administration": 0.013774,
+        "Övrigt": 0.020098
+      }
+    },
+    "0480": {
+      "name": "Nyköping",
+      "regionCode": "04",
+      "taxRate": 0.2142,
+      "spendingShares": {
+        "Förskola & grundskola": 0.33655,
+        "Gymnasieskola & vuxenutbildning": 0.0905,
+        "Äldreomsorg": 0.189159,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.222212,
+        "Infrastruktur, skydd & miljö": 0.066447,
+        "Kultur & fritid": 0.050086,
+        "Politisk verksamhet & administration": 0.015429,
+        "Övrigt": 0.029617
+      }
+    },
+    "0481": {
+      "name": "Oxelösund",
+      "regionCode": "04",
+      "taxRate": 0.2222,
+      "spendingShares": {
+        "Förskola & grundskola": 0.356947,
+        "Gymnasieskola & vuxenutbildning": 0.087624,
+        "Äldreomsorg": 0.264287,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.154544,
+        "Infrastruktur, skydd & miljö": 0.058019,
+        "Kultur & fritid": 0.04892,
+        "Politisk verksamhet & administration": 0.014125,
+        "Övrigt": 0.015534
+      }
+    },
+    "0482": {
+      "name": "Flen",
+      "regionCode": "04",
+      "taxRate": 0.2227,
+      "spendingShares": {
+        "Förskola & grundskola": 0.306945,
+        "Gymnasieskola & vuxenutbildning": 0.078901,
+        "Äldreomsorg": 0.237391,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.220454,
+        "Infrastruktur, skydd & miljö": 0.069855,
+        "Kultur & fritid": 0.043054,
+        "Politisk verksamhet & administration": 0.017237,
+        "Övrigt": 0.026163
+      }
+    },
+    "0483": {
+      "name": "Katrineholm",
+      "regionCode": "04",
+      "taxRate": 0.2212,
+      "spendingShares": {
+        "Förskola & grundskola": 0.31902,
+        "Gymnasieskola & vuxenutbildning": 0.085215,
+        "Äldreomsorg": 0.212543,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.234653,
+        "Infrastruktur, skydd & miljö": 0.066619,
+        "Kultur & fritid": 0.050773,
+        "Politisk verksamhet & administration": 0.011788,
+        "Övrigt": 0.019389
+      }
+    },
+    "0484": {
+      "name": "Eskilstuna",
+      "regionCode": "04",
+      "taxRate": 0.2202,
+      "spendingShares": {
+        "Förskola & grundskola": 0.336956,
+        "Gymnasieskola & vuxenutbildning": 0.093805,
+        "Äldreomsorg": 0.184185,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.241299,
+        "Infrastruktur, skydd & miljö": 0.054492,
+        "Kultur & fritid": 0.05127,
+        "Politisk verksamhet & administration": 0.00981,
+        "Övrigt": 0.028183
+      }
+    },
+    "0486": {
+      "name": "Strängnäs",
+      "regionCode": "04",
+      "taxRate": 0.2167,
+      "spendingShares": {
+        "Förskola & grundskola": 0.370213,
+        "Gymnasieskola & vuxenutbildning": 0.105648,
+        "Äldreomsorg": 0.184487,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.184463,
+        "Infrastruktur, skydd & miljö": 0.070948,
+        "Kultur & fritid": 0.051347,
+        "Politisk verksamhet & administration": 0.011227,
+        "Övrigt": 0.021667
+      }
+    },
+    "0488": {
+      "name": "Trosa",
+      "regionCode": "04",
+      "taxRate": 0.212,
+      "spendingShares": {
+        "Förskola & grundskola": 0.399445,
+        "Gymnasieskola & vuxenutbildning": 0.082993,
+        "Äldreomsorg": 0.219074,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.121162,
+        "Infrastruktur, skydd & miljö": 0.079989,
+        "Kultur & fritid": 0.060549,
+        "Politisk verksamhet & administration": 0.019198,
+        "Övrigt": 0.01759
+      }
+    },
+    "0509": {
+      "name": "Ödeshög",
+      "regionCode": "05",
+      "taxRate": 0.224,
+      "spendingShares": {
+        "Förskola & grundskola": 0.336754,
+        "Gymnasieskola & vuxenutbildning": 0.08092,
+        "Äldreomsorg": 0.223272,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.207466,
+        "Infrastruktur, skydd & miljö": 0.077282,
+        "Kultur & fritid": 0.033639,
+        "Politisk verksamhet & administration": 0.022606,
+        "Övrigt": 0.018061
+      }
+    },
+    "0512": {
+      "name": "Ydre",
+      "regionCode": "05",
+      "taxRate": 0.2255,
+      "spendingShares": {
+        "Förskola & grundskola": 0.323766,
+        "Gymnasieskola & vuxenutbildning": 0.072625,
+        "Äldreomsorg": 0.299818,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.164904,
+        "Infrastruktur, skydd & miljö": 0.069826,
+        "Kultur & fritid": 0.038665,
+        "Politisk verksamhet & administration": 0.024568,
+        "Övrigt": 0.005828
+      }
+    },
+    "0513": {
+      "name": "Kinda",
+      "regionCode": "05",
+      "taxRate": 0.2145,
+      "spendingShares": {
+        "Förskola & grundskola": 0.343273,
+        "Gymnasieskola & vuxenutbildning": 0.085399,
+        "Äldreomsorg": 0.228408,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.200527,
+        "Infrastruktur, skydd & miljö": 0.077475,
+        "Kultur & fritid": 0.038793,
+        "Politisk verksamhet & administration": 0.018112,
+        "Övrigt": 0.008013
+      }
+    },
+    "0560": {
+      "name": "Boxholm",
+      "regionCode": "05",
+      "taxRate": 0.2182,
+      "spendingShares": {
+        "Förskola & grundskola": 0.361403,
+        "Gymnasieskola & vuxenutbildning": 0.067487,
+        "Äldreomsorg": 0.248547,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.190193,
+        "Infrastruktur, skydd & miljö": 0.06235,
+        "Kultur & fritid": 0.036212,
+        "Politisk verksamhet & administration": 0.014447,
+        "Övrigt": 0.019361
+      }
+    },
+    "0561": {
+      "name": "Åtvidaberg",
+      "regionCode": "05",
+      "taxRate": 0.2239,
+      "spendingShares": {
+        "Förskola & grundskola": 0.337934,
+        "Gymnasieskola & vuxenutbildning": 0.095699,
+        "Äldreomsorg": 0.243528,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182395,
+        "Infrastruktur, skydd & miljö": 0.076318,
+        "Kultur & fritid": 0.035133,
+        "Politisk verksamhet & administration": 0.021513,
+        "Övrigt": 0.00748
+      }
+    },
+    "0562": {
+      "name": "Finspång",
+      "regionCode": "05",
+      "taxRate": 0.2215,
+      "spendingShares": {
+        "Förskola & grundskola": 0.346761,
+        "Gymnasieskola & vuxenutbildning": 0.094281,
+        "Äldreomsorg": 0.237926,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208482,
+        "Infrastruktur, skydd & miljö": 0.05383,
+        "Kultur & fritid": 0.038636,
+        "Politisk verksamhet & administration": 0.011933,
+        "Övrigt": 0.008151
+      }
+    },
+    "0563": {
+      "name": "Valdemarsvik",
+      "regionCode": "05",
+      "taxRate": 0.2248,
+      "spendingShares": {
+        "Förskola & grundskola": 0.276468,
+        "Gymnasieskola & vuxenutbildning": 0.06382,
+        "Äldreomsorg": 0.305961,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.229928,
+        "Infrastruktur, skydd & miljö": 0.070639,
+        "Kultur & fritid": 0.023683,
+        "Politisk verksamhet & administration": 0.012375,
+        "Övrigt": 0.017126
+      }
+    },
+    "0580": {
+      "name": "Linköping",
+      "regionCode": "05",
+      "taxRate": 0.202,
+      "spendingShares": {
+        "Förskola & grundskola": 0.368559,
+        "Gymnasieskola & vuxenutbildning": 0.094224,
+        "Äldreomsorg": 0.160009,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.217242,
+        "Infrastruktur, skydd & miljö": 0.073835,
+        "Kultur & fritid": 0.050745,
+        "Politisk verksamhet & administration": 0.009922,
+        "Övrigt": 0.025464
+      }
+    },
+    "0581": {
+      "name": "Norrköping",
+      "regionCode": "05",
+      "taxRate": 0.2175,
+      "spendingShares": {
+        "Förskola & grundskola": 0.346805,
+        "Gymnasieskola & vuxenutbildning": 0.095353,
+        "Äldreomsorg": 0.170296,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.24021,
+        "Infrastruktur, skydd & miljö": 0.071382,
+        "Kultur & fritid": 0.045229,
+        "Politisk verksamhet & administration": 0.009538,
+        "Övrigt": 0.021187
+      }
+    },
+    "0582": {
+      "name": "Söderköping",
+      "regionCode": "05",
+      "taxRate": 0.2198,
+      "spendingShares": {
+        "Förskola & grundskola": 0.359174,
+        "Gymnasieskola & vuxenutbildning": 0.09787,
+        "Äldreomsorg": 0.218075,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.197162,
+        "Infrastruktur, skydd & miljö": 0.073578,
+        "Kultur & fritid": 0.029313,
+        "Politisk verksamhet & administration": 0.011336,
+        "Övrigt": 0.013492
+      }
+    },
+    "0583": {
+      "name": "Motala",
+      "regionCode": "05",
+      "taxRate": 0.217,
+      "spendingShares": {
+        "Förskola & grundskola": 0.339325,
+        "Gymnasieskola & vuxenutbildning": 0.092324,
+        "Äldreomsorg": 0.214837,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.222489,
+        "Infrastruktur, skydd & miljö": 0.067853,
+        "Kultur & fritid": 0.039287,
+        "Politisk verksamhet & administration": 0.01207,
+        "Övrigt": 0.011815
+      }
+    },
+    "0584": {
+      "name": "Vadstena",
+      "regionCode": "05",
+      "taxRate": 0.228,
+      "spendingShares": {
+        "Förskola & grundskola": 0.290733,
+        "Gymnasieskola & vuxenutbildning": 0.061253,
+        "Äldreomsorg": 0.261126,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.203077,
+        "Infrastruktur, skydd & miljö": 0.09874,
+        "Kultur & fritid": 0.052453,
+        "Politisk verksamhet & administration": 0.019816,
+        "Övrigt": 0.012802
+      }
+    },
+    "0586": {
+      "name": "Mjölby",
+      "regionCode": "05",
+      "taxRate": 0.219,
+      "spendingShares": {
+        "Förskola & grundskola": 0.35413,
+        "Gymnasieskola & vuxenutbildning": 0.091775,
+        "Äldreomsorg": 0.205913,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.198195,
+        "Infrastruktur, skydd & miljö": 0.086642,
+        "Kultur & fritid": 0.046078,
+        "Politisk verksamhet & administration": 0.011451,
+        "Övrigt": 0.005816
+      }
+    },
+    "0604": {
+      "name": "Aneby",
+      "regionCode": "06",
+      "taxRate": 0.2209,
+      "spendingShares": {
+        "Förskola & grundskola": 0.388036,
+        "Gymnasieskola & vuxenutbildning": 0.092273,
+        "Äldreomsorg": 0.219757,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194129,
+        "Infrastruktur, skydd & miljö": 0.057741,
+        "Kultur & fritid": 0.027218,
+        "Politisk verksamhet & administration": 0.015005,
+        "Övrigt": 0.005841
+      }
+    },
+    "0617": {
+      "name": "Gnosjö",
+      "regionCode": "06",
+      "taxRate": 0.2224,
+      "spendingShares": {
+        "Förskola & grundskola": 0.359704,
+        "Gymnasieskola & vuxenutbildning": 0.099861,
+        "Äldreomsorg": 0.197954,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.163323,
+        "Infrastruktur, skydd & miljö": 0.084487,
+        "Kultur & fritid": 0.053269,
+        "Politisk verksamhet & administration": 0.020048,
+        "Övrigt": 0.021354
+      }
+    },
+    "0642": {
+      "name": "Mullsjö",
+      "regionCode": "06",
+      "taxRate": 0.2234,
+      "spendingShares": {
+        "Förskola & grundskola": 0.383962,
+        "Gymnasieskola & vuxenutbildning": 0.089482,
+        "Äldreomsorg": 0.23391,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.168112,
+        "Infrastruktur, skydd & miljö": 0.061458,
+        "Kultur & fritid": 0.039129,
+        "Politisk verksamhet & administration": 0.023947,
+        "Övrigt": 0.0
+      }
+    },
+    "0643": {
+      "name": "Habo",
+      "regionCode": "06",
+      "taxRate": 0.2217,
+      "spendingShares": {
+        "Förskola & grundskola": 0.49943,
+        "Gymnasieskola & vuxenutbildning": 0.09106,
+        "Äldreomsorg": 0.162557,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.116837,
+        "Infrastruktur, skydd & miljö": 0.067307,
+        "Kultur & fritid": 0.039844,
+        "Politisk verksamhet & administration": 0.010094,
+        "Övrigt": 0.012871
+      }
+    },
+    "0662": {
+      "name": "Gislaved",
+      "regionCode": "06",
+      "taxRate": 0.2199,
+      "spendingShares": {
+        "Förskola & grundskola": 0.34765,
+        "Gymnasieskola & vuxenutbildning": 0.100205,
+        "Äldreomsorg": 0.209192,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.184968,
+        "Infrastruktur, skydd & miljö": 0.075887,
+        "Kultur & fritid": 0.0553,
+        "Politisk verksamhet & administration": 0.013508,
+        "Övrigt": 0.01329
+      }
+    },
+    "0665": {
+      "name": "Vaggeryd",
+      "regionCode": "06",
+      "taxRate": 0.2149,
+      "spendingShares": {
+        "Förskola & grundskola": 0.398363,
+        "Gymnasieskola & vuxenutbildning": 0.105432,
+        "Äldreomsorg": 0.168765,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.186512,
+        "Infrastruktur, skydd & miljö": 0.073455,
+        "Kultur & fritid": 0.03792,
+        "Politisk verksamhet & administration": 0.014738,
+        "Övrigt": 0.014815
+      }
+    },
+    "0680": {
+      "name": "Jönköping",
+      "regionCode": "06",
+      "taxRate": 0.2164,
+      "spendingShares": {
+        "Förskola & grundskola": 0.372739,
+        "Gymnasieskola & vuxenutbildning": 0.078457,
+        "Äldreomsorg": 0.211326,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.225214,
+        "Infrastruktur, skydd & miljö": 0.060283,
+        "Kultur & fritid": 0.040095,
+        "Politisk verksamhet & administration": 0.011353,
+        "Övrigt": 0.000533
+      }
+    },
+    "0682": {
+      "name": "Nässjö",
+      "regionCode": "06",
+      "taxRate": 0.2254,
+      "spendingShares": {
+        "Förskola & grundskola": 0.366815,
+        "Gymnasieskola & vuxenutbildning": 0.096398,
+        "Äldreomsorg": 0.16137,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.25692,
+        "Infrastruktur, skydd & miljö": 0.057038,
+        "Kultur & fritid": 0.039999,
+        "Politisk verksamhet & administration": 0.009689,
+        "Övrigt": 0.011771
+      }
+    },
+    "0683": {
+      "name": "Värnamo",
+      "regionCode": "06",
+      "taxRate": 0.2152,
+      "spendingShares": {
+        "Förskola & grundskola": 0.371946,
+        "Gymnasieskola & vuxenutbildning": 0.098585,
+        "Äldreomsorg": 0.199741,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194824,
+        "Infrastruktur, skydd & miljö": 0.070743,
+        "Kultur & fritid": 0.050277,
+        "Politisk verksamhet & administration": 0.010849,
+        "Övrigt": 0.003035
+      }
+    },
+    "0684": {
+      "name": "Sävsjö",
+      "regionCode": "06",
+      "taxRate": 0.2192,
+      "spendingShares": {
+        "Förskola & grundskola": 0.338055,
+        "Gymnasieskola & vuxenutbildning": 0.101414,
+        "Äldreomsorg": 0.214548,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.204007,
+        "Infrastruktur, skydd & miljö": 0.080504,
+        "Kultur & fritid": 0.041402,
+        "Politisk verksamhet & administration": 0.016534,
+        "Övrigt": 0.003536
+      }
+    },
+    "0685": {
+      "name": "Vetlanda",
+      "regionCode": "06",
+      "taxRate": 0.2201,
+      "spendingShares": {
+        "Förskola & grundskola": 0.366848,
+        "Gymnasieskola & vuxenutbildning": 0.091043,
+        "Äldreomsorg": 0.224003,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193559,
+        "Infrastruktur, skydd & miljö": 0.069049,
+        "Kultur & fritid": 0.041943,
+        "Politisk verksamhet & administration": 0.008591,
+        "Övrigt": 0.004964
+      }
+    },
+    "0686": {
+      "name": "Eksjö",
+      "regionCode": "06",
+      "taxRate": 0.2226,
+      "spendingShares": {
+        "Förskola & grundskola": 0.346111,
+        "Gymnasieskola & vuxenutbildning": 0.090594,
+        "Äldreomsorg": 0.207483,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.226105,
+        "Infrastruktur, skydd & miljö": 0.064524,
+        "Kultur & fritid": 0.042967,
+        "Politisk verksamhet & administration": 0.011208,
+        "Övrigt": 0.011008
+      }
+    },
+    "0687": {
+      "name": "Tranås",
+      "regionCode": "06",
+      "taxRate": 0.2201,
+      "spendingShares": {
+        "Förskola & grundskola": 0.329782,
+        "Gymnasieskola & vuxenutbildning": 0.091087,
+        "Äldreomsorg": 0.218204,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.211876,
+        "Infrastruktur, skydd & miljö": 0.079981,
+        "Kultur & fritid": 0.041645,
+        "Politisk verksamhet & administration": 0.012482,
+        "Övrigt": 0.014943
+      }
+    },
+    "0760": {
+      "name": "Uppvidinge",
+      "regionCode": "07",
+      "taxRate": 0.218,
+      "spendingShares": {
+        "Förskola & grundskola": 0.303838,
+        "Gymnasieskola & vuxenutbildning": 0.092148,
+        "Äldreomsorg": 0.227035,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.236018,
+        "Infrastruktur, skydd & miljö": 0.078523,
+        "Kultur & fritid": 0.033133,
+        "Politisk verksamhet & administration": 0.01904,
+        "Övrigt": 0.010265
+      }
+    },
+    "0761": {
+      "name": "Lessebo",
+      "regionCode": "07",
+      "taxRate": 0.2181,
+      "spendingShares": {
+        "Förskola & grundskola": 0.370834,
+        "Gymnasieskola & vuxenutbildning": 0.102058,
+        "Äldreomsorg": 0.212543,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.191749,
+        "Infrastruktur, skydd & miljö": 0.057449,
+        "Kultur & fritid": 0.04052,
+        "Politisk verksamhet & administration": 0.016396,
+        "Övrigt": 0.008451
+      }
+    },
+    "0763": {
+      "name": "Tingsryd",
+      "regionCode": "07",
+      "taxRate": 0.22,
+      "spendingShares": {
+        "Förskola & grundskola": 0.301874,
+        "Gymnasieskola & vuxenutbildning": 0.094069,
+        "Äldreomsorg": 0.274302,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.19197,
+        "Infrastruktur, skydd & miljö": 0.066361,
+        "Kultur & fritid": 0.045222,
+        "Politisk verksamhet & administration": 0.016417,
+        "Övrigt": 0.009785
+      }
+    },
+    "0764": {
+      "name": "Alvesta",
+      "regionCode": "07",
+      "taxRate": 0.2142,
+      "spendingShares": {
+        "Förskola & grundskola": 0.358593,
+        "Gymnasieskola & vuxenutbildning": 0.093762,
+        "Äldreomsorg": 0.216314,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.195011,
+        "Infrastruktur, skydd & miljö": 0.058251,
+        "Kultur & fritid": 0.051461,
+        "Politisk verksamhet & administration": 0.014601,
+        "Övrigt": 0.012007
+      }
+    },
+    "0765": {
+      "name": "Älmhult",
+      "regionCode": "07",
+      "taxRate": 0.2186,
+      "spendingShares": {
+        "Förskola & grundskola": 0.424353,
+        "Gymnasieskola & vuxenutbildning": 0.102225,
+        "Äldreomsorg": 0.181414,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.162433,
+        "Infrastruktur, skydd & miljö": 0.065783,
+        "Kultur & fritid": 0.04087,
+        "Politisk verksamhet & administration": 0.016951,
+        "Övrigt": 0.005971
+      }
+    },
+    "0767": {
+      "name": "Markaryd",
+      "regionCode": "07",
+      "taxRate": 0.2131,
+      "spendingShares": {
+        "Förskola & grundskola": 0.342261,
+        "Gymnasieskola & vuxenutbildning": 0.091534,
+        "Äldreomsorg": 0.238942,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182153,
+        "Infrastruktur, skydd & miljö": 0.074174,
+        "Kultur & fritid": 0.037942,
+        "Politisk verksamhet & administration": 0.016208,
+        "Övrigt": 0.016786
+      }
+    },
+    "0780": {
+      "name": "Växjö",
+      "regionCode": "07",
+      "taxRate": 0.2019,
+      "spendingShares": {
+        "Förskola & grundskola": 0.405271,
+        "Gymnasieskola & vuxenutbildning": 0.084952,
+        "Äldreomsorg": 0.167045,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.2152,
+        "Infrastruktur, skydd & miljö": 0.054652,
+        "Kultur & fritid": 0.047329,
+        "Politisk verksamhet & administration": 0.010919,
+        "Övrigt": 0.014632
+      }
+    },
+    "0781": {
+      "name": "Ljungby",
+      "regionCode": "07",
+      "taxRate": 0.2107,
+      "spendingShares": {
+        "Förskola & grundskola": 0.325271,
+        "Gymnasieskola & vuxenutbildning": 0.088999,
+        "Äldreomsorg": 0.252814,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193699,
+        "Infrastruktur, skydd & miljö": 0.076071,
+        "Kultur & fritid": 0.048876,
+        "Politisk verksamhet & administration": 0.013565,
+        "Övrigt": 0.000705
+      }
+    },
+    "0821": {
+      "name": "Högsby",
+      "regionCode": "08",
+      "taxRate": 0.2221,
+      "spendingShares": {
+        "Förskola & grundskola": 0.301758,
+        "Gymnasieskola & vuxenutbildning": 0.08903,
+        "Äldreomsorg": 0.27017,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.222105,
+        "Infrastruktur, skydd & miljö": 0.067291,
+        "Kultur & fritid": 0.027954,
+        "Politisk verksamhet & administration": 0.018501,
+        "Övrigt": 0.003191
+      }
+    },
+    "0834": {
+      "name": "Torsås",
+      "regionCode": "08",
+      "taxRate": 0.2193,
+      "spendingShares": {
+        "Förskola & grundskola": 0.317749,
+        "Gymnasieskola & vuxenutbildning": 0.083824,
+        "Äldreomsorg": 0.257102,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194462,
+        "Infrastruktur, skydd & miljö": 0.076166,
+        "Kultur & fritid": 0.036178,
+        "Politisk verksamhet & administration": 0.027234,
+        "Övrigt": 0.007285
+      }
+    },
+    "0840": {
+      "name": "Mörbylånga",
+      "regionCode": "08",
+      "taxRate": 0.2221,
+      "spendingShares": {
+        "Förskola & grundskola": 0.375681,
+        "Gymnasieskola & vuxenutbildning": 0.073473,
+        "Äldreomsorg": 0.243496,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.145757,
+        "Infrastruktur, skydd & miljö": 0.090129,
+        "Kultur & fritid": 0.035933,
+        "Politisk verksamhet & administration": 0.016135,
+        "Övrigt": 0.019396
+      }
+    },
+    "0860": {
+      "name": "Hultsfred",
+      "regionCode": "08",
+      "taxRate": 0.2191,
+      "spendingShares": {
+        "Förskola & grundskola": 0.295553,
+        "Gymnasieskola & vuxenutbildning": 0.097621,
+        "Äldreomsorg": 0.255586,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.200761,
+        "Infrastruktur, skydd & miljö": 0.08353,
+        "Kultur & fritid": 0.042717,
+        "Politisk verksamhet & administration": 0.015884,
+        "Övrigt": 0.008348
+      }
+    },
+    "0861": {
+      "name": "Mönsterås",
+      "regionCode": "08",
+      "taxRate": 0.2221,
+      "spendingShares": {
+        "Förskola & grundskola": 0.328847,
+        "Gymnasieskola & vuxenutbildning": 0.075935,
+        "Äldreomsorg": 0.242739,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.232381,
+        "Infrastruktur, skydd & miljö": 0.068427,
+        "Kultur & fritid": 0.029801,
+        "Politisk verksamhet & administration": 0.013423,
+        "Övrigt": 0.008447
+      }
+    },
+    "0862": {
+      "name": "Emmaboda",
+      "regionCode": "08",
+      "taxRate": 0.2196,
+      "spendingShares": {
+        "Förskola & grundskola": 0.320664,
+        "Gymnasieskola & vuxenutbildning": 0.102813,
+        "Äldreomsorg": 0.210488,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.225491,
+        "Infrastruktur, skydd & miljö": 0.062166,
+        "Kultur & fritid": 0.047771,
+        "Politisk verksamhet & administration": 0.018622,
+        "Övrigt": 0.011985
+      }
+    },
+    "0880": {
+      "name": "Kalmar",
+      "regionCode": "08",
+      "taxRate": 0.2181,
+      "spendingShares": {
+        "Förskola & grundskola": 0.340073,
+        "Gymnasieskola & vuxenutbildning": 0.082568,
+        "Äldreomsorg": 0.196548,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.213268,
+        "Infrastruktur, skydd & miljö": 0.082687,
+        "Kultur & fritid": 0.059853,
+        "Politisk verksamhet & administration": 0.011864,
+        "Övrigt": 0.013139
+      }
+    },
+    "0881": {
+      "name": "Nybro",
+      "regionCode": "08",
+      "taxRate": 0.2233,
+      "spendingShares": {
+        "Förskola & grundskola": 0.311183,
+        "Gymnasieskola & vuxenutbildning": 0.090914,
+        "Äldreomsorg": 0.277963,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.19277,
+        "Infrastruktur, skydd & miljö": 0.059004,
+        "Kultur & fritid": 0.047832,
+        "Politisk verksamhet & administration": 0.012501,
+        "Övrigt": 0.007833
+      }
+    },
+    "0882": {
+      "name": "Oskarshamn",
+      "regionCode": "08",
+      "taxRate": 0.2235,
+      "spendingShares": {
+        "Förskola & grundskola": 0.328217,
+        "Gymnasieskola & vuxenutbildning": 0.090917,
+        "Äldreomsorg": 0.256655,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193216,
+        "Infrastruktur, skydd & miljö": 0.0644,
+        "Kultur & fritid": 0.053469,
+        "Politisk verksamhet & administration": 0.013126,
+        "Övrigt": 0.0
+      }
+    },
+    "0883": {
+      "name": "Västervik",
+      "regionCode": "08",
+      "taxRate": 0.2116,
+      "spendingShares": {
+        "Förskola & grundskola": 0.300155,
+        "Gymnasieskola & vuxenutbildning": 0.091416,
+        "Äldreomsorg": 0.273197,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.195058,
+        "Infrastruktur, skydd & miljö": 0.07142,
+        "Kultur & fritid": 0.048996,
+        "Politisk verksamhet & administration": 0.010538,
+        "Övrigt": 0.00922
+      }
+    },
+    "0884": {
+      "name": "Vimmerby",
+      "regionCode": "08",
+      "taxRate": 0.2236,
+      "spendingShares": {
+        "Förskola & grundskola": 0.32851,
+        "Gymnasieskola & vuxenutbildning": 0.100819,
+        "Äldreomsorg": 0.245641,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192234,
+        "Infrastruktur, skydd & miljö": 0.06968,
+        "Kultur & fritid": 0.041271,
+        "Politisk verksamhet & administration": 0.015214,
+        "Övrigt": 0.006631
+      }
+    },
+    "0885": {
+      "name": "Borgholm",
+      "regionCode": "08",
+      "taxRate": 0.2158,
+      "spendingShares": {
+        "Förskola & grundskola": 0.266876,
+        "Gymnasieskola & vuxenutbildning": 0.068573,
+        "Äldreomsorg": 0.35266,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.164998,
+        "Infrastruktur, skydd & miljö": 0.072425,
+        "Kultur & fritid": 0.047609,
+        "Politisk verksamhet & administration": 0.019203,
+        "Övrigt": 0.007656
+      }
+    },
+    "0980": {
+      "name": "Gotland",
+      "regionCode": "09",
+      "taxRate": 0.336,
+      "spendingShares": {
+        "Förskola & grundskola": 0.335466,
+        "Gymnasieskola & vuxenutbildning": 0.083986,
+        "Äldreomsorg": 0.224805,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.187429,
+        "Infrastruktur, skydd & miljö": 0.075348,
+        "Kultur & fritid": 0.041196,
+        "Politisk verksamhet & administration": 0.015831,
+        "Övrigt": 0.035939
+      }
+    },
+    "1060": {
+      "name": "Olofström",
+      "regionCode": "10",
+      "taxRate": 0.2171,
+      "spendingShares": {
+        "Förskola & grundskola": 0.270954,
+        "Gymnasieskola & vuxenutbildning": 0.096025,
+        "Äldreomsorg": 0.284113,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.201632,
+        "Infrastruktur, skydd & miljö": 0.062013,
+        "Kultur & fritid": 0.054763,
+        "Politisk verksamhet & administration": 0.013968,
+        "Övrigt": 0.016532
+      }
+    },
+    "1080": {
+      "name": "Karlskrona",
+      "regionCode": "10",
+      "taxRate": 0.2165,
+      "spendingShares": {
+        "Förskola & grundskola": 0.337653,
+        "Gymnasieskola & vuxenutbildning": 0.09021,
+        "Äldreomsorg": 0.244226,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208656,
+        "Infrastruktur, skydd & miljö": 0.061528,
+        "Kultur & fritid": 0.036687,
+        "Politisk verksamhet & administration": 0.009253,
+        "Övrigt": 0.011787
+      }
+    },
+    "1081": {
+      "name": "Ronneby",
+      "regionCode": "10",
+      "taxRate": 0.2164,
+      "spendingShares": {
+        "Förskola & grundskola": 0.364454,
+        "Gymnasieskola & vuxenutbildning": 0.108661,
+        "Äldreomsorg": 0.202706,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.197522,
+        "Infrastruktur, skydd & miljö": 0.06842,
+        "Kultur & fritid": 0.043774,
+        "Politisk verksamhet & administration": 0.011994,
+        "Övrigt": 0.002469
+      }
+    },
+    "1082": {
+      "name": "Karlshamn",
+      "regionCode": "10",
+      "taxRate": 0.2176,
+      "spendingShares": {
+        "Förskola & grundskola": 0.323589,
+        "Gymnasieskola & vuxenutbildning": 0.087338,
+        "Äldreomsorg": 0.237585,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.207637,
+        "Infrastruktur, skydd & miljö": 0.071619,
+        "Kultur & fritid": 0.048601,
+        "Politisk verksamhet & administration": 0.013157,
+        "Övrigt": 0.010474
+      }
+    },
+    "1083": {
+      "name": "Sölvesborg",
+      "regionCode": "10",
+      "taxRate": 0.2182,
+      "spendingShares": {
+        "Förskola & grundskola": 0.32657,
+        "Gymnasieskola & vuxenutbildning": 0.09224,
+        "Äldreomsorg": 0.259456,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.18177,
+        "Infrastruktur, skydd & miljö": 0.061928,
+        "Kultur & fritid": 0.047649,
+        "Politisk verksamhet & administration": 0.013813,
+        "Övrigt": 0.016574
+      }
+    },
+    "1214": {
+      "name": "Svalöv",
+      "regionCode": "12",
+      "taxRate": 0.2074,
+      "spendingShares": {
+        "Förskola & grundskola": 0.402363,
+        "Gymnasieskola & vuxenutbildning": 0.090955,
+        "Äldreomsorg": 0.197497,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.166132,
+        "Infrastruktur, skydd & miljö": 0.082012,
+        "Kultur & fritid": 0.032707,
+        "Politisk verksamhet & administration": 0.019889,
+        "Övrigt": 0.008445
+      }
+    },
+    "1230": {
+      "name": "Staffanstorp",
+      "regionCode": "12",
+      "taxRate": 0.1894,
+      "spendingShares": {
+        "Förskola & grundskola": 0.490155,
+        "Gymnasieskola & vuxenutbildning": 0.095713,
+        "Äldreomsorg": 0.169164,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.124346,
+        "Infrastruktur, skydd & miljö": 0.063687,
+        "Kultur & fritid": 0.043289,
+        "Politisk verksamhet & administration": 0.013023,
+        "Övrigt": 0.000623
+      }
+    },
+    "1231": {
+      "name": "Burlöv",
+      "regionCode": "12",
+      "taxRate": 0.2009,
+      "spendingShares": {
+        "Förskola & grundskola": 0.418212,
+        "Gymnasieskola & vuxenutbildning": 0.103652,
+        "Äldreomsorg": 0.173148,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.152429,
+        "Infrastruktur, skydd & miljö": 0.058638,
+        "Kultur & fritid": 0.070017,
+        "Politisk verksamhet & administration": 0.01345,
+        "Övrigt": 0.010454
+      }
+    },
+    "1233": {
+      "name": "Vellinge",
+      "regionCode": "12",
+      "taxRate": 0.185,
+      "spendingShares": {
+        "Förskola & grundskola": 0.463292,
+        "Gymnasieskola & vuxenutbildning": 0.100467,
+        "Äldreomsorg": 0.174176,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.116101,
+        "Infrastruktur, skydd & miljö": 0.068817,
+        "Kultur & fritid": 0.055388,
+        "Politisk verksamhet & administration": 0.015112,
+        "Övrigt": 0.006647
+      }
+    },
+    "1256": {
+      "name": "Östra Göinge",
+      "regionCode": "12",
+      "taxRate": 0.2099,
+      "spendingShares": {
+        "Förskola & grundskola": 0.352231,
+        "Gymnasieskola & vuxenutbildning": 0.11294,
+        "Äldreomsorg": 0.217012,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.213309,
+        "Infrastruktur, skydd & miljö": 0.060846,
+        "Kultur & fritid": 0.033049,
+        "Politisk verksamhet & administration": 0.010613,
+        "Övrigt": 0.0
+      }
+    },
+    "1257": {
+      "name": "Örkelljunga",
+      "regionCode": "12",
+      "taxRate": 0.1906,
+      "spendingShares": {
+        "Förskola & grundskola": 0.360218,
+        "Gymnasieskola & vuxenutbildning": 0.114551,
+        "Äldreomsorg": 0.239986,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.155672,
+        "Infrastruktur, skydd & miljö": 0.06807,
+        "Kultur & fritid": 0.042126,
+        "Politisk verksamhet & administration": 0.012838,
+        "Övrigt": 0.006539
+      }
+    },
+    "1260": {
+      "name": "Bjuv",
+      "regionCode": "12",
+      "taxRate": 0.2099,
+      "spendingShares": {
+        "Förskola & grundskola": 0.411077,
+        "Gymnasieskola & vuxenutbildning": 0.111629,
+        "Äldreomsorg": 0.157254,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194069,
+        "Infrastruktur, skydd & miljö": 0.055936,
+        "Kultur & fritid": 0.0402,
+        "Politisk verksamhet & administration": 0.009649,
+        "Övrigt": 0.020186
+      }
+    },
+    "1261": {
+      "name": "Kävlinge",
+      "regionCode": "12",
+      "taxRate": 0.1841,
+      "spendingShares": {
+        "Förskola & grundskola": 0.443478,
+        "Gymnasieskola & vuxenutbildning": 0.12056,
+        "Äldreomsorg": 0.166024,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.162133,
+        "Infrastruktur, skydd & miljö": 0.055295,
+        "Kultur & fritid": 0.035943,
+        "Politisk verksamhet & administration": 0.013119,
+        "Övrigt": 0.003448
+      }
+    },
+    "1262": {
+      "name": "Lomma",
+      "regionCode": "12",
+      "taxRate": 0.1954,
+      "spendingShares": {
+        "Förskola & grundskola": 0.443219,
+        "Gymnasieskola & vuxenutbildning": 0.105527,
+        "Äldreomsorg": 0.178852,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.094863,
+        "Infrastruktur, skydd & miljö": 0.103626,
+        "Kultur & fritid": 0.0467,
+        "Politisk verksamhet & administration": 0.014792,
+        "Övrigt": 0.012421
+      }
+    },
+    "1263": {
+      "name": "Svedala",
+      "regionCode": "12",
+      "taxRate": 0.2024,
+      "spendingShares": {
+        "Förskola & grundskola": 0.475822,
+        "Gymnasieskola & vuxenutbildning": 0.105167,
+        "Äldreomsorg": 0.14961,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.117031,
+        "Infrastruktur, skydd & miljö": 0.089362,
+        "Kultur & fritid": 0.050441,
+        "Politisk verksamhet & administration": 0.012567,
+        "Övrigt": 0.0
+      }
+    },
+    "1264": {
+      "name": "Skurup",
+      "regionCode": "12",
+      "taxRate": 0.2042,
+      "spendingShares": {
+        "Förskola & grundskola": 0.428738,
+        "Gymnasieskola & vuxenutbildning": 0.110081,
+        "Äldreomsorg": 0.207171,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.154371,
+        "Infrastruktur, skydd & miljö": 0.047605,
+        "Kultur & fritid": 0.036657,
+        "Politisk verksamhet & administration": 0.015078,
+        "Övrigt": 0.000299
+      }
+    },
+    "1265": {
+      "name": "Sjöbo",
+      "regionCode": "12",
+      "taxRate": 0.2092,
+      "spendingShares": {
+        "Förskola & grundskola": 0.359373,
+        "Gymnasieskola & vuxenutbildning": 0.095208,
+        "Äldreomsorg": 0.208899,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.191507,
+        "Infrastruktur, skydd & miljö": 0.055036,
+        "Kultur & fritid": 0.057238,
+        "Politisk verksamhet & administration": 0.012748,
+        "Övrigt": 0.019991
+      }
+    },
+    "1266": {
+      "name": "Hörby",
+      "regionCode": "12",
+      "taxRate": 0.2108,
+      "spendingShares": {
+        "Förskola & grundskola": 0.358637,
+        "Gymnasieskola & vuxenutbildning": 0.085505,
+        "Äldreomsorg": 0.224011,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.172579,
+        "Infrastruktur, skydd & miljö": 0.075135,
+        "Kultur & fritid": 0.060526,
+        "Politisk verksamhet & administration": 0.015169,
+        "Övrigt": 0.008438
+      }
+    },
+    "1267": {
+      "name": "Höör",
+      "regionCode": "12",
+      "taxRate": 0.2145,
+      "spendingShares": {
+        "Förskola & grundskola": 0.366294,
+        "Gymnasieskola & vuxenutbildning": 0.087726,
+        "Äldreomsorg": 0.210757,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.155255,
+        "Infrastruktur, skydd & miljö": 0.0905,
+        "Kultur & fritid": 0.048191,
+        "Politisk verksamhet & administration": 0.014297,
+        "Övrigt": 0.02698
+      }
+    },
+    "1270": {
+      "name": "Tomelilla",
+      "regionCode": "12",
+      "taxRate": 0.2061,
+      "spendingShares": {
+        "Förskola & grundskola": 0.344734,
+        "Gymnasieskola & vuxenutbildning": 0.112724,
+        "Äldreomsorg": 0.203033,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.222049,
+        "Infrastruktur, skydd & miljö": 0.050429,
+        "Kultur & fritid": 0.052777,
+        "Politisk verksamhet & administration": 0.014254,
+        "Övrigt": 0.0
+      }
+    },
+    "1272": {
+      "name": "Bromölla",
+      "regionCode": "12",
+      "taxRate": 0.2256,
+      "spendingShares": {
+        "Förskola & grundskola": 0.333782,
+        "Gymnasieskola & vuxenutbildning": 0.091367,
+        "Äldreomsorg": 0.245329,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.161381,
+        "Infrastruktur, skydd & miljö": 0.090129,
+        "Kultur & fritid": 0.047967,
+        "Politisk verksamhet & administration": 0.012522,
+        "Övrigt": 0.017523
+      }
+    },
+    "1273": {
+      "name": "Osby",
+      "regionCode": "12",
+      "taxRate": 0.2281,
+      "spendingShares": {
+        "Förskola & grundskola": 0.330258,
+        "Gymnasieskola & vuxenutbildning": 0.105953,
+        "Äldreomsorg": 0.2431,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.184198,
+        "Infrastruktur, skydd & miljö": 0.071821,
+        "Kultur & fritid": 0.045003,
+        "Politisk verksamhet & administration": 0.011209,
+        "Övrigt": 0.008458
+      }
+    },
+    "1275": {
+      "name": "Perstorp",
+      "regionCode": "12",
+      "taxRate": 0.2081,
+      "spendingShares": {
+        "Förskola & grundskola": 0.370403,
+        "Gymnasieskola & vuxenutbildning": 0.111131,
+        "Äldreomsorg": 0.209886,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.148613,
+        "Infrastruktur, skydd & miljö": 0.073941,
+        "Kultur & fritid": 0.063734,
+        "Politisk verksamhet & administration": 0.019161,
+        "Övrigt": 0.003131
+      }
+    },
+    "1276": {
+      "name": "Klippan",
+      "regionCode": "12",
+      "taxRate": 0.2075,
+      "spendingShares": {
+        "Förskola & grundskola": 0.346664,
+        "Gymnasieskola & vuxenutbildning": 0.094673,
+        "Äldreomsorg": 0.201162,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.204997,
+        "Infrastruktur, skydd & miljö": 0.070311,
+        "Kultur & fritid": 0.057207,
+        "Politisk verksamhet & administration": 0.016896,
+        "Övrigt": 0.00809
+      }
+    },
+    "1277": {
+      "name": "Åstorp",
+      "regionCode": "12",
+      "taxRate": 0.2029,
+      "spendingShares": {
+        "Förskola & grundskola": 0.421593,
+        "Gymnasieskola & vuxenutbildning": 0.113394,
+        "Äldreomsorg": 0.186393,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.134492,
+        "Infrastruktur, skydd & miljö": 0.069388,
+        "Kultur & fritid": 0.061364,
+        "Politisk verksamhet & administration": 0.012708,
+        "Övrigt": 0.000668
+      }
+    },
+    "1278": {
+      "name": "Båstad",
+      "regionCode": "12",
+      "taxRate": 0.2023,
+      "spendingShares": {
+        "Förskola & grundskola": 0.353458,
+        "Gymnasieskola & vuxenutbildning": 0.097277,
+        "Äldreomsorg": 0.277429,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.143512,
+        "Infrastruktur, skydd & miljö": 0.072371,
+        "Kultur & fritid": 0.037367,
+        "Politisk verksamhet & administration": 0.012993,
+        "Övrigt": 0.005593
+      }
+    },
+    "1280": {
+      "name": "Malmö",
+      "regionCode": "12",
+      "taxRate": 0.2124,
+      "spendingShares": {
+        "Förskola & grundskola": 0.362976,
+        "Gymnasieskola & vuxenutbildning": 0.081712,
+        "Äldreomsorg": 0.151222,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.265317,
+        "Infrastruktur, skydd & miljö": 0.064486,
+        "Kultur & fritid": 0.059562,
+        "Politisk verksamhet & administration": 0.007249,
+        "Övrigt": 0.007476
+      }
+    },
+    "1281": {
+      "name": "Lund",
+      "regionCode": "12",
+      "taxRate": 0.2124,
+      "spendingShares": {
+        "Förskola & grundskola": 0.363119,
+        "Gymnasieskola & vuxenutbildning": 0.082272,
+        "Äldreomsorg": 0.199517,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.20587,
+        "Infrastruktur, skydd & miljö": 0.071414,
+        "Kultur & fritid": 0.056247,
+        "Politisk verksamhet & administration": 0.011935,
+        "Övrigt": 0.009626
+      }
+    },
+    "1282": {
+      "name": "Landskrona",
+      "regionCode": "12",
+      "taxRate": 0.2024,
+      "spendingShares": {
+        "Förskola & grundskola": 0.332682,
+        "Gymnasieskola & vuxenutbildning": 0.100113,
+        "Äldreomsorg": 0.179759,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.214226,
+        "Infrastruktur, skydd & miljö": 0.076308,
+        "Kultur & fritid": 0.067004,
+        "Politisk verksamhet & administration": 0.011748,
+        "Övrigt": 0.01816
+      }
+    },
+    "1283": {
+      "name": "Helsingborg",
+      "regionCode": "12",
+      "taxRate": 0.2021,
+      "spendingShares": {
+        "Förskola & grundskola": 0.357203,
+        "Gymnasieskola & vuxenutbildning": 0.091935,
+        "Äldreomsorg": 0.16215,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.20688,
+        "Infrastruktur, skydd & miljö": 0.098043,
+        "Kultur & fritid": 0.054395,
+        "Politisk verksamhet & administration": 0.009992,
+        "Övrigt": 0.019402
+      }
+    },
+    "1284": {
+      "name": "Höganäs",
+      "regionCode": "12",
+      "taxRate": 0.1973,
+      "spendingShares": {
+        "Förskola & grundskola": 0.37554,
+        "Gymnasieskola & vuxenutbildning": 0.099753,
+        "Äldreomsorg": 0.1953,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.151813,
+        "Infrastruktur, skydd & miljö": 0.086112,
+        "Kultur & fritid": 0.058849,
+        "Politisk verksamhet & administration": 0.017912,
+        "Övrigt": 0.014721
+      }
+    },
+    "1285": {
+      "name": "Eslöv",
+      "regionCode": "12",
+      "taxRate": 0.2054,
+      "spendingShares": {
+        "Förskola & grundskola": 0.378163,
+        "Gymnasieskola & vuxenutbildning": 0.106309,
+        "Äldreomsorg": 0.169205,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.212115,
+        "Infrastruktur, skydd & miljö": 0.06975,
+        "Kultur & fritid": 0.048066,
+        "Politisk verksamhet & administration": 0.011371,
+        "Övrigt": 0.005021
+      }
+    },
+    "1286": {
+      "name": "Ystad",
+      "regionCode": "12",
+      "taxRate": 0.2011,
+      "spendingShares": {
+        "Förskola & grundskola": 0.323646,
+        "Gymnasieskola & vuxenutbildning": 0.089587,
+        "Äldreomsorg": 0.244002,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.186437,
+        "Infrastruktur, skydd & miljö": 0.061136,
+        "Kultur & fritid": 0.073186,
+        "Politisk verksamhet & administration": 0.01491,
+        "Övrigt": 0.007096
+      }
+    },
+    "1287": {
+      "name": "Trelleborg",
+      "regionCode": "12",
+      "taxRate": 0.204,
+      "spendingShares": {
+        "Förskola & grundskola": 0.365044,
+        "Gymnasieskola & vuxenutbildning": 0.089357,
+        "Äldreomsorg": 0.207143,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.172309,
+        "Infrastruktur, skydd & miljö": 0.075141,
+        "Kultur & fritid": 0.057409,
+        "Politisk verksamhet & administration": 0.014296,
+        "Övrigt": 0.019301
+      }
+    },
+    "1290": {
+      "name": "Kristianstad",
+      "regionCode": "12",
+      "taxRate": 0.2146,
+      "spendingShares": {
+        "Förskola & grundskola": 0.350013,
+        "Gymnasieskola & vuxenutbildning": 0.085481,
+        "Äldreomsorg": 0.205789,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.218223,
+        "Infrastruktur, skydd & miljö": 0.069106,
+        "Kultur & fritid": 0.049322,
+        "Politisk verksamhet & administration": 0.011103,
+        "Övrigt": 0.010963
+      }
+    },
+    "1291": {
+      "name": "Simrishamn",
+      "regionCode": "12",
+      "taxRate": 0.2051,
+      "spendingShares": {
+        "Förskola & grundskola": 0.282687,
+        "Gymnasieskola & vuxenutbildning": 0.078969,
+        "Äldreomsorg": 0.284053,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192925,
+        "Infrastruktur, skydd & miljö": 0.076963,
+        "Kultur & fritid": 0.057652,
+        "Politisk verksamhet & administration": 0.015915,
+        "Övrigt": 0.010836
+      }
+    },
+    "1292": {
+      "name": "Ängelholm",
+      "regionCode": "12",
+      "taxRate": 0.2017,
+      "spendingShares": {
+        "Förskola & grundskola": 0.35056,
+        "Gymnasieskola & vuxenutbildning": 0.085295,
+        "Äldreomsorg": 0.234895,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.175168,
+        "Infrastruktur, skydd & miljö": 0.064302,
+        "Kultur & fritid": 0.061955,
+        "Politisk verksamhet & administration": 0.012683,
+        "Övrigt": 0.015142
+      }
+    },
+    "1293": {
+      "name": "Hässleholm",
+      "regionCode": "12",
+      "taxRate": 0.212,
+      "spendingShares": {
+        "Förskola & grundskola": 0.353407,
+        "Gymnasieskola & vuxenutbildning": 0.100624,
+        "Äldreomsorg": 0.221043,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.204508,
+        "Infrastruktur, skydd & miljö": 0.057794,
+        "Kultur & fritid": 0.043127,
+        "Politisk verksamhet & administration": 0.009975,
+        "Övrigt": 0.009522
+      }
+    },
+    "1315": {
+      "name": "Hylte",
+      "regionCode": "13",
+      "taxRate": 0.2245,
+      "spendingShares": {
+        "Förskola & grundskola": 0.362035,
+        "Gymnasieskola & vuxenutbildning": 0.107961,
+        "Äldreomsorg": 0.224076,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.177366,
+        "Infrastruktur, skydd & miljö": 0.05694,
+        "Kultur & fritid": 0.052002,
+        "Politisk verksamhet & administration": 0.015327,
+        "Övrigt": 0.004293
+      }
+    },
+    "1380": {
+      "name": "Halmstad",
+      "regionCode": "13",
+      "taxRate": 0.2098,
+      "spendingShares": {
+        "Förskola & grundskola": 0.371727,
+        "Gymnasieskola & vuxenutbildning": 0.085862,
+        "Äldreomsorg": 0.220553,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.191963,
+        "Infrastruktur, skydd & miljö": 0.06523,
+        "Kultur & fritid": 0.048004,
+        "Politisk verksamhet & administration": 0.011303,
+        "Övrigt": 0.005358
+      }
+    },
+    "1381": {
+      "name": "Laholm",
+      "regionCode": "13",
+      "taxRate": 0.214,
+      "spendingShares": {
+        "Förskola & grundskola": 0.367623,
+        "Gymnasieskola & vuxenutbildning": 0.09438,
+        "Äldreomsorg": 0.227219,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.17338,
+        "Infrastruktur, skydd & miljö": 0.068884,
+        "Kultur & fritid": 0.036657,
+        "Politisk verksamhet & administration": 0.009655,
+        "Övrigt": 0.022202
+      }
+    },
+    "1382": {
+      "name": "Falkenberg",
+      "regionCode": "13",
+      "taxRate": 0.211,
+      "spendingShares": {
+        "Förskola & grundskola": 0.368031,
+        "Gymnasieskola & vuxenutbildning": 0.089325,
+        "Äldreomsorg": 0.193947,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.21159,
+        "Infrastruktur, skydd & miljö": 0.058483,
+        "Kultur & fritid": 0.049572,
+        "Politisk verksamhet & administration": 0.01068,
+        "Övrigt": 0.018372
+      }
+    },
+    "1383": {
+      "name": "Varberg",
+      "regionCode": "13",
+      "taxRate": 0.2033,
+      "spendingShares": {
+        "Förskola & grundskola": 0.376173,
+        "Gymnasieskola & vuxenutbildning": 0.086398,
+        "Äldreomsorg": 0.197455,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.181521,
+        "Infrastruktur, skydd & miljö": 0.082159,
+        "Kultur & fritid": 0.05512,
+        "Politisk verksamhet & administration": 0.008875,
+        "Övrigt": 0.012299
+      }
+    },
+    "1384": {
+      "name": "Kungsbacka",
+      "regionCode": "13",
+      "taxRate": 0.2118,
+      "spendingShares": {
+        "Förskola & grundskola": 0.404969,
+        "Gymnasieskola & vuxenutbildning": 0.096125,
+        "Äldreomsorg": 0.196013,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.16623,
+        "Infrastruktur, skydd & miljö": 0.081877,
+        "Kultur & fritid": 0.045424,
+        "Politisk verksamhet & administration": 0.009362,
+        "Övrigt": 0.0
+      }
+    },
+    "1401": {
+      "name": "Härryda",
+      "regionCode": "14",
+      "taxRate": 0.205,
+      "spendingShares": {
+        "Förskola & grundskola": 0.443913,
+        "Gymnasieskola & vuxenutbildning": 0.101644,
+        "Äldreomsorg": 0.164013,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.166831,
+        "Infrastruktur, skydd & miljö": 0.057154,
+        "Kultur & fritid": 0.048858,
+        "Politisk verksamhet & administration": 0.01197,
+        "Övrigt": 0.005617
+      }
+    },
+    "1402": {
+      "name": "Partille",
+      "regionCode": "14",
+      "taxRate": 0.1988,
+      "spendingShares": {
+        "Förskola & grundskola": 0.449968,
+        "Gymnasieskola & vuxenutbildning": 0.085124,
+        "Äldreomsorg": 0.154409,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.181469,
+        "Infrastruktur, skydd & miljö": 0.066843,
+        "Kultur & fritid": 0.042082,
+        "Politisk verksamhet & administration": 0.009614,
+        "Övrigt": 0.010491
+      }
+    },
+    "1407": {
+      "name": "Öckerö",
+      "regionCode": "14",
+      "taxRate": 0.2156,
+      "spendingShares": {
+        "Förskola & grundskola": 0.346602,
+        "Gymnasieskola & vuxenutbildning": 0.099275,
+        "Äldreomsorg": 0.237491,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.180556,
+        "Infrastruktur, skydd & miljö": 0.069727,
+        "Kultur & fritid": 0.0358,
+        "Politisk verksamhet & administration": 0.019183,
+        "Övrigt": 0.011366
+      }
+    },
+    "1415": {
+      "name": "Stenungsund",
+      "regionCode": "14",
+      "taxRate": 0.2164,
+      "spendingShares": {
+        "Förskola & grundskola": 0.376904,
+        "Gymnasieskola & vuxenutbildning": 0.104728,
+        "Äldreomsorg": 0.165123,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.19035,
+        "Infrastruktur, skydd & miljö": 0.095631,
+        "Kultur & fritid": 0.04697,
+        "Politisk verksamhet & administration": 0.011557,
+        "Övrigt": 0.008737
+      }
+    },
+    "1419": {
+      "name": "Tjörn",
+      "regionCode": "14",
+      "taxRate": 0.2171,
+      "spendingShares": {
+        "Förskola & grundskola": 0.375307,
+        "Gymnasieskola & vuxenutbildning": 0.079361,
+        "Äldreomsorg": 0.223516,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.172813,
+        "Infrastruktur, skydd & miljö": 0.059385,
+        "Kultur & fritid": 0.053535,
+        "Politisk verksamhet & administration": 0.01444,
+        "Övrigt": 0.021643
+      }
+    },
+    "1421": {
+      "name": "Orust",
+      "regionCode": "14",
+      "taxRate": 0.2221,
+      "spendingShares": {
+        "Förskola & grundskola": 0.338887,
+        "Gymnasieskola & vuxenutbildning": 0.082236,
+        "Äldreomsorg": 0.262019,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.196438,
+        "Infrastruktur, skydd & miljö": 0.063163,
+        "Kultur & fritid": 0.029263,
+        "Politisk verksamhet & administration": 0.014364,
+        "Övrigt": 0.01363
+      }
+    },
+    "1427": {
+      "name": "Sotenäs",
+      "regionCode": "14",
+      "taxRate": 0.2199,
+      "spendingShares": {
+        "Förskola & grundskola": 0.288373,
+        "Gymnasieskola & vuxenutbildning": 0.065472,
+        "Äldreomsorg": 0.313873,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.165842,
+        "Infrastruktur, skydd & miljö": 0.113425,
+        "Kultur & fritid": 0.031492,
+        "Politisk verksamhet & administration": 0.021523,
+        "Övrigt": 0.0
+      }
+    },
+    "1430": {
+      "name": "Munkedal",
+      "regionCode": "14",
+      "taxRate": 0.2338,
+      "spendingShares": {
+        "Förskola & grundskola": 0.369925,
+        "Gymnasieskola & vuxenutbildning": 0.095559,
+        "Äldreomsorg": 0.22018,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193281,
+        "Infrastruktur, skydd & miljö": 0.059305,
+        "Kultur & fritid": 0.029813,
+        "Politisk verksamhet & administration": 0.017705,
+        "Övrigt": 0.014232
+      }
+    },
+    "1435": {
+      "name": "Tanum",
+      "regionCode": "14",
+      "taxRate": 0.2156,
+      "spendingShares": {
+        "Förskola & grundskola": 0.334652,
+        "Gymnasieskola & vuxenutbildning": 0.080881,
+        "Äldreomsorg": 0.264589,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.164983,
+        "Infrastruktur, skydd & miljö": 0.094649,
+        "Kultur & fritid": 0.026844,
+        "Politisk verksamhet & administration": 0.011568,
+        "Övrigt": 0.021834
+      }
+    },
+    "1438": {
+      "name": "Dals-Ed",
+      "regionCode": "14",
+      "taxRate": 0.2321,
+      "spendingShares": {
+        "Förskola & grundskola": 0.312135,
+        "Gymnasieskola & vuxenutbildning": 0.096563,
+        "Äldreomsorg": 0.264822,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.203869,
+        "Infrastruktur, skydd & miljö": 0.053149,
+        "Kultur & fritid": 0.028123,
+        "Politisk verksamhet & administration": 0.024237,
+        "Övrigt": 0.017102
+      }
+    },
+    "1439": {
+      "name": "Färgelanda",
+      "regionCode": "14",
+      "taxRate": 0.2291,
+      "spendingShares": {
+        "Förskola & grundskola": 0.367057,
+        "Gymnasieskola & vuxenutbildning": 0.088854,
+        "Äldreomsorg": 0.263911,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.158047,
+        "Infrastruktur, skydd & miljö": 0.068228,
+        "Kultur & fritid": 0.022024,
+        "Politisk verksamhet & administration": 0.024176,
+        "Övrigt": 0.007703
+      }
+    },
+    "1440": {
+      "name": "Ale",
+      "regionCode": "14",
+      "taxRate": 0.2132,
+      "spendingShares": {
+        "Förskola & grundskola": 0.429352,
+        "Gymnasieskola & vuxenutbildning": 0.099669,
+        "Äldreomsorg": 0.152805,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.198028,
+        "Infrastruktur, skydd & miljö": 0.061426,
+        "Kultur & fritid": 0.039382,
+        "Politisk verksamhet & administration": 0.010801,
+        "Övrigt": 0.008537
+      }
+    },
+    "1441": {
+      "name": "Lerum",
+      "regionCode": "14",
+      "taxRate": 0.2055,
+      "spendingShares": {
+        "Förskola & grundskola": 0.425192,
+        "Gymnasieskola & vuxenutbildning": 0.096783,
+        "Äldreomsorg": 0.163358,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.166725,
+        "Infrastruktur, skydd & miljö": 0.089437,
+        "Kultur & fritid": 0.030643,
+        "Politisk verksamhet & administration": 0.012116,
+        "Övrigt": 0.015746
+      }
+    },
+    "1442": {
+      "name": "Vårgårda",
+      "regionCode": "14",
+      "taxRate": 0.2161,
+      "spendingShares": {
+        "Förskola & grundskola": 0.415592,
+        "Gymnasieskola & vuxenutbildning": 0.093866,
+        "Äldreomsorg": 0.210534,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.16966,
+        "Infrastruktur, skydd & miljö": 0.052593,
+        "Kultur & fritid": 0.028785,
+        "Politisk verksamhet & administration": 0.01701,
+        "Övrigt": 0.01196
+      }
+    },
+    "1443": {
+      "name": "Bollebygd",
+      "regionCode": "14",
+      "taxRate": 0.2159,
+      "spendingShares": {
+        "Förskola & grundskola": 0.430535,
+        "Gymnasieskola & vuxenutbildning": 0.081631,
+        "Äldreomsorg": 0.188365,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.15692,
+        "Infrastruktur, skydd & miljö": 0.086139,
+        "Kultur & fritid": 0.02465,
+        "Politisk verksamhet & administration": 0.014072,
+        "Övrigt": 0.017688
+      }
+    },
+    "1444": {
+      "name": "Grästorp",
+      "regionCode": "14",
+      "taxRate": 0.2199,
+      "spendingShares": {
+        "Förskola & grundskola": 0.322572,
+        "Gymnasieskola & vuxenutbildning": 0.071143,
+        "Äldreomsorg": 0.229864,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.170105,
+        "Infrastruktur, skydd & miljö": 0.065908,
+        "Kultur & fritid": 0.066305,
+        "Politisk verksamhet & administration": 0.020965,
+        "Övrigt": 0.053138
+      }
+    },
+    "1445": {
+      "name": "Essunga",
+      "regionCode": "14",
+      "taxRate": 0.2157,
+      "spendingShares": {
+        "Förskola & grundskola": 0.363695,
+        "Gymnasieskola & vuxenutbildning": 0.065291,
+        "Äldreomsorg": 0.211909,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.217687,
+        "Infrastruktur, skydd & miljö": 0.059033,
+        "Kultur & fritid": 0.036093,
+        "Politisk verksamhet & administration": 0.024626,
+        "Övrigt": 0.021666
+      }
+    },
+    "1446": {
+      "name": "Karlsborg",
+      "regionCode": "14",
+      "taxRate": 0.2132,
+      "spendingShares": {
+        "Förskola & grundskola": 0.327145,
+        "Gymnasieskola & vuxenutbildning": 0.091907,
+        "Äldreomsorg": 0.28153,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.142584,
+        "Infrastruktur, skydd & miljö": 0.080927,
+        "Kultur & fritid": 0.046392,
+        "Politisk verksamhet & administration": 0.014141,
+        "Övrigt": 0.015374
+      }
+    },
+    "1447": {
+      "name": "Gullspång",
+      "regionCode": "14",
+      "taxRate": 0.2249,
+      "spendingShares": {
+        "Förskola & grundskola": 0.30526,
+        "Gymnasieskola & vuxenutbildning": 0.082928,
+        "Äldreomsorg": 0.282084,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.198283,
+        "Infrastruktur, skydd & miljö": 0.071786,
+        "Kultur & fritid": 0.02358,
+        "Politisk verksamhet & administration": 0.019034,
+        "Övrigt": 0.017045
+      }
+    },
+    "1452": {
+      "name": "Tranemo",
+      "regionCode": "14",
+      "taxRate": 0.215,
+      "spendingShares": {
+        "Förskola & grundskola": 0.354248,
+        "Gymnasieskola & vuxenutbildning": 0.10407,
+        "Äldreomsorg": 0.225727,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.177104,
+        "Infrastruktur, skydd & miljö": 0.057145,
+        "Kultur & fritid": 0.044926,
+        "Politisk verksamhet & administration": 0.017553,
+        "Övrigt": 0.019227
+      }
+    },
+    "1460": {
+      "name": "Bengtsfors",
+      "regionCode": "14",
+      "taxRate": 0.2292,
+      "spendingShares": {
+        "Förskola & grundskola": 0.304656,
+        "Gymnasieskola & vuxenutbildning": 0.099176,
+        "Äldreomsorg": 0.30039,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.158708,
+        "Infrastruktur, skydd & miljö": 0.069241,
+        "Kultur & fritid": 0.032394,
+        "Politisk verksamhet & administration": 0.016886,
+        "Övrigt": 0.018549
+      }
+    },
+    "1461": {
+      "name": "Mellerud",
+      "regionCode": "14",
+      "taxRate": 0.226,
+      "spendingShares": {
+        "Förskola & grundskola": 0.298227,
+        "Gymnasieskola & vuxenutbildning": 0.077483,
+        "Äldreomsorg": 0.275254,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208699,
+        "Infrastruktur, skydd & miljö": 0.074081,
+        "Kultur & fritid": 0.037718,
+        "Politisk verksamhet & administration": 0.013614,
+        "Övrigt": 0.014924
+      }
+    },
+    "1462": {
+      "name": "Lilla Edet",
+      "regionCode": "14",
+      "taxRate": 0.2237,
+      "spendingShares": {
+        "Förskola & grundskola": 0.388923,
+        "Gymnasieskola & vuxenutbildning": 0.076089,
+        "Äldreomsorg": 0.203818,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.205992,
+        "Infrastruktur, skydd & miljö": 0.066419,
+        "Kultur & fritid": 0.036785,
+        "Politisk verksamhet & administration": 0.008924,
+        "Övrigt": 0.01305
+      }
+    },
+    "1463": {
+      "name": "Mark",
+      "regionCode": "14",
+      "taxRate": 0.2151,
+      "spendingShares": {
+        "Förskola & grundskola": 0.353514,
+        "Gymnasieskola & vuxenutbildning": 0.091315,
+        "Äldreomsorg": 0.22694,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.203972,
+        "Infrastruktur, skydd & miljö": 0.058476,
+        "Kultur & fritid": 0.040717,
+        "Politisk verksamhet & administration": 0.014406,
+        "Övrigt": 0.01066
+      }
+    },
+    "1465": {
+      "name": "Svenljunga",
+      "regionCode": "14",
+      "taxRate": 0.2205,
+      "spendingShares": {
+        "Förskola & grundskola": 0.363736,
+        "Gymnasieskola & vuxenutbildning": 0.086676,
+        "Äldreomsorg": 0.202592,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.202494,
+        "Infrastruktur, skydd & miljö": 0.080309,
+        "Kultur & fritid": 0.0351,
+        "Politisk verksamhet & administration": 0.014318,
+        "Övrigt": 0.014775
+      }
+    },
+    "1466": {
+      "name": "Herrljunga",
+      "regionCode": "14",
+      "taxRate": 0.2214,
+      "spendingShares": {
+        "Förskola & grundskola": 0.373734,
+        "Gymnasieskola & vuxenutbildning": 0.095283,
+        "Äldreomsorg": 0.225149,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.186508,
+        "Infrastruktur, skydd & miljö": 0.062667,
+        "Kultur & fritid": 0.032723,
+        "Politisk verksamhet & administration": 0.017677,
+        "Övrigt": 0.006259
+      }
+    },
+    "1470": {
+      "name": "Vara",
+      "regionCode": "14",
+      "taxRate": 0.2177,
+      "spendingShares": {
+        "Förskola & grundskola": 0.331457,
+        "Gymnasieskola & vuxenutbildning": 0.093698,
+        "Äldreomsorg": 0.22142,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.197612,
+        "Infrastruktur, skydd & miljö": 0.071488,
+        "Kultur & fritid": 0.052587,
+        "Politisk verksamhet & administration": 0.015108,
+        "Övrigt": 0.01663
+      }
+    },
+    "1471": {
+      "name": "Götene",
+      "regionCode": "14",
+      "taxRate": 0.2212,
+      "spendingShares": {
+        "Förskola & grundskola": 0.350726,
+        "Gymnasieskola & vuxenutbildning": 0.080224,
+        "Äldreomsorg": 0.252623,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.197039,
+        "Infrastruktur, skydd & miljö": 0.070616,
+        "Kultur & fritid": 0.027584,
+        "Politisk verksamhet & administration": 0.011883,
+        "Övrigt": 0.009305
+      }
+    },
+    "1472": {
+      "name": "Tibro",
+      "regionCode": "14",
+      "taxRate": 0.2171,
+      "spendingShares": {
+        "Förskola & grundskola": 0.352485,
+        "Gymnasieskola & vuxenutbildning": 0.085577,
+        "Äldreomsorg": 0.245448,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.163688,
+        "Infrastruktur, skydd & miljö": 0.078816,
+        "Kultur & fritid": 0.046329,
+        "Politisk verksamhet & administration": 0.016107,
+        "Övrigt": 0.01155
+      }
+    },
+    "1473": {
+      "name": "Töreboda",
+      "regionCode": "14",
+      "taxRate": 0.2172,
+      "spendingShares": {
+        "Förskola & grundskola": 0.32888,
+        "Gymnasieskola & vuxenutbildning": 0.082186,
+        "Äldreomsorg": 0.222999,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.260202,
+        "Infrastruktur, skydd & miljö": 0.051683,
+        "Kultur & fritid": 0.033818,
+        "Politisk verksamhet & administration": 0.015148,
+        "Övrigt": 0.005084
+      }
+    },
+    "1480": {
+      "name": "Göteborg",
+      "regionCode": "14",
+      "taxRate": 0.2112,
+      "spendingShares": {
+        "Förskola & grundskola": 0.357688,
+        "Gymnasieskola & vuxenutbildning": 0.07255,
+        "Äldreomsorg": 0.158322,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.25982,
+        "Infrastruktur, skydd & miljö": 0.09219,
+        "Kultur & fritid": 0.045187,
+        "Politisk verksamhet & administration": 0.007079,
+        "Övrigt": 0.007164
+      }
+    },
+    "1481": {
+      "name": "Mölndal",
+      "regionCode": "14",
+      "taxRate": 0.2051,
+      "spendingShares": {
+        "Förskola & grundskola": 0.367589,
+        "Gymnasieskola & vuxenutbildning": 0.08648,
+        "Äldreomsorg": 0.145792,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192605,
+        "Infrastruktur, skydd & miljö": 0.125222,
+        "Kultur & fritid": 0.053959,
+        "Politisk verksamhet & administration": 0.011993,
+        "Övrigt": 0.01636
+      }
+    },
+    "1482": {
+      "name": "Kungälv",
+      "regionCode": "14",
+      "taxRate": 0.2144,
+      "spendingShares": {
+        "Förskola & grundskola": 0.388302,
+        "Gymnasieskola & vuxenutbildning": 0.073149,
+        "Äldreomsorg": 0.207834,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.220339,
+        "Infrastruktur, skydd & miljö": 0.045897,
+        "Kultur & fritid": 0.035732,
+        "Politisk verksamhet & administration": 0.0138,
+        "Övrigt": 0.014947
+      }
+    },
+    "1484": {
+      "name": "Lysekil",
+      "regionCode": "14",
+      "taxRate": 0.2246,
+      "spendingShares": {
+        "Förskola & grundskola": 0.278229,
+        "Gymnasieskola & vuxenutbildning": 0.109699,
+        "Äldreomsorg": 0.271258,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.207485,
+        "Infrastruktur, skydd & miljö": 0.065491,
+        "Kultur & fritid": 0.040268,
+        "Politisk verksamhet & administration": 0.014966,
+        "Övrigt": 0.012604
+      }
+    },
+    "1485": {
+      "name": "Uddevalla",
+      "regionCode": "14",
+      "taxRate": 0.2216,
+      "spendingShares": {
+        "Förskola & grundskola": 0.340406,
+        "Gymnasieskola & vuxenutbildning": 0.094751,
+        "Äldreomsorg": 0.209696,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.224973,
+        "Infrastruktur, skydd & miljö": 0.062132,
+        "Kultur & fritid": 0.049001,
+        "Politisk verksamhet & administration": 0.011523,
+        "Övrigt": 0.007518
+      }
+    },
+    "1486": {
+      "name": "Strömstad",
+      "regionCode": "14",
+      "taxRate": 0.2191,
+      "spendingShares": {
+        "Förskola & grundskola": 0.359692,
+        "Gymnasieskola & vuxenutbildning": 0.07856,
+        "Äldreomsorg": 0.204353,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.179048,
+        "Infrastruktur, skydd & miljö": 0.105676,
+        "Kultur & fritid": 0.035597,
+        "Politisk verksamhet & administration": 0.015212,
+        "Övrigt": 0.021862
+      }
+    },
+    "1487": {
+      "name": "Vänersborg",
+      "regionCode": "14",
+      "taxRate": 0.2221,
+      "spendingShares": {
+        "Förskola & grundskola": 0.35135,
+        "Gymnasieskola & vuxenutbildning": 0.087125,
+        "Äldreomsorg": 0.216748,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208265,
+        "Infrastruktur, skydd & miljö": 0.060493,
+        "Kultur & fritid": 0.048746,
+        "Politisk verksamhet & administration": 0.017071,
+        "Övrigt": 0.010202
+      }
+    },
+    "1488": {
+      "name": "Trollhättan",
+      "regionCode": "14",
+      "taxRate": 0.2236,
+      "spendingShares": {
+        "Förskola & grundskola": 0.345082,
+        "Gymnasieskola & vuxenutbildning": 0.090115,
+        "Äldreomsorg": 0.188871,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.218936,
+        "Infrastruktur, skydd & miljö": 0.062758,
+        "Kultur & fritid": 0.061442,
+        "Politisk verksamhet & administration": 0.009538,
+        "Övrigt": 0.023258
+      }
+    },
+    "1489": {
+      "name": "Alingsås",
+      "regionCode": "14",
+      "taxRate": 0.2136,
+      "spendingShares": {
+        "Förskola & grundskola": 0.357262,
+        "Gymnasieskola & vuxenutbildning": 0.08832,
+        "Äldreomsorg": 0.210114,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.216458,
+        "Infrastruktur, skydd & miljö": 0.076106,
+        "Kultur & fritid": 0.034523,
+        "Politisk verksamhet & administration": 0.012193,
+        "Övrigt": 0.005024
+      }
+    },
+    "1490": {
+      "name": "Borås",
+      "regionCode": "14",
+      "taxRate": 0.2131,
+      "spendingShares": {
+        "Förskola & grundskola": 0.358459,
+        "Gymnasieskola & vuxenutbildning": 0.088764,
+        "Äldreomsorg": 0.201101,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.201313,
+        "Infrastruktur, skydd & miljö": 0.053451,
+        "Kultur & fritid": 0.066643,
+        "Politisk verksamhet & administration": 0.011747,
+        "Övrigt": 0.018522
+      }
+    },
+    "1491": {
+      "name": "Ulricehamn",
+      "regionCode": "14",
+      "taxRate": 0.2105,
+      "spendingShares": {
+        "Förskola & grundskola": 0.36372,
+        "Gymnasieskola & vuxenutbildning": 0.098371,
+        "Äldreomsorg": 0.220909,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.179849,
+        "Infrastruktur, skydd & miljö": 0.07324,
+        "Kultur & fritid": 0.048562,
+        "Politisk verksamhet & administration": 0.010844,
+        "Övrigt": 0.004505
+      }
+    },
+    "1492": {
+      "name": "Åmål",
+      "regionCode": "14",
+      "taxRate": 0.2246,
+      "spendingShares": {
+        "Förskola & grundskola": 0.301469,
+        "Gymnasieskola & vuxenutbildning": 0.09686,
+        "Äldreomsorg": 0.251009,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.209434,
+        "Infrastruktur, skydd & miljö": 0.063053,
+        "Kultur & fritid": 0.043098,
+        "Politisk verksamhet & administration": 0.014042,
+        "Övrigt": 0.021035
+      }
+    },
+    "1493": {
+      "name": "Mariestad",
+      "regionCode": "14",
+      "taxRate": 0.2126,
+      "spendingShares": {
+        "Förskola & grundskola": 0.31741,
+        "Gymnasieskola & vuxenutbildning": 0.080819,
+        "Äldreomsorg": 0.246888,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.21456,
+        "Infrastruktur, skydd & miljö": 0.085822,
+        "Kultur & fritid": 0.038782,
+        "Politisk verksamhet & administration": 0.008895,
+        "Övrigt": 0.006824
+      }
+    },
+    "1494": {
+      "name": "Lidköping",
+      "regionCode": "14",
+      "taxRate": 0.2126,
+      "spendingShares": {
+        "Förskola & grundskola": 0.340789,
+        "Gymnasieskola & vuxenutbildning": 0.095982,
+        "Äldreomsorg": 0.200911,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.218736,
+        "Infrastruktur, skydd & miljö": 0.067158,
+        "Kultur & fritid": 0.060292,
+        "Politisk verksamhet & administration": 0.007131,
+        "Övrigt": 0.009001
+      }
+    },
+    "1495": {
+      "name": "Skara",
+      "regionCode": "14",
+      "taxRate": 0.219,
+      "spendingShares": {
+        "Förskola & grundskola": 0.313167,
+        "Gymnasieskola & vuxenutbildning": 0.102286,
+        "Äldreomsorg": 0.232682,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.196849,
+        "Infrastruktur, skydd & miljö": 0.072496,
+        "Kultur & fritid": 0.055439,
+        "Politisk verksamhet & administration": 0.016327,
+        "Övrigt": 0.010754
+      }
+    },
+    "1496": {
+      "name": "Skövde",
+      "regionCode": "14",
+      "taxRate": 0.2161,
+      "spendingShares": {
+        "Förskola & grundskola": 0.339912,
+        "Gymnasieskola & vuxenutbildning": 0.09098,
+        "Äldreomsorg": 0.202556,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.212342,
+        "Infrastruktur, skydd & miljö": 0.076417,
+        "Kultur & fritid": 0.055837,
+        "Politisk verksamhet & administration": 0.010323,
+        "Övrigt": 0.011633
+      }
+    },
+    "1497": {
+      "name": "Hjo",
+      "regionCode": "14",
+      "taxRate": 0.22,
+      "spendingShares": {
+        "Förskola & grundskola": 0.358353,
+        "Gymnasieskola & vuxenutbildning": 0.084491,
+        "Äldreomsorg": 0.252635,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.162989,
+        "Infrastruktur, skydd & miljö": 0.072641,
+        "Kultur & fritid": 0.039805,
+        "Politisk verksamhet & administration": 0.010478,
+        "Övrigt": 0.018608
+      }
+    },
+    "1498": {
+      "name": "Tidaholm",
+      "regionCode": "14",
+      "taxRate": 0.2207,
+      "spendingShares": {
+        "Förskola & grundskola": 0.344826,
+        "Gymnasieskola & vuxenutbildning": 0.086361,
+        "Äldreomsorg": 0.228003,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.198156,
+        "Infrastruktur, skydd & miljö": 0.056552,
+        "Kultur & fritid": 0.050946,
+        "Politisk verksamhet & administration": 0.016267,
+        "Övrigt": 0.018889
+      }
+    },
+    "1499": {
+      "name": "Falköping",
+      "regionCode": "14",
+      "taxRate": 0.2195,
+      "spendingShares": {
+        "Förskola & grundskola": 0.316725,
+        "Gymnasieskola & vuxenutbildning": 0.106342,
+        "Äldreomsorg": 0.215434,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.209704,
+        "Infrastruktur, skydd & miljö": 0.063601,
+        "Kultur & fritid": 0.040227,
+        "Politisk verksamhet & administration": 0.010854,
+        "Övrigt": 0.037113
+      }
+    },
+    "1715": {
+      "name": "Kil",
+      "regionCode": "17",
+      "taxRate": 0.2235,
+      "spendingShares": {
+        "Förskola & grundskola": 0.354449,
+        "Gymnasieskola & vuxenutbildning": 0.092518,
+        "Äldreomsorg": 0.216873,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.206278,
+        "Infrastruktur, skydd & miljö": 0.061328,
+        "Kultur & fritid": 0.04053,
+        "Politisk verksamhet & administration": 0.01243,
+        "Övrigt": 0.015594
+      }
+    },
+    "1730": {
+      "name": "Eda",
+      "regionCode": "17",
+      "taxRate": 0.2227,
+      "spendingShares": {
+        "Förskola & grundskola": 0.344726,
+        "Gymnasieskola & vuxenutbildning": 0.066724,
+        "Äldreomsorg": 0.26612,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.203691,
+        "Infrastruktur, skydd & miljö": 0.063052,
+        "Kultur & fritid": 0.029749,
+        "Politisk verksamhet & administration": 0.010779,
+        "Övrigt": 0.015159
+      }
+    },
+    "1737": {
+      "name": "Torsby",
+      "regionCode": "17",
+      "taxRate": 0.2202,
+      "spendingShares": {
+        "Förskola & grundskola": 0.30385,
+        "Gymnasieskola & vuxenutbildning": 0.089858,
+        "Äldreomsorg": 0.257958,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.188637,
+        "Infrastruktur, skydd & miljö": 0.074398,
+        "Kultur & fritid": 0.054356,
+        "Politisk verksamhet & administration": 0.01248,
+        "Övrigt": 0.018463
+      }
+    },
+    "1760": {
+      "name": "Storfors",
+      "regionCode": "17",
+      "taxRate": 0.227,
+      "spendingShares": {
+        "Förskola & grundskola": 0.323766,
+        "Gymnasieskola & vuxenutbildning": 0.08051,
+        "Äldreomsorg": 0.304874,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.17117,
+        "Infrastruktur, skydd & miljö": 0.04519,
+        "Kultur & fritid": 0.046051,
+        "Politisk verksamhet & administration": 0.017301,
+        "Övrigt": 0.011138
+      }
+    },
+    "1761": {
+      "name": "Hammarö",
+      "regionCode": "17",
+      "taxRate": 0.2277,
+      "spendingShares": {
+        "Förskola & grundskola": 0.461257,
+        "Gymnasieskola & vuxenutbildning": 0.084763,
+        "Äldreomsorg": 0.169917,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.165856,
+        "Infrastruktur, skydd & miljö": 0.050666,
+        "Kultur & fritid": 0.044292,
+        "Politisk verksamhet & administration": 0.011117,
+        "Övrigt": 0.012132
+      }
+    },
+    "1762": {
+      "name": "Munkfors",
+      "regionCode": "17",
+      "taxRate": 0.2202,
+      "spendingShares": {
+        "Förskola & grundskola": 0.291114,
+        "Gymnasieskola & vuxenutbildning": 0.078529,
+        "Äldreomsorg": 0.293505,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.207057,
+        "Infrastruktur, skydd & miljö": 0.069462,
+        "Kultur & fritid": 0.044346,
+        "Politisk verksamhet & administration": 0.015987,
+        "Övrigt": 0.0
+      }
+    },
+    "1763": {
+      "name": "Forshaga",
+      "regionCode": "17",
+      "taxRate": 0.2235,
+      "spendingShares": {
+        "Förskola & grundskola": 0.349465,
+        "Gymnasieskola & vuxenutbildning": 0.085846,
+        "Äldreomsorg": 0.226429,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194398,
+        "Infrastruktur, skydd & miljö": 0.058021,
+        "Kultur & fritid": 0.060399,
+        "Politisk verksamhet & administration": 0.016817,
+        "Övrigt": 0.008625
+      }
+    },
+    "1764": {
+      "name": "Grums",
+      "regionCode": "17",
+      "taxRate": 0.225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.325586,
+        "Gymnasieskola & vuxenutbildning": 0.085898,
+        "Äldreomsorg": 0.236998,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.231927,
+        "Infrastruktur, skydd & miljö": 0.064123,
+        "Kultur & fritid": 0.035602,
+        "Politisk verksamhet & administration": 0.012582,
+        "Övrigt": 0.007284
+      }
+    },
+    "1765": {
+      "name": "Årjäng",
+      "regionCode": "17",
+      "taxRate": 0.2197,
+      "spendingShares": {
+        "Förskola & grundskola": 0.372867,
+        "Gymnasieskola & vuxenutbildning": 0.094213,
+        "Äldreomsorg": 0.211657,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182527,
+        "Infrastruktur, skydd & miljö": 0.064117,
+        "Kultur & fritid": 0.051416,
+        "Politisk verksamhet & administration": 0.012054,
+        "Övrigt": 0.011149
+      }
+    },
+    "1766": {
+      "name": "Sunne",
+      "regionCode": "17",
+      "taxRate": 0.2147,
+      "spendingShares": {
+        "Förskola & grundskola": 0.302665,
+        "Gymnasieskola & vuxenutbildning": 0.091701,
+        "Äldreomsorg": 0.280445,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208527,
+        "Infrastruktur, skydd & miljö": 0.058041,
+        "Kultur & fritid": 0.03804,
+        "Politisk verksamhet & administration": 0.012487,
+        "Övrigt": 0.008094
+      }
+    },
+    "1780": {
+      "name": "Karlstad",
+      "regionCode": "17",
+      "taxRate": 0.2127,
+      "spendingShares": {
+        "Förskola & grundskola": 0.339024,
+        "Gymnasieskola & vuxenutbildning": 0.082831,
+        "Äldreomsorg": 0.185757,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.219306,
+        "Infrastruktur, skydd & miljö": 0.087652,
+        "Kultur & fritid": 0.061831,
+        "Politisk verksamhet & administration": 0.010327,
+        "Övrigt": 0.013272
+      }
+    },
+    "1781": {
+      "name": "Kristinehamn",
+      "regionCode": "17",
+      "taxRate": 0.2197,
+      "spendingShares": {
+        "Förskola & grundskola": 0.305466,
+        "Gymnasieskola & vuxenutbildning": 0.078708,
+        "Äldreomsorg": 0.246725,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.220099,
+        "Infrastruktur, skydd & miljö": 0.077043,
+        "Kultur & fritid": 0.048667,
+        "Politisk verksamhet & administration": 0.013908,
+        "Övrigt": 0.009384
+      }
+    },
+    "1782": {
+      "name": "Filipstad",
+      "regionCode": "17",
+      "taxRate": 0.2227,
+      "spendingShares": {
+        "Förskola & grundskola": 0.296034,
+        "Gymnasieskola & vuxenutbildning": 0.079276,
+        "Äldreomsorg": 0.292258,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.211897,
+        "Infrastruktur, skydd & miljö": 0.04981,
+        "Kultur & fritid": 0.046706,
+        "Politisk verksamhet & administration": 0.009724,
+        "Övrigt": 0.014295
+      }
+    },
+    "1783": {
+      "name": "Hagfors",
+      "regionCode": "17",
+      "taxRate": 0.2202,
+      "spendingShares": {
+        "Förskola & grundskola": 0.271718,
+        "Gymnasieskola & vuxenutbildning": 0.07514,
+        "Äldreomsorg": 0.309491,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.200066,
+        "Infrastruktur, skydd & miljö": 0.063796,
+        "Kultur & fritid": 0.045281,
+        "Politisk verksamhet & administration": 0.014089,
+        "Övrigt": 0.020419
+      }
+    },
+    "1784": {
+      "name": "Arvika",
+      "regionCode": "17",
+      "taxRate": 0.2175,
+      "spendingShares": {
+        "Förskola & grundskola": 0.344982,
+        "Gymnasieskola & vuxenutbildning": 0.090561,
+        "Äldreomsorg": 0.257135,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.16615,
+        "Infrastruktur, skydd & miljö": 0.077539,
+        "Kultur & fritid": 0.036043,
+        "Politisk verksamhet & administration": 0.012685,
+        "Övrigt": 0.014905
+      }
+    },
+    "1785": {
+      "name": "Säffle",
+      "regionCode": "17",
+      "taxRate": 0.2152,
+      "spendingShares": {
+        "Förskola & grundskola": 0.305394,
+        "Gymnasieskola & vuxenutbildning": 0.087817,
+        "Äldreomsorg": 0.249494,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193651,
+        "Infrastruktur, skydd & miljö": 0.07324,
+        "Kultur & fritid": 0.061054,
+        "Politisk verksamhet & administration": 0.012647,
+        "Övrigt": 0.016703
+      }
+    },
+    "1814": {
+      "name": "Lekeberg",
+      "regionCode": "18",
+      "taxRate": 0.2143,
+      "spendingShares": {
+        "Förskola & grundskola": 0.437414,
+        "Gymnasieskola & vuxenutbildning": 0.079779,
+        "Äldreomsorg": 0.205161,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.166035,
+        "Infrastruktur, skydd & miljö": 0.06278,
+        "Kultur & fritid": 0.020731,
+        "Politisk verksamhet & administration": 0.013562,
+        "Övrigt": 0.014538
+      }
+    },
+    "1860": {
+      "name": "Laxå",
+      "regionCode": "18",
+      "taxRate": 0.227,
+      "spendingShares": {
+        "Förskola & grundskola": 0.313183,
+        "Gymnasieskola & vuxenutbildning": 0.090763,
+        "Äldreomsorg": 0.293538,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.157128,
+        "Infrastruktur, skydd & miljö": 0.076588,
+        "Kultur & fritid": 0.035459,
+        "Politisk verksamhet & administration": 0.012707,
+        "Övrigt": 0.020634
+      }
+    },
+    "1861": {
+      "name": "Hallsberg",
+      "regionCode": "18",
+      "taxRate": 0.2155,
+      "spendingShares": {
+        "Förskola & grundskola": 0.366879,
+        "Gymnasieskola & vuxenutbildning": 0.106778,
+        "Äldreomsorg": 0.235487,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.18334,
+        "Infrastruktur, skydd & miljö": 0.048639,
+        "Kultur & fritid": 0.038958,
+        "Politisk verksamhet & administration": 0.011537,
+        "Övrigt": 0.008382
+      }
+    },
+    "1862": {
+      "name": "Degerfors",
+      "regionCode": "18",
+      "taxRate": 0.23,
+      "spendingShares": {
+        "Förskola & grundskola": 0.30355,
+        "Gymnasieskola & vuxenutbildning": 0.082255,
+        "Äldreomsorg": 0.22274,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.235121,
+        "Infrastruktur, skydd & miljö": 0.068374,
+        "Kultur & fritid": 0.040652,
+        "Politisk verksamhet & administration": 0.015892,
+        "Övrigt": 0.031416
+      }
+    },
+    "1863": {
+      "name": "Hällefors",
+      "regionCode": "18",
+      "taxRate": 0.2205,
+      "spendingShares": {
+        "Förskola & grundskola": 0.290309,
+        "Gymnasieskola & vuxenutbildning": 0.093061,
+        "Äldreomsorg": 0.294409,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.149992,
+        "Infrastruktur, skydd & miljö": 0.070189,
+        "Kultur & fritid": 0.066761,
+        "Politisk verksamhet & administration": 0.012502,
+        "Övrigt": 0.022777
+      }
+    },
+    "1864": {
+      "name": "Ljusnarsberg",
+      "regionCode": "18",
+      "taxRate": 0.215,
+      "spendingShares": {
+        "Förskola & grundskola": 0.272541,
+        "Gymnasieskola & vuxenutbildning": 0.067372,
+        "Äldreomsorg": 0.278778,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.196334,
+        "Infrastruktur, skydd & miljö": 0.097196,
+        "Kultur & fritid": 0.022607,
+        "Politisk verksamhet & administration": 0.016421,
+        "Övrigt": 0.048751
+      }
+    },
+    "1880": {
+      "name": "Örebro",
+      "regionCode": "18",
+      "taxRate": 0.2135,
+      "spendingShares": {
+        "Förskola & grundskola": 0.355544,
+        "Gymnasieskola & vuxenutbildning": 0.079715,
+        "Äldreomsorg": 0.182909,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.247528,
+        "Infrastruktur, skydd & miljö": 0.055981,
+        "Kultur & fritid": 0.049221,
+        "Politisk verksamhet & administration": 0.013182,
+        "Övrigt": 0.01592
+      }
+    },
+    "1881": {
+      "name": "Kumla",
+      "regionCode": "18",
+      "taxRate": 0.2154,
+      "spendingShares": {
+        "Förskola & grundskola": 0.376546,
+        "Gymnasieskola & vuxenutbildning": 0.098594,
+        "Äldreomsorg": 0.1908,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.177797,
+        "Infrastruktur, skydd & miljö": 0.067898,
+        "Kultur & fritid": 0.055977,
+        "Politisk verksamhet & administration": 0.013396,
+        "Övrigt": 0.018992
+      }
+    },
+    "1882": {
+      "name": "Askersund",
+      "regionCode": "18",
+      "taxRate": 0.2185,
+      "spendingShares": {
+        "Förskola & grundskola": 0.351453,
+        "Gymnasieskola & vuxenutbildning": 0.095784,
+        "Äldreomsorg": 0.267964,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.148336,
+        "Infrastruktur, skydd & miljö": 0.06211,
+        "Kultur & fritid": 0.046398,
+        "Politisk verksamhet & administration": 0.013458,
+        "Övrigt": 0.014497
+      }
+    },
+    "1883": {
+      "name": "Karlskoga",
+      "regionCode": "18",
+      "taxRate": 0.22,
+      "spendingShares": {
+        "Förskola & grundskola": 0.304113,
+        "Gymnasieskola & vuxenutbildning": 0.084887,
+        "Äldreomsorg": 0.239513,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.211793,
+        "Infrastruktur, skydd & miljö": 0.077538,
+        "Kultur & fritid": 0.057543,
+        "Politisk verksamhet & administration": 0.013927,
+        "Övrigt": 0.010686
+      }
+    },
+    "1884": {
+      "name": "Nora",
+      "regionCode": "18",
+      "taxRate": 0.2225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.342035,
+        "Gymnasieskola & vuxenutbildning": 0.081461,
+        "Äldreomsorg": 0.260578,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.173805,
+        "Infrastruktur, skydd & miljö": 0.069693,
+        "Kultur & fritid": 0.04973,
+        "Politisk verksamhet & administration": 0.014301,
+        "Övrigt": 0.008397
+      }
+    },
+    "1885": {
+      "name": "Lindesberg",
+      "regionCode": "18",
+      "taxRate": 0.223,
+      "spendingShares": {
+        "Förskola & grundskola": 0.323184,
+        "Gymnasieskola & vuxenutbildning": 0.108557,
+        "Äldreomsorg": 0.226876,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.17599,
+        "Infrastruktur, skydd & miljö": 0.065838,
+        "Kultur & fritid": 0.046612,
+        "Politisk verksamhet & administration": 0.006855,
+        "Övrigt": 0.046088
+      }
+    },
+    "1904": {
+      "name": "Skinnskatteberg",
+      "regionCode": "19",
+      "taxRate": 0.2246,
+      "spendingShares": {
+        "Förskola & grundskola": 0.321437,
+        "Gymnasieskola & vuxenutbildning": 0.074028,
+        "Äldreomsorg": 0.263082,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182745,
+        "Infrastruktur, skydd & miljö": 0.065185,
+        "Kultur & fritid": 0.047257,
+        "Politisk verksamhet & administration": 0.017583,
+        "Övrigt": 0.028683
+      }
+    },
+    "1907": {
+      "name": "Surahammar",
+      "regionCode": "19",
+      "taxRate": 0.2231,
+      "spendingShares": {
+        "Förskola & grundskola": 0.358832,
+        "Gymnasieskola & vuxenutbildning": 0.090085,
+        "Äldreomsorg": 0.259432,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.147042,
+        "Infrastruktur, skydd & miljö": 0.064581,
+        "Kultur & fritid": 0.037716,
+        "Politisk verksamhet & administration": 0.013982,
+        "Övrigt": 0.02833
+      }
+    },
+    "1960": {
+      "name": "Kungsör",
+      "regionCode": "19",
+      "taxRate": 0.2203,
+      "spendingShares": {
+        "Förskola & grundskola": 0.330218,
+        "Gymnasieskola & vuxenutbildning": 0.084566,
+        "Äldreomsorg": 0.206565,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.238971,
+        "Infrastruktur, skydd & miljö": 0.065145,
+        "Kultur & fritid": 0.043968,
+        "Politisk verksamhet & administration": 0.01573,
+        "Övrigt": 0.014837
+      }
+    },
+    "1961": {
+      "name": "Hallstahammar",
+      "regionCode": "19",
+      "taxRate": 0.2181,
+      "spendingShares": {
+        "Förskola & grundskola": 0.347742,
+        "Gymnasieskola & vuxenutbildning": 0.081754,
+        "Äldreomsorg": 0.229856,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.195457,
+        "Infrastruktur, skydd & miljö": 0.068676,
+        "Kultur & fritid": 0.04197,
+        "Politisk verksamhet & administration": 0.015817,
+        "Övrigt": 0.018728
+      }
+    },
+    "1962": {
+      "name": "Norberg",
+      "regionCode": "19",
+      "taxRate": 0.2266,
+      "spendingShares": {
+        "Förskola & grundskola": 0.302041,
+        "Gymnasieskola & vuxenutbildning": 0.080597,
+        "Äldreomsorg": 0.265648,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.201219,
+        "Infrastruktur, skydd & miljö": 0.054937,
+        "Kultur & fritid": 0.047854,
+        "Politisk verksamhet & administration": 0.026676,
+        "Övrigt": 0.021028
+      }
+    },
+    "1980": {
+      "name": "Västerås",
+      "regionCode": "19",
+      "taxRate": 0.2036,
+      "spendingShares": {
+        "Förskola & grundskola": 0.377519,
+        "Gymnasieskola & vuxenutbildning": 0.088344,
+        "Äldreomsorg": 0.179109,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.206126,
+        "Infrastruktur, skydd & miljö": 0.054394,
+        "Kultur & fritid": 0.051343,
+        "Politisk verksamhet & administration": 0.009966,
+        "Övrigt": 0.033199
+      }
+    },
+    "1981": {
+      "name": "Sala",
+      "regionCode": "19",
+      "taxRate": 0.2231,
+      "spendingShares": {
+        "Förskola & grundskola": 0.336764,
+        "Gymnasieskola & vuxenutbildning": 0.082993,
+        "Äldreomsorg": 0.252459,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.189772,
+        "Infrastruktur, skydd & miljö": 0.073142,
+        "Kultur & fritid": 0.036679,
+        "Politisk verksamhet & administration": 0.011634,
+        "Övrigt": 0.016557
+      }
+    },
+    "1982": {
+      "name": "Fagersta",
+      "regionCode": "19",
+      "taxRate": 0.2211,
+      "spendingShares": {
+        "Förskola & grundskola": 0.322085,
+        "Gymnasieskola & vuxenutbildning": 0.096695,
+        "Äldreomsorg": 0.229358,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193069,
+        "Infrastruktur, skydd & miljö": 0.061323,
+        "Kultur & fritid": 0.044807,
+        "Politisk verksamhet & administration": 0.019067,
+        "Övrigt": 0.033596
+      }
+    },
+    "1983": {
+      "name": "Köping",
+      "regionCode": "19",
+      "taxRate": 0.2216,
+      "spendingShares": {
+        "Förskola & grundskola": 0.35212,
+        "Gymnasieskola & vuxenutbildning": 0.09295,
+        "Äldreomsorg": 0.227863,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.201032,
+        "Infrastruktur, skydd & miljö": 0.065101,
+        "Kultur & fritid": 0.050685,
+        "Politisk verksamhet & administration": 0.010249,
+        "Övrigt": 0.0
+      }
+    },
+    "1984": {
+      "name": "Arboga",
+      "regionCode": "19",
+      "taxRate": 0.2241,
+      "spendingShares": {
+        "Förskola & grundskola": 0.312787,
+        "Gymnasieskola & vuxenutbildning": 0.089666,
+        "Äldreomsorg": 0.244164,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.180786,
+        "Infrastruktur, skydd & miljö": 0.092031,
+        "Kultur & fritid": 0.047468,
+        "Politisk verksamhet & administration": 0.014636,
+        "Övrigt": 0.018462
+      }
+    },
+    "2021": {
+      "name": "Vansbro",
+      "regionCode": "20",
+      "taxRate": 0.2229,
+      "spendingShares": {
+        "Förskola & grundskola": 0.255784,
+        "Gymnasieskola & vuxenutbildning": 0.094159,
+        "Äldreomsorg": 0.287197,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.241735,
+        "Infrastruktur, skydd & miljö": 0.065773,
+        "Kultur & fritid": 0.035704,
+        "Politisk verksamhet & administration": 0.010691,
+        "Övrigt": 0.008957
+      }
+    },
+    "2023": {
+      "name": "Malung-Sälen",
+      "regionCode": "20",
+      "taxRate": 0.2246,
+      "spendingShares": {
+        "Förskola & grundskola": 0.295928,
+        "Gymnasieskola & vuxenutbildning": 0.093576,
+        "Äldreomsorg": 0.284952,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.171115,
+        "Infrastruktur, skydd & miljö": 0.075309,
+        "Kultur & fritid": 0.045745,
+        "Politisk verksamhet & administration": 0.023629,
+        "Övrigt": 0.009746
+      }
+    },
+    "2026": {
+      "name": "Gagnef",
+      "regionCode": "20",
+      "taxRate": 0.2228,
+      "spendingShares": {
+        "Förskola & grundskola": 0.388119,
+        "Gymnasieskola & vuxenutbildning": 0.095809,
+        "Äldreomsorg": 0.230733,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.171364,
+        "Infrastruktur, skydd & miljö": 0.052425,
+        "Kultur & fritid": 0.038081,
+        "Politisk verksamhet & administration": 0.012377,
+        "Övrigt": 0.011092
+      }
+    },
+    "2029": {
+      "name": "Leksand",
+      "regionCode": "20",
+      "taxRate": 0.2181,
+      "spendingShares": {
+        "Förskola & grundskola": 0.316492,
+        "Gymnasieskola & vuxenutbildning": 0.103381,
+        "Äldreomsorg": 0.290835,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.137147,
+        "Infrastruktur, skydd & miljö": 0.082152,
+        "Kultur & fritid": 0.052973,
+        "Politisk verksamhet & administration": 0.014453,
+        "Övrigt": 0.002567
+      }
+    },
+    "2031": {
+      "name": "Rättvik",
+      "regionCode": "20",
+      "taxRate": 0.2181,
+      "spendingShares": {
+        "Förskola & grundskola": 0.288815,
+        "Gymnasieskola & vuxenutbildning": 0.092959,
+        "Äldreomsorg": 0.284109,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.189271,
+        "Infrastruktur, skydd & miljö": 0.070075,
+        "Kultur & fritid": 0.050313,
+        "Politisk verksamhet & administration": 0.012058,
+        "Övrigt": 0.0124
+      }
+    },
+    "2034": {
+      "name": "Orsa",
+      "regionCode": "20",
+      "taxRate": 0.2231,
+      "spendingShares": {
+        "Förskola & grundskola": 0.300828,
+        "Gymnasieskola & vuxenutbildning": 0.081931,
+        "Äldreomsorg": 0.272002,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.162501,
+        "Infrastruktur, skydd & miljö": 0.085034,
+        "Kultur & fritid": 0.055644,
+        "Politisk verksamhet & administration": 0.01332,
+        "Övrigt": 0.02874
+      }
+    },
+    "2039": {
+      "name": "Älvdalen",
+      "regionCode": "20",
+      "taxRate": 0.2278,
+      "spendingShares": {
+        "Förskola & grundskola": 0.303551,
+        "Gymnasieskola & vuxenutbildning": 0.083723,
+        "Äldreomsorg": 0.305437,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.115022,
+        "Infrastruktur, skydd & miljö": 0.096377,
+        "Kultur & fritid": 0.064362,
+        "Politisk verksamhet & administration": 0.018739,
+        "Övrigt": 0.012789
+      }
+    },
+    "2061": {
+      "name": "Smedjebacken",
+      "regionCode": "20",
+      "taxRate": 0.2245,
+      "spendingShares": {
+        "Förskola & grundskola": 0.345232,
+        "Gymnasieskola & vuxenutbildning": 0.094695,
+        "Äldreomsorg": 0.248334,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.166199,
+        "Infrastruktur, skydd & miljö": 0.068962,
+        "Kultur & fritid": 0.048518,
+        "Politisk verksamhet & administration": 0.016957,
+        "Övrigt": 0.011103
+      }
+    },
+    "2062": {
+      "name": "Mora",
+      "regionCode": "20",
+      "taxRate": 0.2233,
+      "spendingShares": {
+        "Förskola & grundskola": 0.307146,
+        "Gymnasieskola & vuxenutbildning": 0.091575,
+        "Äldreomsorg": 0.248908,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.198131,
+        "Infrastruktur, skydd & miljö": 0.09091,
+        "Kultur & fritid": 0.042674,
+        "Politisk verksamhet & administration": 0.011661,
+        "Övrigt": 0.008995
+      }
+    },
+    "2080": {
+      "name": "Falun",
+      "regionCode": "20",
+      "taxRate": 0.2206,
+      "spendingShares": {
+        "Förskola & grundskola": 0.337811,
+        "Gymnasieskola & vuxenutbildning": 0.083158,
+        "Äldreomsorg": 0.231878,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.202145,
+        "Infrastruktur, skydd & miljö": 0.071242,
+        "Kultur & fritid": 0.058599,
+        "Politisk verksamhet & administration": 0.009481,
+        "Övrigt": 0.005686
+      }
+    },
+    "2081": {
+      "name": "Borlänge",
+      "regionCode": "20",
+      "taxRate": 0.2241,
+      "spendingShares": {
+        "Förskola & grundskola": 0.324084,
+        "Gymnasieskola & vuxenutbildning": 0.092668,
+        "Äldreomsorg": 0.199505,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.248499,
+        "Infrastruktur, skydd & miljö": 0.064965,
+        "Kultur & fritid": 0.040935,
+        "Politisk verksamhet & administration": 0.011111,
+        "Övrigt": 0.018233
+      }
+    },
+    "2082": {
+      "name": "Säter",
+      "regionCode": "20",
+      "taxRate": 0.2231,
+      "spendingShares": {
+        "Förskola & grundskola": 0.334841,
+        "Gymnasieskola & vuxenutbildning": 0.098798,
+        "Äldreomsorg": 0.248024,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.17617,
+        "Infrastruktur, skydd & miljö": 0.074565,
+        "Kultur & fritid": 0.05359,
+        "Politisk verksamhet & administration": 0.014012,
+        "Övrigt": 0.0
+      }
+    },
+    "2083": {
+      "name": "Hedemora",
+      "regionCode": "20",
+      "taxRate": 0.2216,
+      "spendingShares": {
+        "Förskola & grundskola": 0.319003,
+        "Gymnasieskola & vuxenutbildning": 0.091342,
+        "Äldreomsorg": 0.240234,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.20165,
+        "Infrastruktur, skydd & miljö": 0.064017,
+        "Kultur & fritid": 0.043538,
+        "Politisk verksamhet & administration": 0.019788,
+        "Övrigt": 0.020428
+      }
+    },
+    "2084": {
+      "name": "Avesta",
+      "regionCode": "20",
+      "taxRate": 0.2196,
+      "spendingShares": {
+        "Förskola & grundskola": 0.327901,
+        "Gymnasieskola & vuxenutbildning": 0.088601,
+        "Äldreomsorg": 0.235951,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.186439,
+        "Infrastruktur, skydd & miljö": 0.084598,
+        "Kultur & fritid": 0.050405,
+        "Politisk verksamhet & administration": 0.015351,
+        "Övrigt": 0.010754
+      }
+    },
+    "2085": {
+      "name": "Ludvika",
+      "regionCode": "20",
+      "taxRate": 0.2206,
+      "spendingShares": {
+        "Förskola & grundskola": 0.318782,
+        "Gymnasieskola & vuxenutbildning": 0.098457,
+        "Äldreomsorg": 0.205967,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.226053,
+        "Infrastruktur, skydd & miljö": 0.085768,
+        "Kultur & fritid": 0.041299,
+        "Politisk verksamhet & administration": 0.013011,
+        "Övrigt": 0.010663
+      }
+    },
+    "2101": {
+      "name": "Ockelbo",
+      "regionCode": "21",
+      "taxRate": 0.2276,
+      "spendingShares": {
+        "Förskola & grundskola": 0.321775,
+        "Gymnasieskola & vuxenutbildning": 0.089372,
+        "Äldreomsorg": 0.254678,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.152005,
+        "Infrastruktur, skydd & miljö": 0.065017,
+        "Kultur & fritid": 0.051137,
+        "Politisk verksamhet & administration": 0.016628,
+        "Övrigt": 0.049388
+      }
+    },
+    "2104": {
+      "name": "Hofors",
+      "regionCode": "21",
+      "taxRate": 0.2286,
+      "spendingShares": {
+        "Förskola & grundskola": 0.306602,
+        "Gymnasieskola & vuxenutbildning": 0.091058,
+        "Äldreomsorg": 0.287092,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.1858,
+        "Infrastruktur, skydd & miljö": 0.06731,
+        "Kultur & fritid": 0.042419,
+        "Politisk verksamhet & administration": 0.011858,
+        "Övrigt": 0.007861
+      }
+    },
+    "2121": {
+      "name": "Ovanåker",
+      "regionCode": "21",
+      "taxRate": 0.2186,
+      "spendingShares": {
+        "Förskola & grundskola": 0.33093,
+        "Gymnasieskola & vuxenutbildning": 0.098759,
+        "Äldreomsorg": 0.238434,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.177808,
+        "Infrastruktur, skydd & miljö": 0.072166,
+        "Kultur & fritid": 0.054054,
+        "Politisk verksamhet & administration": 0.016056,
+        "Övrigt": 0.011793
+      }
+    },
+    "2132": {
+      "name": "Nordanstig",
+      "regionCode": "21",
+      "taxRate": 0.2251,
+      "spendingShares": {
+        "Förskola & grundskola": 0.350324,
+        "Gymnasieskola & vuxenutbildning": 0.084206,
+        "Äldreomsorg": 0.26016,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194431,
+        "Infrastruktur, skydd & miljö": 0.050815,
+        "Kultur & fritid": 0.026155,
+        "Politisk verksamhet & administration": 0.018396,
+        "Övrigt": 0.015513
+      }
+    },
+    "2161": {
+      "name": "Ljusdal",
+      "regionCode": "21",
+      "taxRate": 0.2236,
+      "spendingShares": {
+        "Förskola & grundskola": 0.294771,
+        "Gymnasieskola & vuxenutbildning": 0.096504,
+        "Äldreomsorg": 0.25665,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.213086,
+        "Infrastruktur, skydd & miljö": 0.067697,
+        "Kultur & fritid": 0.042867,
+        "Politisk verksamhet & administration": 0.015528,
+        "Övrigt": 0.012897
+      }
+    },
+    "2180": {
+      "name": "Gävle",
+      "regionCode": "21",
+      "taxRate": 0.2226,
+      "spendingShares": {
+        "Förskola & grundskola": 0.322183,
+        "Gymnasieskola & vuxenutbildning": 0.084569,
+        "Äldreomsorg": 0.192501,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.237167,
+        "Infrastruktur, skydd & miljö": 0.0878,
+        "Kultur & fritid": 0.054267,
+        "Politisk verksamhet & administration": 0.010228,
+        "Övrigt": 0.011285
+      }
+    },
+    "2181": {
+      "name": "Sandviken",
+      "regionCode": "21",
+      "taxRate": 0.2161,
+      "spendingShares": {
+        "Förskola & grundskola": 0.326044,
+        "Gymnasieskola & vuxenutbildning": 0.115574,
+        "Äldreomsorg": 0.209896,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.190002,
+        "Infrastruktur, skydd & miljö": 0.058996,
+        "Kultur & fritid": 0.069151,
+        "Politisk verksamhet & administration": 0.013652,
+        "Övrigt": 0.016685
+      }
+    },
+    "2182": {
+      "name": "Söderhamn",
+      "regionCode": "21",
+      "taxRate": 0.2166,
+      "spendingShares": {
+        "Förskola & grundskola": 0.284912,
+        "Gymnasieskola & vuxenutbildning": 0.08974,
+        "Äldreomsorg": 0.263451,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.220662,
+        "Infrastruktur, skydd & miljö": 0.066866,
+        "Kultur & fritid": 0.042749,
+        "Politisk verksamhet & administration": 0.014452,
+        "Övrigt": 0.017168
+      }
+    },
+    "2183": {
+      "name": "Bollnäs",
+      "regionCode": "21",
+      "taxRate": 0.2186,
+      "spendingShares": {
+        "Förskola & grundskola": 0.318632,
+        "Gymnasieskola & vuxenutbildning": 0.085506,
+        "Äldreomsorg": 0.25279,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.201494,
+        "Infrastruktur, skydd & miljö": 0.06727,
+        "Kultur & fritid": 0.047629,
+        "Politisk verksamhet & administration": 0.015734,
+        "Övrigt": 0.010945
+      }
+    },
+    "2184": {
+      "name": "Hudiksvall",
+      "regionCode": "21",
+      "taxRate": 0.2161,
+      "spendingShares": {
+        "Förskola & grundskola": 0.302495,
+        "Gymnasieskola & vuxenutbildning": 0.087932,
+        "Äldreomsorg": 0.245721,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.219889,
+        "Infrastruktur, skydd & miljö": 0.066441,
+        "Kultur & fritid": 0.041663,
+        "Politisk verksamhet & administration": 0.011772,
+        "Övrigt": 0.024087
+      }
+    },
+    "2260": {
+      "name": "Ånge",
+      "regionCode": "22",
+      "taxRate": 0.2333,
+      "spendingShares": {
+        "Förskola & grundskola": 0.288758,
+        "Gymnasieskola & vuxenutbildning": 0.098579,
+        "Äldreomsorg": 0.281265,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.157716,
+        "Infrastruktur, skydd & miljö": 0.073787,
+        "Kultur & fritid": 0.052592,
+        "Politisk verksamhet & administration": 0.016574,
+        "Övrigt": 0.030729
+      }
+    },
+    "2262": {
+      "name": "Timrå",
+      "regionCode": "22",
+      "taxRate": 0.2309,
+      "spendingShares": {
+        "Förskola & grundskola": 0.308275,
+        "Gymnasieskola & vuxenutbildning": 0.084356,
+        "Äldreomsorg": 0.236283,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192096,
+        "Infrastruktur, skydd & miljö": 0.068166,
+        "Kultur & fritid": 0.055118,
+        "Politisk verksamhet & administration": 0.02094,
+        "Övrigt": 0.034766
+      }
+    },
+    "2280": {
+      "name": "Härnösand",
+      "regionCode": "22",
+      "taxRate": 0.2334,
+      "spendingShares": {
+        "Förskola & grundskola": 0.30253,
+        "Gymnasieskola & vuxenutbildning": 0.093654,
+        "Äldreomsorg": 0.212152,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.194126,
+        "Infrastruktur, skydd & miljö": 0.071531,
+        "Kultur & fritid": 0.057453,
+        "Politisk verksamhet & administration": 0.015938,
+        "Övrigt": 0.052616
+      }
+    },
+    "2281": {
+      "name": "Sundsvall",
+      "regionCode": "22",
+      "taxRate": 0.2259,
+      "spendingShares": {
+        "Förskola & grundskola": 0.31518,
+        "Gymnasieskola & vuxenutbildning": 0.085885,
+        "Äldreomsorg": 0.212127,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.197028,
+        "Infrastruktur, skydd & miljö": 0.077446,
+        "Kultur & fritid": 0.062971,
+        "Politisk verksamhet & administration": 0.00935,
+        "Övrigt": 0.040013
+      }
+    },
+    "2282": {
+      "name": "Kramfors",
+      "regionCode": "22",
+      "taxRate": 0.2314,
+      "spendingShares": {
+        "Förskola & grundskola": 0.268307,
+        "Gymnasieskola & vuxenutbildning": 0.099244,
+        "Äldreomsorg": 0.248395,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.223357,
+        "Infrastruktur, skydd & miljö": 0.070182,
+        "Kultur & fritid": 0.036917,
+        "Politisk verksamhet & administration": 0.01458,
+        "Övrigt": 0.039018
+      }
+    },
+    "2283": {
+      "name": "Sollefteå",
+      "regionCode": "22",
+      "taxRate": 0.2339,
+      "spendingShares": {
+        "Förskola & grundskola": 0.279457,
+        "Gymnasieskola & vuxenutbildning": 0.103811,
+        "Äldreomsorg": 0.285848,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.189587,
+        "Infrastruktur, skydd & miljö": 0.061662,
+        "Kultur & fritid": 0.055019,
+        "Politisk verksamhet & administration": 0.019495,
+        "Övrigt": 0.005121
+      }
+    },
+    "2284": {
+      "name": "Örnsköldsvik",
+      "regionCode": "22",
+      "taxRate": 0.2256,
+      "spendingShares": {
+        "Förskola & grundskola": 0.318973,
+        "Gymnasieskola & vuxenutbildning": 0.084853,
+        "Äldreomsorg": 0.228328,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192361,
+        "Infrastruktur, skydd & miljö": 0.079766,
+        "Kultur & fritid": 0.049737,
+        "Politisk verksamhet & administration": 0.011187,
+        "Övrigt": 0.034795
+      }
+    },
+    "2303": {
+      "name": "Ragunda",
+      "regionCode": "23",
+      "taxRate": 0.2322,
+      "spendingShares": {
+        "Förskola & grundskola": 0.349544,
+        "Gymnasieskola & vuxenutbildning": 0.084203,
+        "Äldreomsorg": 0.344341,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.094086,
+        "Infrastruktur, skydd & miljö": 0.069114,
+        "Kultur & fritid": 0.023368,
+        "Politisk verksamhet & administration": 0.021904,
+        "Övrigt": 0.01344
+      }
+    },
+    "2305": {
+      "name": "Bräcke",
+      "regionCode": "23",
+      "taxRate": 0.2339,
+      "spendingShares": {
+        "Förskola & grundskola": 0.307028,
+        "Gymnasieskola & vuxenutbildning": 0.067192,
+        "Äldreomsorg": 0.292002,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.176124,
+        "Infrastruktur, skydd & miljö": 0.062421,
+        "Kultur & fritid": 0.034424,
+        "Politisk verksamhet & administration": 0.016104,
+        "Övrigt": 0.044705
+      }
+    },
+    "2309": {
+      "name": "Krokom",
+      "regionCode": "23",
+      "taxRate": 0.2217,
+      "spendingShares": {
+        "Förskola & grundskola": 0.412046,
+        "Gymnasieskola & vuxenutbildning": 0.085216,
+        "Äldreomsorg": 0.20791,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.189972,
+        "Infrastruktur, skydd & miljö": 0.048912,
+        "Kultur & fritid": 0.028854,
+        "Politisk verksamhet & administration": 0.015619,
+        "Övrigt": 0.011471
+      }
+    },
+    "2313": {
+      "name": "Strömsund",
+      "regionCode": "23",
+      "taxRate": 0.2322,
+      "spendingShares": {
+        "Förskola & grundskola": 0.291637,
+        "Gymnasieskola & vuxenutbildning": 0.098846,
+        "Äldreomsorg": 0.298562,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.177267,
+        "Infrastruktur, skydd & miljö": 0.061634,
+        "Kultur & fritid": 0.028248,
+        "Politisk verksamhet & administration": 0.019033,
+        "Övrigt": 0.024773
+      }
+    },
+    "2321": {
+      "name": "Åre",
+      "regionCode": "23",
+      "taxRate": 0.2222,
+      "spendingShares": {
+        "Förskola & grundskola": 0.430984,
+        "Gymnasieskola & vuxenutbildning": 0.085644,
+        "Äldreomsorg": 0.179007,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.132473,
+        "Infrastruktur, skydd & miljö": 0.097398,
+        "Kultur & fritid": 0.033374,
+        "Politisk verksamhet & administration": 0.015941,
+        "Övrigt": 0.025179
+      }
+    },
+    "2326": {
+      "name": "Berg",
+      "regionCode": "23",
+      "taxRate": 0.2252,
+      "spendingShares": {
+        "Förskola & grundskola": 0.340444,
+        "Gymnasieskola & vuxenutbildning": 0.083936,
+        "Äldreomsorg": 0.2832,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.1619,
+        "Infrastruktur, skydd & miljö": 0.057458,
+        "Kultur & fritid": 0.043322,
+        "Politisk verksamhet & administration": 0.018231,
+        "Övrigt": 0.011509
+      }
+    },
+    "2361": {
+      "name": "Härjedalen",
+      "regionCode": "23",
+      "taxRate": 0.2247,
+      "spendingShares": {
+        "Förskola & grundskola": 0.265626,
+        "Gymnasieskola & vuxenutbildning": 0.086078,
+        "Äldreomsorg": 0.314999,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.146469,
+        "Infrastruktur, skydd & miljö": 0.096756,
+        "Kultur & fritid": 0.043607,
+        "Politisk verksamhet & administration": 0.022035,
+        "Övrigt": 0.02443
+      }
+    },
+    "2380": {
+      "name": "Östersund",
+      "regionCode": "23",
+      "taxRate": 0.2202,
+      "spendingShares": {
+        "Förskola & grundskola": 0.322224,
+        "Gymnasieskola & vuxenutbildning": 0.072109,
+        "Äldreomsorg": 0.183608,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.283327,
+        "Infrastruktur, skydd & miljö": 0.055224,
+        "Kultur & fritid": 0.052801,
+        "Politisk verksamhet & administration": 0.008848,
+        "Övrigt": 0.021859
+      }
+    },
+    "2401": {
+      "name": "Nordmaling",
+      "regionCode": "24",
+      "taxRate": 0.2325,
+      "spendingShares": {
+        "Förskola & grundskola": 0.30317,
+        "Gymnasieskola & vuxenutbildning": 0.081369,
+        "Äldreomsorg": 0.281935,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.183575,
+        "Infrastruktur, skydd & miljö": 0.072598,
+        "Kultur & fritid": 0.040083,
+        "Politisk verksamhet & administration": 0.012193,
+        "Övrigt": 0.025077
+      }
+    },
+    "2403": {
+      "name": "Bjurholm",
+      "regionCode": "24",
+      "taxRate": 0.2315,
+      "spendingShares": {
+        "Förskola & grundskola": 0.302736,
+        "Gymnasieskola & vuxenutbildning": 0.083322,
+        "Äldreomsorg": 0.309092,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.064118,
+        "Infrastruktur, skydd & miljö": 0.082169,
+        "Kultur & fritid": 0.047638,
+        "Politisk verksamhet & administration": 0.022784,
+        "Övrigt": 0.088141
+      }
+    },
+    "2404": {
+      "name": "Vindeln",
+      "regionCode": "24",
+      "taxRate": 0.2335,
+      "spendingShares": {
+        "Förskola & grundskola": 0.342022,
+        "Gymnasieskola & vuxenutbildning": 0.08553,
+        "Äldreomsorg": 0.266238,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.167738,
+        "Infrastruktur, skydd & miljö": 0.07635,
+        "Kultur & fritid": 0.038304,
+        "Politisk verksamhet & administration": 0.014691,
+        "Övrigt": 0.009127
+      }
+    },
+    "2409": {
+      "name": "Robertsfors",
+      "regionCode": "24",
+      "taxRate": 0.2315,
+      "spendingShares": {
+        "Förskola & grundskola": 0.358765,
+        "Gymnasieskola & vuxenutbildning": 0.086829,
+        "Äldreomsorg": 0.27818,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.144385,
+        "Infrastruktur, skydd & miljö": 0.063144,
+        "Kultur & fritid": 0.032198,
+        "Politisk verksamhet & administration": 0.015566,
+        "Övrigt": 0.020933
+      }
+    },
+    "2417": {
+      "name": "Norsjö",
+      "regionCode": "24",
+      "taxRate": 0.2335,
+      "spendingShares": {
+        "Förskola & grundskola": 0.288646,
+        "Gymnasieskola & vuxenutbildning": 0.080832,
+        "Äldreomsorg": 0.290155,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.200728,
+        "Infrastruktur, skydd & miljö": 0.054216,
+        "Kultur & fritid": 0.044868,
+        "Politisk verksamhet & administration": 0.016788,
+        "Övrigt": 0.023767
+      }
+    },
+    "2418": {
+      "name": "Malå",
+      "regionCode": "24",
+      "taxRate": 0.2335,
+      "spendingShares": {
+        "Förskola & grundskola": 0.311447,
+        "Gymnasieskola & vuxenutbildning": 0.08167,
+        "Äldreomsorg": 0.328274,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.12672,
+        "Infrastruktur, skydd & miljö": 0.066534,
+        "Kultur & fritid": 0.029514,
+        "Politisk verksamhet & administration": 0.023659,
+        "Övrigt": 0.032182
+      }
+    },
+    "2421": {
+      "name": "Storuman",
+      "regionCode": "24",
+      "taxRate": 0.231,
+      "spendingShares": {
+        "Förskola & grundskola": 0.29388,
+        "Gymnasieskola & vuxenutbildning": 0.105292,
+        "Äldreomsorg": 0.287789,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.143959,
+        "Infrastruktur, skydd & miljö": 0.072724,
+        "Kultur & fritid": 0.045081,
+        "Politisk verksamhet & administration": 0.021346,
+        "Övrigt": 0.029929
+      }
+    },
+    "2422": {
+      "name": "Sorsele",
+      "regionCode": "24",
+      "taxRate": 0.236,
+      "spendingShares": {
+        "Förskola & grundskola": 0.315572,
+        "Gymnasieskola & vuxenutbildning": 0.072159,
+        "Äldreomsorg": 0.319295,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.092801,
+        "Infrastruktur, skydd & miljö": 0.08391,
+        "Kultur & fritid": 0.040303,
+        "Politisk verksamhet & administration": 0.022757,
+        "Övrigt": 0.053203
+      }
+    },
+    "2425": {
+      "name": "Dorotea",
+      "regionCode": "24",
+      "taxRate": 0.238,
+      "spendingShares": {
+        "Förskola & grundskola": 0.268062,
+        "Gymnasieskola & vuxenutbildning": 0.060745,
+        "Äldreomsorg": 0.343802,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.147065,
+        "Infrastruktur, skydd & miljö": 0.067647,
+        "Kultur & fritid": 0.056564,
+        "Politisk verksamhet & administration": 0.03028,
+        "Övrigt": 0.025835
+      }
+    },
+    "2460": {
+      "name": "Vännäs",
+      "regionCode": "24",
+      "taxRate": 0.2335,
+      "spendingShares": {
+        "Förskola & grundskola": 0.372458,
+        "Gymnasieskola & vuxenutbildning": 0.100875,
+        "Äldreomsorg": 0.187606,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.208967,
+        "Infrastruktur, skydd & miljö": 0.052167,
+        "Kultur & fritid": 0.038615,
+        "Politisk verksamhet & administration": 0.015812,
+        "Övrigt": 0.0235
+      }
+    },
+    "2462": {
+      "name": "Vilhelmina",
+      "regionCode": "24",
+      "taxRate": 0.2365,
+      "spendingShares": {
+        "Förskola & grundskola": 0.288849,
+        "Gymnasieskola & vuxenutbildning": 0.106122,
+        "Äldreomsorg": 0.263472,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.206108,
+        "Infrastruktur, skydd & miljö": 0.051313,
+        "Kultur & fritid": 0.029333,
+        "Politisk verksamhet & administration": 0.020057,
+        "Övrigt": 0.034746
+      }
+    },
+    "2463": {
+      "name": "Åsele",
+      "regionCode": "24",
+      "taxRate": 0.236,
+      "spendingShares": {
+        "Förskola & grundskola": 0.230582,
+        "Gymnasieskola & vuxenutbildning": 0.087666,
+        "Äldreomsorg": 0.341922,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.170677,
+        "Infrastruktur, skydd & miljö": 0.085162,
+        "Kultur & fritid": 0.042846,
+        "Politisk verksamhet & administration": 0.019158,
+        "Övrigt": 0.021987
+      }
+    },
+    "2480": {
+      "name": "Umeå",
+      "regionCode": "24",
+      "taxRate": 0.228,
+      "spendingShares": {
+        "Förskola & grundskola": 0.346428,
+        "Gymnasieskola & vuxenutbildning": 0.08378,
+        "Äldreomsorg": 0.176126,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.217748,
+        "Infrastruktur, skydd & miljö": 0.076122,
+        "Kultur & fritid": 0.076527,
+        "Politisk verksamhet & administration": 0.011261,
+        "Övrigt": 0.012008
+      }
+    },
+    "2481": {
+      "name": "Lycksele",
+      "regionCode": "24",
+      "taxRate": 0.2305,
+      "spendingShares": {
+        "Förskola & grundskola": 0.301329,
+        "Gymnasieskola & vuxenutbildning": 0.10154,
+        "Äldreomsorg": 0.239903,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.217307,
+        "Infrastruktur, skydd & miljö": 0.059887,
+        "Kultur & fritid": 0.049409,
+        "Politisk verksamhet & administration": 0.015726,
+        "Övrigt": 0.014899
+      }
+    },
+    "2482": {
+      "name": "Skellefteå",
+      "regionCode": "24",
+      "taxRate": 0.226,
+      "spendingShares": {
+        "Förskola & grundskola": 0.318569,
+        "Gymnasieskola & vuxenutbildning": 0.086079,
+        "Äldreomsorg": 0.23537,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.200332,
+        "Infrastruktur, skydd & miljö": 0.082088,
+        "Kultur & fritid": 0.066043,
+        "Politisk verksamhet & administration": 0.011519,
+        "Övrigt": 0.0
+      }
+    },
+    "2505": {
+      "name": "Arvidsjaur",
+      "regionCode": "25",
+      "taxRate": 0.228,
+      "spendingShares": {
+        "Förskola & grundskola": 0.297295,
+        "Gymnasieskola & vuxenutbildning": 0.104911,
+        "Äldreomsorg": 0.25282,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.193243,
+        "Infrastruktur, skydd & miljö": 0.073771,
+        "Kultur & fritid": 0.057188,
+        "Politisk verksamhet & administration": 0.020772,
+        "Övrigt": 0.0
+      }
+    },
+    "2506": {
+      "name": "Arjeplog",
+      "regionCode": "25",
+      "taxRate": 0.235,
+      "spendingShares": {
+        "Förskola & grundskola": 0.28478,
+        "Gymnasieskola & vuxenutbildning": 0.079826,
+        "Äldreomsorg": 0.343239,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.113238,
+        "Infrastruktur, skydd & miljö": 0.08923,
+        "Kultur & fritid": 0.045573,
+        "Politisk verksamhet & administration": 0.020404,
+        "Övrigt": 0.02371
+      }
+    },
+    "2510": {
+      "name": "Jokkmokk",
+      "regionCode": "25",
+      "taxRate": 0.2295,
+      "spendingShares": {
+        "Förskola & grundskola": 0.255402,
+        "Gymnasieskola & vuxenutbildning": 0.090205,
+        "Äldreomsorg": 0.361064,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.129705,
+        "Infrastruktur, skydd & miljö": 0.075198,
+        "Kultur & fritid": 0.040242,
+        "Politisk verksamhet & administration": 0.014922,
+        "Övrigt": 0.033262
+      }
+    },
+    "2513": {
+      "name": "Överkalix",
+      "regionCode": "25",
+      "taxRate": 0.228,
+      "spendingShares": {
+        "Förskola & grundskola": 0.223241,
+        "Gymnasieskola & vuxenutbildning": 0.056656,
+        "Äldreomsorg": 0.407979,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.148334,
+        "Infrastruktur, skydd & miljö": 0.075959,
+        "Kultur & fritid": 0.044366,
+        "Politisk verksamhet & administration": 0.017749,
+        "Övrigt": 0.025716
+      }
+    },
+    "2514": {
+      "name": "Kalix",
+      "regionCode": "25",
+      "taxRate": 0.2255,
+      "spendingShares": {
+        "Förskola & grundskola": 0.262381,
+        "Gymnasieskola & vuxenutbildning": 0.096107,
+        "Äldreomsorg": 0.297471,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.166554,
+        "Infrastruktur, skydd & miljö": 0.066702,
+        "Kultur & fritid": 0.048087,
+        "Politisk verksamhet & administration": 0.01882,
+        "Övrigt": 0.043878
+      }
+    },
+    "2518": {
+      "name": "Övertorneå",
+      "regionCode": "25",
+      "taxRate": 0.225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.24234,
+        "Gymnasieskola & vuxenutbildning": 0.079615,
+        "Äldreomsorg": 0.314775,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.189721,
+        "Infrastruktur, skydd & miljö": 0.073685,
+        "Kultur & fritid": 0.053109,
+        "Politisk verksamhet & administration": 0.018344,
+        "Övrigt": 0.028411
+      }
+    },
+    "2521": {
+      "name": "Pajala",
+      "regionCode": "25",
+      "taxRate": 0.234,
+      "spendingShares": {
+        "Förskola & grundskola": 0.274392,
+        "Gymnasieskola & vuxenutbildning": 0.078626,
+        "Äldreomsorg": 0.377537,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.129018,
+        "Infrastruktur, skydd & miljö": 0.06234,
+        "Kultur & fritid": 0.026438,
+        "Politisk verksamhet & administration": 0.02225,
+        "Övrigt": 0.029399
+      }
+    },
+    "2523": {
+      "name": "Gällivare",
+      "regionCode": "25",
+      "taxRate": 0.2255,
+      "spendingShares": {
+        "Förskola & grundskola": 0.273872,
+        "Gymnasieskola & vuxenutbildning": 0.092207,
+        "Äldreomsorg": 0.273981,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.146648,
+        "Infrastruktur, skydd & miljö": 0.086285,
+        "Kultur & fritid": 0.076571,
+        "Politisk verksamhet & administration": 0.015696,
+        "Övrigt": 0.03474
+      }
+    },
+    "2560": {
+      "name": "Älvsbyn",
+      "regionCode": "25",
+      "taxRate": 0.2245,
+      "spendingShares": {
+        "Förskola & grundskola": 0.288669,
+        "Gymnasieskola & vuxenutbildning": 0.08377,
+        "Äldreomsorg": 0.2775,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.19237,
+        "Infrastruktur, skydd & miljö": 0.074076,
+        "Kultur & fritid": 0.066357,
+        "Politisk verksamhet & administration": 0.013155,
+        "Övrigt": 0.004103
+      }
+    },
+    "2580": {
+      "name": "Luleå",
+      "regionCode": "25",
+      "taxRate": 0.225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.315057,
+        "Gymnasieskola & vuxenutbildning": 0.078615,
+        "Äldreomsorg": 0.217654,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.176974,
+        "Infrastruktur, skydd & miljö": 0.094754,
+        "Kultur & fritid": 0.070718,
+        "Politisk verksamhet & administration": 0.011212,
+        "Övrigt": 0.035016
+      }
+    },
+    "2581": {
+      "name": "Piteå",
+      "regionCode": "25",
+      "taxRate": 0.2225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.319999,
+        "Gymnasieskola & vuxenutbildning": 0.089235,
+        "Äldreomsorg": 0.230166,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.174717,
+        "Infrastruktur, skydd & miljö": 0.077327,
+        "Kultur & fritid": 0.049177,
+        "Politisk verksamhet & administration": 0.011177,
+        "Övrigt": 0.048202
+      }
+    },
+    "2582": {
+      "name": "Boden",
+      "regionCode": "25",
+      "taxRate": 0.226,
+      "spendingShares": {
+        "Förskola & grundskola": 0.276232,
+        "Gymnasieskola & vuxenutbildning": 0.090124,
+        "Äldreomsorg": 0.263425,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.192624,
+        "Infrastruktur, skydd & miljö": 0.072619,
+        "Kultur & fritid": 0.050623,
+        "Politisk verksamhet & administration": 0.020479,
+        "Övrigt": 0.033874
+      }
+    },
+    "2583": {
+      "name": "Haparanda",
+      "regionCode": "25",
+      "taxRate": 0.225,
+      "spendingShares": {
+        "Förskola & grundskola": 0.264369,
+        "Gymnasieskola & vuxenutbildning": 0.086858,
+        "Äldreomsorg": 0.282218,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.183148,
+        "Infrastruktur, skydd & miljö": 0.070631,
+        "Kultur & fritid": 0.067506,
+        "Politisk verksamhet & administration": 0.013889,
+        "Övrigt": 0.031381
+      }
+    },
+    "2584": {
+      "name": "Kiruna",
+      "regionCode": "25",
+      "taxRate": 0.2305,
+      "spendingShares": {
+        "Förskola & grundskola": 0.309996,
+        "Gymnasieskola & vuxenutbildning": 0.117416,
+        "Äldreomsorg": 0.230707,
+        "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": 0.182219,
+        "Infrastruktur, skydd & miljö": 0.079604,
+        "Kultur & fritid": 0.061497,
+        "Politisk verksamhet & administration": 0.012414,
+        "Övrigt": 0.006147
+      }
+    }
+  },
+  "state": {
+    "spendingShares": {
+      "Vård, omsorg & socialförsäkringar": 0.295011,
+      "Arbetsmarknad, näringsliv & infrastruktur": 0.152238,
+      "Utbildning & forskning": 0.092457,
+      "Allmänna bidrag till kommuner och regioner": 0.127684,
+      "Rättsväsende, försvar & samhällsskydd": 0.151302,
+      "Migration": 0.008621,
+      "Bistånd & internationellt": 0.03805,
+      "Rikets styrelse & allmän förvaltning": 0.041602,
+      "Räntor på statsskulden": 0.033121,
+      "Övrigt": 0.059914
+    },
+    "spendingSharesBudget": {
+      "Vård, omsorg & socialförsäkringar": 0.267768,
+      "Arbetsmarknad, näringsliv & infrastruktur": 0.156937,
+      "Utbildning & forskning": 0.092479,
+      "Allmänna bidrag till kommuner och regioner": 0.117101,
+      "Rättsväsende, försvar & samhällsskydd": 0.207194,
+      "Migration": 0.008763,
+      "Bistånd & internationellt": 0.029936,
+      "Rikets styrelse & allmän förvaltning": 0.038336,
+      "Räntor på statsskulden": 0.017466,
+      "Övrigt": 0.06402
+    }
+  }
+}
