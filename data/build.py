@@ -102,10 +102,15 @@ KOMMUN_CATEGORIES = {
     "Individ- och familjeomsorg / stöd till personer med funktionsnedsättning": [
         "520", "513", "530", "559", "569", "571", "575", "585",
     ],
-    "Infrastruktur, skydd & miljö": ["290"],
-    "Kultur & fritid": ["390"],
-    "Politisk verksamhet & administration": ["190"],
-    "Övrigt": ["690", "890"],
+    # These four used to be the pre-aggregated SCB rollup codes (290/390/190/690+890);
+    # switched to their constituent leaf codes (verified to sum to the same rollup
+    # totals) so the same fetch also powers the "Visa som tabell" drill-down below.
+    "Infrastruktur, skydd & miljö": [
+        "215", "220", "225", "230", "249", "250", "261", "263", "267", "270", "275",
+    ],
+    "Kultur & fritid": ["310", "315", "320", "330", "300", "340", "350"],
+    "Politisk verksamhet & administration": ["100", "110", "120", "130"],
+    "Övrigt": ["600", "610", "800", "805", "810", "815", "830", "832", "834", "855", "860", "865", "870"],
 }
 
 REGION_CATEGORIES = {
@@ -114,8 +119,111 @@ REGION_CATEGORIES = {
     "Kollektivtrafik": ["7"],
     "Regional utveckling": ["5", "6", "8"],
     "Politisk verksamhet & administration": ["910", "920"],
-    "Övrigt": ["940-980", "Jamf"],
+    # Was the "940-980" rollup code + "Jamf"; switched to the rollup's own leaves
+    # (940/960/980) so the same fetch also powers the detail drill-down below.
+    "Övrigt": ["940", "960", "980", "Jamf"],
 }
+
+# ---------------------------------------------------------------------------
+# 3a-detail. Fine-grained sub-items within each top-level category, for the
+# "Visa som tabell" drill-down. Codes/labels are straight from the SCB
+# Verksomrkom dimension labels in raw/tab4199_meta.json and raw/tab4242_meta.json
+# (see SOURCES.md). Categories built from a single already-atomic code (e.g.
+# region "Tandvård") have no further breakdown available and are omitted here.
+KOMMUN_CODE_LABELS = {
+    "400": "Öppen förskola", "407": "Förskola", "412": "Pedagogisk omsorg",
+    "415": "Öppen fritidsverksamhet", "425": "Fritidshem", "435": "Förskoleklass",
+    "440": "Grundskola", "443": "Anpassad grundskola",
+    "450": "Gymnasieskola", "453": "Anpassad gymnasieskola",
+    "470": "Grundläggande vuxenutbildning", "472": "Gymnasial vuxen- och påbyggnadsutbildning",
+    "474": "Komvux anpassad utbildning", "475": "Högskoleutbildning m.m.",
+    "476": "Svenska för invandrare", "478": "Uppdragsutbildning m.m.",
+    "500": "Primärvård (kommunal hemsjukvård)", "505": "Hälso- och sjukvård, övrigt",
+    "510": "Vård och omsorg om äldre",
+    "520": "Insatser till personer med funktionsnedsättning", "513": "Insatser enligt LSS/SFB",
+    "530": "Färdtjänst/riksfärdtjänst", "559": "Vård för vuxna med missbruksproblem",
+    "569": "Barn- och ungdomsvård", "571": "Övriga insatser till vuxna",
+    "575": "Ekonomiskt bistånd", "585": "Familjerätt och familjerådgivning",
+    "215": "Fysisk och teknisk planering, bostadsförbättring", "220": "Näringslivsfrämjande åtgärder",
+    "225": "Konsument- och energirådgivning", "230": "Turistverksamhet",
+    "249": "Väg- och järnvägsnät, parkering", "250": "Parker",
+    "261": "Miljö- och hälsoskydd, myndighetsutövning", "263": "Miljö, hälsa och hållbar utveckling",
+    "267": "Alkoholtillstånd m.m.", "270": "Räddningstjänst",
+    "275": "Totalförsvar och samhällsskydd",
+    "310": "Stöd till studieorganisationer", "315": "Allmän kulturverksamhet",
+    "320": "Bibliotek", "330": "Musikskola/kulturskola", "300": "Allmän fritidsverksamhet",
+    "340": "Idrotts- och fritidsanläggningar", "350": "Fritidsgårdar",
+    "100": "Nämnd- och styrelseverksamhet", "110": "Stöd till politiska partier",
+    "120": "Revision", "130": "Övrig politisk verksamhet",
+    "600": "Flyktingmottagande", "610": "Arbetsmarknadsåtgärder",
+    "800": "Arbetsområden och lokaler", "805": "Hamnverksamhet",
+    "810": "Kommersiell verksamhet", "815": "Bostadsverksamhet", "830": "Flygtrafik",
+    "832": "Buss, bil och spårbunden persontrafik", "834": "Sjötrafik",
+    "855": "Elförsörjning och gasförsörjning", "860": "Fjärrvärmeförsörjning",
+    "865": "Vattenförsörjning och avloppshantering", "870": "Avfallshantering",
+}
+
+# Every kommun category is now already defined by its leaf codes (see
+# KOMMUN_CATEGORIES above), so the detail breakdown is just those same codes -
+# except "Övrigt", which is excluded: its leaves are largely internal kommunal
+# business-accounting entries (e.g. "Arbetsområden och lokaler", an internal
+# real-estate cost-allocation line) that can swing hugely negative in ways
+# individual categories elsewhere don't. Floored at 0 leaf-by-leaf, that
+# produces a visible "detail" sum many times larger than the category's real
+# (small) net share - e.g. Stockholm's Övrigt is really ~0.5% of its budget,
+# but summing only its positive leaves gives ~3.3%. Every other category's
+# detail sum matches its top-level share to within ~1 percentage point across
+# all 290 kommuner; "Övrigt" alone was off by more everywhere it was checked,
+# so it's left as an opaque residual instead of a misleading breakdown.
+KOMMUN_CATEGORY_DETAIL_CODES = {cat: codes for cat, codes in KOMMUN_CATEGORIES.items() if cat != "Övrigt"}
+
+REGION_CODE_LABELS = {
+    "0": "Primärvård", "1": "Specialiserad somatisk vård", "2": "Specialiserad psykiatrisk vård",
+    "4": "Övrig hälso- och sjukvård",
+    "5": "Utbildning (region-driven)", "6": "Kultur", "8": "Allmän regional utveckling",
+    "910": "Politisk verksamhet, hälso- och sjukvård", "920": "Politisk verksamhet, regional utveckling",
+    "940": "Medicinsk service", "960": "Allmän service", "980": "Fastighetsförvaltning",
+    "Jamf": "Jämförelsestörande poster",
+}
+
+# Same story for regions - every multi-code category is already leaf-based
+# above, so detail is a straight copy, minus the two single-code categories
+# (Tandvård, Kollektivtrafik) with nothing further to break down, and minus
+# "Övrigt" for the same reason as the kommun side above (its codes include
+# "Jamf" - "Jämförelsestörande poster", i.e. accounting adjustment items by
+# definition, not a real spending line).
+REGION_CATEGORY_DETAIL_CODES = {
+    cat: codes for cat, codes in REGION_CATEGORIES.items() if len(codes) > 1 and cat != "Övrigt"
+}
+
+
+def compute_detail(table, detail_codes_by_category, code_labels, totals, exclude_codes_by_region=None):
+    """Return {region_code: {category: [{"name", "share"}, ...]}}, sub-items sorted
+    descending by share. Shares are of the SAME grand total used for the
+    top-level category shares (from `totals`), so a category's sub-item shares
+    sum back to that category's own top-level share."""
+    exclude_codes_by_region = exclude_codes_by_region or {}
+    out = {}
+    for rcode, row in table.items():
+        total = totals.get(rcode)
+        if not total:
+            continue
+        excluded = exclude_codes_by_region.get(rcode, set())
+        cat_detail = {}
+        for cat, codes in detail_codes_by_category.items():
+            items = []
+            for code in codes:
+                if code in excluded:
+                    continue
+                v = max(row.get(code, 0.0), 0.0)
+                if v <= 0:
+                    continue
+                items.append({"name": code_labels[code], "share": round(v / total, 6)})
+            items.sort(key=lambda x: -x["share"])
+            if items:
+                cat_detail[cat] = items
+        out[rcode] = cat_detail
+    return out
 
 # ---------------------------------------------------------------------------
 # 3b. Statens budget - utgiftsomraden (UO1-UO27) -> top-level categories
@@ -254,6 +362,37 @@ def load_state_budget_by_uo():
     return totals
 
 
+def load_uo_names():
+    """The official Swedish name of each utgiftsomrade (1-27), read straight from
+    column B of the same budget spreadsheet used by load_state_budget_by_uo -
+    the authoritative source for how the government itself labels each area."""
+    wb = openpyxl.load_workbook(RAW / "statsbudget-2026-specifikation.xlsx", data_only=True)
+    ws = wb["Utgifter"]
+    names = {}
+    for row in ws.iter_rows(min_row=1, max_row=600, values_only=True):
+        uo, name, _amount = row[0], row[1], row[2]
+        if uo is not None and str(uo).strip().isdigit():
+            names[int(uo)] = name.strip()
+    assert set(names.keys()) == set(range(1, 28)), f"expected UO 1-27, got {sorted(names)}"
+    return names
+
+
+def compute_state_detail(uo_totals, categories, uo_names, total):
+    """Per-category list of {"name", "share"} for each utgiftsomrade in that
+    category, sorted descending by share - the state-side equivalent of
+    compute_detail(). Shares are of the same grand `total` used for the
+    top-level category shares."""
+    out = {}
+    for cat, uos in categories.items():
+        items = [
+            {"name": uo_names[u], "share": round(uo_totals[u] / total, 6)}
+            for u in uos
+        ]
+        items.sort(key=lambda x: -x["share"])
+        out[cat] = items
+    return out
+
+
 def compute_state_shares(uo_totals, categories):
     """Aggregate per-UO totals into category totals and normalize to shares
     summing to exactly 1.0 (same rounding/nudge approach as compute_shares)."""
@@ -286,9 +425,17 @@ def main():
     )
     region_shares, region_totals = compute_shares(region_table, REGION_CATEGORIES)
 
+    kommun_detail = compute_detail(
+        kommun_table, KOMMUN_CATEGORY_DETAIL_CODES, KOMMUN_CODE_LABELS, kommun_totals,
+        exclude_codes_by_region={GOTLAND_KOMMUN_CODE: GOTLAND_EXCLUDE_CODES},
+    )
+    region_detail = compute_detail(region_table, REGION_CATEGORY_DETAIL_CODES, REGION_CODE_LABELS, region_totals)
+
     # National (Riket) fallback shares
     riket_kommun_shares = kommun_shares.get("00")
     riket_region_shares = region_shares.get("00")
+    riket_kommun_detail = kommun_detail.get("00", {})
+    riket_region_detail = region_detail.get("00", {})
     assert riket_kommun_shares is not None
     assert riket_region_shares is not None
 
@@ -314,9 +461,11 @@ def main():
         shares = region_shares.get(matched_code) if matched_code else None
         if shares is None:
             entry["spendingShares"] = riket_region_shares
+            entry["spendingDetail"] = riket_region_detail
             entry["estimated"] = True
         else:
             entry["spendingShares"] = shares
+            entry["spendingDetail"] = region_detail.get(matched_code, {})
         regions_out[lan_code] = entry
 
     assert len(regions_out) == 21
@@ -335,10 +484,12 @@ def main():
         shares = kommun_shares.get(kod)
         if shares is None:
             entry["spendingShares"] = riket_kommun_shares
+            entry["spendingDetail"] = riket_kommun_detail
             entry["estimated"] = True
             missing_spending.append(kod)
         else:
             entry["spendingShares"] = shares
+            entry["spendingDetail"] = kommun_detail.get(kod, {})
         kommuner_out[kod] = entry
 
     assert len(kommuner_out) == 290
@@ -488,9 +639,14 @@ def main():
     state_budget_shares, state_budget_cat_sums, state_budget_total = compute_state_shares(
         state_budget_uo, STATE_CATEGORIES
     )
+    uo_names = load_uo_names()
+    state_outcome_detail = compute_state_detail(state_outcome_uo, STATE_CATEGORIES, uo_names, state_outcome_total)
+    state_budget_detail = compute_state_detail(state_budget_uo, STATE_CATEGORIES, uo_names, state_budget_total)
     state_out = {
         "spendingShares": state_outcome_shares,
         "spendingSharesBudget": state_budget_shares,
+        "spendingDetail": state_outcome_detail,
+        "spendingDetailBudget": state_budget_detail,
     }
 
     output = {
@@ -545,6 +701,21 @@ def main():
         else:
             assert 0.15 <= entry["taxRate"] <= 0.25, f"kommun {kod} suspicious taxRate {entry['taxRate']}"
         assert 0.28 <= combined <= 0.38, f"kommun {kod} suspicious combined taxRate {combined}"
+        # Detail sub-items for a category should sum back to that category's own
+        # top-level share. Each leaf is floored at 0 individually (a negative row
+        # can't be shown in the drill-down table), so wherever exactly one leaf in
+        # a category went net-negative that year, dropping it makes the *visible*
+        # positive leaves sum to slightly MORE than the category total, which
+        # already absorbed that same negative value - the same fee-financed-activity
+        # phenomenon already documented for the top-level "Övrigt" floor (see
+        # compute_shares), just now also visible at the finer leaf level. Observed
+        # max gap in the 2024 data is ~0.6 percentage points.
+        for cat, items in entry["spendingDetail"].items():
+            detail_sum = sum(i["share"] for i in items)
+            assert detail_sum <= entry["spendingShares"][cat] + 1e-2, (
+                f"kommun {kod} detail for {cat} ({detail_sum}) exceeds category share "
+                f"({entry['spendingShares'][cat]})"
+            )
     for rc, entry in regions_out.items():
         s = sum(entry["spendingShares"].values())
         assert abs(s - 1.0) < 1e-3, f"region {rc} shares sum to {s}"
@@ -553,11 +724,25 @@ def main():
             assert entry["taxRate"] == 0.0, f"Gotland region rate expected 0, got {entry['taxRate']}"
         else:
             assert 0.09 <= entry["taxRate"] <= 0.135, f"region {rc} suspicious taxRate {entry['taxRate']}"
+        for cat, items in entry["spendingDetail"].items():
+            detail_sum = sum(i["share"] for i in items)
+            assert detail_sum <= entry["spendingShares"][cat] + 1e-2, (
+                f"region {rc} detail for {cat} ({detail_sum}) exceeds category share "
+                f"({entry['spendingShares'][cat]})"
+            )
 
     s_out = sum(state_out["spendingShares"].values())
     s_bud = sum(state_out["spendingSharesBudget"].values())
     assert abs(s_out - 1.0) < 1e-6, f"state outcome shares sum to {s_out}"
     assert abs(s_bud - 1.0) < 1e-6, f"state budget shares sum to {s_bud}"
+    for cat in categories_state:
+        d_out = sum(i["share"] for i in state_outcome_detail[cat])
+        d_bud = sum(i["share"] for i in state_budget_detail[cat])
+        # 1e-5 tolerance: compute_state_shares nudges the largest category so its
+        # rounded shares sum to exactly 1.0, which can leave a ~1e-6 gap against
+        # the independently-rounded per-UO detail shares - benign rounding noise.
+        assert abs(d_out - state_outcome_shares[cat]) < 1e-5, f"state outcome detail mismatch for {cat}"
+        assert abs(d_bud - state_budget_shares[cat]) < 1e-5, f"state budget detail mismatch for {cat}"
     print(f"State outcome total 2024: {state_outcome_total/1000:.1f} mdkr; "
           f"budget total 2026: {state_budget_total/1000:.1f} mdkr")
     for cat in categories_state:

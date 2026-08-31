@@ -183,13 +183,28 @@ function usingFallbackBudgetState() {
   return state.basis === "budget" && DATA.meta.stateBudgetDataIsRealBudget === false;
 }
 
-function buildCategorySegments(categories, shares, totalAmount) {
+function currentSpendingDetail(entry) {
+  if (state.basis === "budget" && entry.spendingDetailBudget) {
+    return entry.spendingDetailBudget;
+  }
+  return entry.spendingDetail || {};
+}
+
+function buildCategorySegments(categories, shares, totalAmount, detail) {
   return categories.map((name) => {
     const share = shares && shares[name] ? shares[name] : 0;
+    const detailItems = detail && detail[name];
     return {
       name: translateCategory(name),
       share,
       value: share * totalAmount,
+      detail: detailItems
+        ? detailItems.map((d) => ({
+            name: translateCategory(d.name),
+            share: d.share,
+            value: d.share * totalAmount,
+          }))
+        : null,
     };
   });
 }
@@ -221,7 +236,8 @@ function render() {
   // Kommun spending breakdown (annual kr).
   els.kommunNameInHeading.textContent = t("inParens", { name: kommun.name });
   const kommunShares = currentSpendingShares(kommun);
-  const kommunSegments = buildCategorySegments(DATA.meta.categoriesKommun, kommunShares, result.kommunalSkatt);
+  const kommunDetail = currentSpendingDetail(kommun);
+  const kommunSegments = buildCategorySegments(DATA.meta.categoriesKommun, kommunShares, result.kommunalSkatt, kommunDetail);
   els.kommunSpendingSum.textContent = `${formatCurrency(result.kommunalSkatt)}${t("perYear")}` + (kommun.estimated ? ` · ${t("estimatedNote")}` : "");
   renderStackBar(
     { trackEl: els.kommunTrack, legendEl: getOrCreateLegend(els.kommunTrack), tableEl: els.kommunTable },
@@ -238,7 +254,8 @@ function render() {
   els.regionSpendingSum.hidden = regionIsUnified;
   if (!regionIsUnified) {
     const regionShares = currentSpendingShares(region);
-    const regionSegments = buildCategorySegments(DATA.meta.categoriesRegion, regionShares, result.regionalSkatt);
+    const regionDetail = currentSpendingDetail(region);
+    const regionSegments = buildCategorySegments(DATA.meta.categoriesRegion, regionShares, result.regionalSkatt, regionDetail);
     els.regionSpendingSum.textContent = `${formatCurrency(result.regionalSkatt)}${t("perYear")}` + (region.estimated ? ` · ${t("estimatedNote")}` : "");
     renderStackBar(
       { trackEl: els.regionTrack, legendEl: getOrCreateLegend(els.regionTrack), tableEl: els.regionTable },
@@ -256,7 +273,8 @@ function render() {
   const stateHasTax = result.statligSkatt > 0;
   els.stateZeroNote.hidden = stateHasTax;
   const stateShares = currentSpendingShares(DATA.state);
-  const stateSegments = buildCategorySegments(DATA.meta.categoriesState, stateShares, result.statligSkatt);
+  const stateDetail = currentSpendingDetail(DATA.state);
+  const stateSegments = buildCategorySegments(DATA.meta.categoriesState, stateShares, result.statligSkatt, stateDetail);
   els.stateSpendingSum.textContent = `${formatCurrency(result.statligSkatt)}${t("perYear")}`;
   renderStackBar(
     { trackEl: els.stateTrack, legendEl: getOrCreateLegend(els.stateTrack), tableEl: els.stateTable },

@@ -122,11 +122,13 @@ directory from the raw files in `raw/`.
   - Metadata: `GET https://api.scb.se/OV0104/v2beta/api/v2/tables/TAB4199/metadata?lang=sv`
     and same for `TAB4242` — saved as `raw/tab4199_meta.json` / `raw/tab4242_meta.json`.
   - Kommun data (net cost, `ContentsCode=0000005X` = Nettokostnad, `Tid=2024`, all 291
-    Region values incl. Riket, 32 selected Verksomrkom codes):
+    Region values incl. Riket, 62 Verksomrkom leaf codes — every leaf under all 8 categories,
+    not just the pre-aggregated rollups, so the same fetch also powers the "Visa som tabell"
+    detail drill-down):
     `GET https://api.scb.se/OV0104/v2beta/api/v2/tables/TAB4199/data?lang=sv&valuecodes[Region]=*&valuecodes[Tid]=2024&valuecodes[ContentsCode]=0000005X&valuecodes[Verksomrkom]=<comma-separated codes>&outputformat=json-stat2`
     — saved as `raw/tab4199_kommun_2024.json`.
   - Region data (net cost incl. läkemedel, `ContentsCode=000000A7`, `Tid=2024`, all 22
-    Region values incl. Riket, 13 selected Verksomrkom codes):
+    Region values incl. Riket, 15 Verksomrkom leaf codes, same reasoning as above):
     `GET https://api.scb.se/OV0104/v2beta/api/v2/tables/TAB4242/data?lang=sv&valuecodes[Region]=*&valuecodes[Tid]=2024&valuecodes[ContentsCode]=000000A7&valuecodes[Verksomrkom]=<comma-separated codes>&outputformat=json-stat2`
     — saved as `raw/tab4242_region_2024.json`.
 - **Year used: 2024** — the latest year with complete RS data across (almost) all
@@ -139,9 +141,10 @@ directory from the raw files in `raw/`.
 We verified empirically (by pulling Riket-level totals and checking sums) that SCB's
 verksamhetsområde codes cleanly aggregate into "TOTALT" rows (190, 290, 390, 490, 590, 690,
 890 for kommuner; equivalent structure for regioner) with the finer leaf codes summing
-exactly to their parent total (to within rounding). We used the leaf codes to split the two
-largest kommun totals (pedagogisk verksamhet=490, vård och omsorg=590) into the finer
-categories the frontend wants, and used the TOTALT codes directly elsewhere:
+exactly to their parent total (to within rounding). Every category below is now defined
+directly by its leaf codes (rather than the pre-aggregated TOTALT rollup, as an earlier
+version of this pipeline did for 290/390/190/690+890) so the same numbers can also drive the
+"Visa som tabell" detail drill-down:
 
 **Kommun categories** (`meta.categoriesKommun`), built from Verksomrkom codes:
 | Category | Verksomrkom codes |
@@ -150,10 +153,10 @@ categories the frontend wants, and used the TOTALT codes directly elsewhere:
 | Gymnasieskola & vuxenutbildning | 450, 453, 470, 472, 474, 475, 476, 478 |
 | Äldreomsorg | 500, 505, 510 |
 | Individ- och familjeomsorg / stöd till personer med funktionsnedsättning | 513, 520, 530, 559, 569, 571, 575, 585 |
-| Infrastruktur, skydd & miljö | 290 (total) |
-| Kultur & fritid | 390 (total) |
-| Politisk verksamhet & administration | 190 (total) — note: RS does not report a separate central-administration cost pool at this level; central administrative overhead is folded into the reporting kommun's various verksamhetsområden per RS accounting rules, so this category mostly reflects political/governance costs (nämnd- och styrelseverksamhet, revision, etc.) |
-| Övrigt | 690 (särskilt riktade insatser: flyktingmottagande, arbetsmarknadsåtgärder) + 890 (affärsverksamhet: VA, avfall, elförsörjning etc., largely fee-financed) |
+| Infrastruktur, skydd & miljö | 215, 220, 225, 230, 249, 250, 261, 263, 267, 270, 275 (leaves of the 290 rollup) |
+| Kultur & fritid | 300, 310, 315, 320, 330, 340, 350 (leaves of the 390 rollup) |
+| Politisk verksamhet & administration | 100, 110, 120, 130 (leaves of the 190 rollup) — note: RS does not report a separate central-administration cost pool at this level; central administrative overhead is folded into the reporting kommun's various verksamhetsområden per RS accounting rules, so this category mostly reflects political/governance costs (nämnd- och styrelseverksamhet, revision, etc.) |
+| Övrigt | 600, 610 (leaves of 690, särskilt riktade insatser: flyktingmottagande, arbetsmarknadsåtgärder) + 800, 805, 810, 815, 830, 832, 834, 855, 860, 865, 870 (leaves of 890, affärsverksamhet: VA, avfall, elförsörjning etc., largely fee-financed) |
 
 **Region categories** (`meta.categoriesRegion`), built from Verksomrkom codes:
 | Category | Verksomrkom codes |
@@ -163,7 +166,7 @@ categories the frontend wants, and used the TOTALT codes directly elsewhere:
 | Kollektivtrafik | 7 (trafik och infrastruktur, total) |
 | Regional utveckling | 5 (utbildning), 6 (kultur), 8 (allmän regional utveckling) — SCB's own aggregate "5-8 SUMMA REGIONAL UTVECKLING" groups these together as the non-healthcare branch of regional government, so folkhögskola/kultur/business-development all land here |
 | Politisk verksamhet & administration | 910 (politisk verksamhet avseende hälso- och sjukvård) + 920 (politisk verksamhet avseende regional utveckling) |
-| Övrigt | 940-980 (serviceverksamheter) + Jamf (jämförelsestörande poster) — both typically 0 or near-0 |
+| Övrigt | 940, 960, 980 (leaves of the 940-980 rollup, serviceverksamheter) + Jamf (jämförelsestörande poster) — both typically 0 or near-0 |
 
 For every kommun/region, shares are computed as `category total / sum of all category
 totals for that unit` (NOT divided by SCB's own grand-total row), so the 8 (kommun) or 6
@@ -175,6 +178,33 @@ case and the dropped amount represents a net gain, not an unaccounted-for cost. 
 grand totals (`900 SUMMA DRIFTVERKSAMHET` for kommuner, `0-9 TOTALSUMMA` for regioner): the
 sum of our category totals matches SCB's official grand total to within ~0.01%, the residual
 being SCB's own internal rounding.
+
+### Detail drill-down ("Visa som tabell")
+
+Each kommun/region/state entry also carries a `spendingDetail` object (and, for state,
+`spendingDetailBudget`): per top-level category, the individual leaf codes (kommun/region) or
+utgiftsområden (state) that make it up, as `{"name", "share"}` sorted descending by share.
+Shares are of the *same* grand total as the top-level category shares, so a category's
+detail items sum back to that category's own share (state to within ~1e-6 rounding noise;
+kommun/region to within ~1 percentage point — see below). State detail item names are the
+official UO names read straight from column B of the budget spreadsheet
+(`load_uo_names()`); kommun/region detail names are hand-transcribed from the SCB
+Verksomrkom labels (`KOMMUN_CODE_LABELS`/`REGION_CODE_LABELS` in `build.py`).
+
+**"Övrigt" is deliberately excluded from detail on both the kommun and region side.** Its
+leaf codes are largely internal kommunal business-accounting entries — e.g. "Arbetsområden
+och lokaler" (code 800, internal real-estate cost allocation) — that can swing hugely
+negative in a way the other categories don't (a municipality's internal cost-allocation or a
+profitable municipal utility booking net revenue that year). Since a negative leaf can't be
+shown as a row in a "where your money went" table, floor-at-0-and-drop is the only option,
+but for "Övrigt" specifically that produces a *visible* sum far larger than the category's
+real (small) share — e.g. Stockholm's Övrigt is really ~0.5% of its budget, but summing only
+its positive leaves gives ~3.3%. Checked systematically across all 290 kommuner and 21
+regions: every other category's detail sum stays within ~1 percentage point of its top-level
+share; every violation larger than that was in "Övrigt". Region "Övrigt" also contains code
+"Jamf" (jämförelsestörande poster — "comparison-distorting items"), an accounting-adjustment
+bucket by definition. Both are left as an opaque residual rather than a misleading
+breakdown.
 
 ### Known data-quality special case: Region Gotland (kommunkod 0980 / regionkod 09)
 

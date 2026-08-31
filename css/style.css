@@ -479,6 +479,15 @@ table.data-table td:last-child, table.data-table th:last-child {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
+tr.data-table-subrow td {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+tr.data-table-subrow td:first-child {
+  padding-left: 22px;
+}
 
 .chart-grid {
   display: grid;

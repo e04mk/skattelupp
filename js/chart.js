@@ -124,6 +124,23 @@ function renderStackBar(container, segments) {
       row.appendChild(c2);
       row.appendChild(c3);
       tbody.appendChild(row);
+
+      if (seg.detail && seg.detail.length) {
+        seg.detail.forEach((sub) => {
+          const subRow = document.createElement("tr");
+          subRow.className = "data-table-subrow";
+          const s1 = document.createElement("td");
+          s1.textContent = sub.name;
+          const s2 = document.createElement("td");
+          s2.textContent = formatPercent(sub.share, 1);
+          const s3 = document.createElement("td");
+          s3.textContent = formatCurrency(sub.value);
+          subRow.appendChild(s1);
+          subRow.appendChild(s2);
+          subRow.appendChild(s3);
+          tbody.appendChild(subRow);
+        });
+      }
     });
     table.appendChild(tbody);
     tableEl.appendChild(table);
