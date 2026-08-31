@@ -35,8 +35,21 @@
     <div class="panel-body">
       <div class="control-grid">
         <div class="field">
-          <label for="kommunSelect" data-i18n="kommunLabel">Kommun</label>
-          <select id="kommunSelect"></select>
+          <label for="kommunInput" data-i18n="kommunLabel">Kommun</label>
+          <div class="combobox">
+            <input
+              type="text"
+              id="kommunInput"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="kommunListbox"
+              aria-autocomplete="list"
+              autocomplete="off"
+              autocapitalize="off"
+              spellcheck="false"
+            >
+            <ul id="kommunListbox" class="combobox-listbox" role="listbox" hidden></ul>
+          </div>
         </div>
         <div class="field">
           <label for="salaryNumber" data-i18n="salaryLabel">Månadslön före skatt</label>

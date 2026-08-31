@@ -8,7 +8,8 @@ const state = {
 const els = {};
 
 function cacheEls() {
-  els.kommunSelect = document.getElementById("kommunSelect");
+  els.kommunInput = document.getElementById("kommunInput");
+  els.kommunListbox = document.getElementById("kommunListbox");
   els.salaryNumber = document.getElementById("salaryNumber");
   els.salarySlider = document.getElementById("salarySlider");
   els.langToggle = document.getElementById("langToggle");
@@ -46,37 +47,125 @@ function cacheEls() {
   els.dataGeneratedAt = document.getElementById("dataGeneratedAt");
 }
 
-function populateKommunSelect() {
-  const regionGroups = {};
-  Object.entries(DATA.kommuner).forEach(([code, k]) => {
-    if (!regionGroups[k.regionCode]) regionGroups[k.regionCode] = [];
-    regionGroups[k.regionCode].push({ code, ...k });
+// Searchable kommun combobox (plain text input + a filtered <ul role="listbox">
+// list) instead of a native <select>, since scrolling a 290-item native select
+// is painful on a touchscreen — typing a few letters isn't.
+let kommunList = []; // [{code, name, regionName}], sorted by name
+let kommunFiltered = [];
+let kommunActiveIndex = -1;
+
+function buildKommunList() {
+  kommunList = Object.entries(DATA.kommuner)
+    .map(([code, k]) => ({
+      code,
+      name: k.name,
+      regionName: DATA.regions[k.regionCode] ? DATA.regions[k.regionCode].name : "",
+    }))
+    .sort((a, b) => a.name.localeCompare(b.name, "sv"));
+
+  const stockholm = kommunList.find((k) => k.name.toLowerCase() === "stockholm");
+  state.kommunCode = stockholm ? stockholm.code : kommunList[0].code;
+  els.kommunInput.value = (stockholm || kommunList[0]).name;
+}
+
+function appendHighlighted(el, text, query) {
+  el.textContent = "";
+  const idx = query ? text.toLowerCase().indexOf(query) : -1;
+  if (idx === -1) {
+    el.textContent = text;
+    return;
+  }
+  el.appendChild(document.createTextNode(text.slice(0, idx)));
+  const mark = document.createElement("mark");
+  mark.textContent = text.slice(idx, idx + query.length);
+  el.appendChild(mark);
+  el.appendChild(document.createTextNode(text.slice(idx + query.length)));
+}
+
+function renderKommunOptions(query) {
+  const q = query.trim().toLowerCase();
+  kommunFiltered = q
+    ? kommunList.filter((k) => k.name.toLowerCase().includes(q) || k.regionName.toLowerCase().includes(q))
+    : kommunList;
+  kommunActiveIndex = kommunFiltered.length ? 0 : -1;
+
+  els.kommunListbox.textContent = "";
+
+  if (kommunFiltered.length === 0) {
+    const li = document.createElement("li");
+    li.className = "combobox-empty";
+    li.textContent = t("noKommunMatch");
+    els.kommunListbox.appendChild(li);
+    els.kommunInput.removeAttribute("aria-activedescendant");
+    return;
+  }
+
+  kommunFiltered.forEach((k, i) => {
+    const li = document.createElement("li");
+    li.className = "combobox-option";
+    li.id = `kommun-option-${k.code}`;
+    li.setAttribute("role", "option");
+    li.setAttribute("aria-selected", i === kommunActiveIndex ? "true" : "false");
+
+    const nameEl = document.createElement("span");
+    nameEl.className = "option-name";
+    appendHighlighted(nameEl, k.name, q);
+
+    const regionEl = document.createElement("span");
+    regionEl.className = "option-region";
+    appendHighlighted(regionEl, k.regionName, q);
+
+    li.appendChild(nameEl);
+    li.appendChild(regionEl);
+
+    // Selecting via mousedown+preventDefault (not click) stops the input
+    // from blurring first, which would otherwise close the list before the
+    // click on it registers.
+    li.addEventListener("mousedown", (e) => e.preventDefault());
+    li.addEventListener("click", () => {
+      selectKommun(k.code);
+      closeKommunListbox();
+    });
+
+    els.kommunListbox.appendChild(li);
   });
 
-  const regionCodes = Object.keys(regionGroups).sort((a, b) =>
-    (DATA.regions[a]?.name || "").localeCompare(DATA.regions[b]?.name || "", "sv")
-  );
+  updateKommunActiveDescendant();
+}
 
-  els.kommunSelect.textContent = "";
-  regionCodes.forEach((rc) => {
-    const optgroup = document.createElement("optgroup");
-    optgroup.label = DATA.regions[rc] ? DATA.regions[rc].name : rc;
-    regionGroups[rc]
-      .sort((a, b) => a.name.localeCompare(b.name, "sv"))
-      .forEach((k) => {
-        const opt = document.createElement("option");
-        opt.value = k.code;
-        opt.textContent = k.name;
-        optgroup.appendChild(opt);
-      });
-    els.kommunSelect.appendChild(optgroup);
-  });
+function updateKommunActiveDescendant() {
+  const options = els.kommunListbox.querySelectorAll(".combobox-option");
+  options.forEach((opt, i) => opt.setAttribute("aria-selected", i === kommunActiveIndex ? "true" : "false"));
+  if (kommunActiveIndex >= 0 && options[kommunActiveIndex]) {
+    els.kommunInput.setAttribute("aria-activedescendant", options[kommunActiveIndex].id);
+    if (typeof options[kommunActiveIndex].scrollIntoView === "function") {
+      options[kommunActiveIndex].scrollIntoView({ block: "nearest" });
+    }
+  } else {
+    els.kommunInput.removeAttribute("aria-activedescendant");
+  }
+}
 
-  const stockholm = Object.entries(DATA.kommuner).find(
-    ([, k]) => k.name.toLowerCase() === "stockholm"
-  );
-  state.kommunCode = stockholm ? stockholm[0] : Object.keys(DATA.kommuner)[0];
-  els.kommunSelect.value = state.kommunCode;
+function openKommunListbox() {
+  els.kommunListbox.hidden = false;
+  els.kommunInput.setAttribute("aria-expanded", "true");
+}
+
+function closeKommunListbox() {
+  els.kommunListbox.hidden = true;
+  els.kommunInput.setAttribute("aria-expanded", "false");
+  els.kommunInput.removeAttribute("aria-activedescendant");
+}
+
+function resetKommunInputText() {
+  const k = kommunList.find((x) => x.code === state.kommunCode);
+  els.kommunInput.value = k ? k.name : "";
+}
+
+function selectKommun(code) {
+  state.kommunCode = code;
+  resetKommunInputText();
+  render();
 }
 
 function currentSpendingShares(entry) {
@@ -213,9 +302,50 @@ function setLang(lang) {
 }
 
 function wireEvents() {
-  els.kommunSelect.addEventListener("change", (e) => {
-    state.kommunCode = e.target.value;
-    render();
+  els.kommunInput.addEventListener("focus", () => {
+    els.kommunInput.select();
+    renderKommunOptions("");
+    openKommunListbox();
+  });
+  els.kommunInput.addEventListener("input", () => {
+    renderKommunOptions(els.kommunInput.value);
+    openKommunListbox();
+  });
+  els.kommunInput.addEventListener("blur", () => {
+    closeKommunListbox();
+    resetKommunInputText();
+  });
+  els.kommunInput.addEventListener("keydown", (e) => {
+    if (els.kommunListbox.hidden) {
+      if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+        renderKommunOptions(els.kommunInput.value);
+        openKommunListbox();
+      }
+      return;
+    }
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (kommunFiltered.length) {
+        kommunActiveIndex = (kommunActiveIndex + 1) % kommunFiltered.length;
+        updateKommunActiveDescendant();
+      }
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      if (kommunFiltered.length) {
+        kommunActiveIndex = (kommunActiveIndex - 1 + kommunFiltered.length) % kommunFiltered.length;
+        updateKommunActiveDescendant();
+      }
+    } else if (e.key === "Enter") {
+      if (kommunActiveIndex >= 0 && kommunFiltered[kommunActiveIndex]) {
+        e.preventDefault();
+        selectKommun(kommunFiltered[kommunActiveIndex].code);
+        closeKommunListbox();
+        els.kommunInput.blur();
+      }
+    } else if (e.key === "Escape") {
+      closeKommunListbox();
+      resetKommunInputText();
+    }
   });
   els.salaryNumber.addEventListener("input", (e) => setSalary(Number(e.target.value) || 0, "number"));
   els.salarySlider.addEventListener("input", (e) => setSalary(Number(e.target.value) || 0, "slider"));
@@ -230,7 +360,7 @@ async function init() {
   applyStaticI18n();
   const res = await fetch("data/tax-data.json");
   DATA = await res.json();
-  populateKommunSelect();
+  buildKommunList();
   wireEvents();
   els.dataGeneratedAt.textContent = t("dataGeneratedAt", { date: DATA.meta.generatedAt });
   setSalary(state.monthlyGross, "init");

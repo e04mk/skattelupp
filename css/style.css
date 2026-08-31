@@ -211,7 +211,10 @@ details.panel > .panel-body {
   margin: 6px 0 0;
 }
 
-#kommunSelect {
+.combobox {
+  position: relative;
+}
+#kommunInput {
   width: 100%;
   padding: 10px 12px;
   font: inherit;
@@ -220,6 +223,57 @@ details.panel > .panel-body {
   border-radius: 10px;
   background: var(--page);
   color: var(--text-primary);
+}
+#kommunInput:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.combobox-listbox {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  max-height: 280px;
+  overflow-y: auto;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+.combobox-option {
+  padding: 9px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.combobox-option .option-region {
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  white-space: nowrap;
+}
+.combobox-option mark {
+  background: none;
+  color: inherit;
+  font-weight: 700;
+}
+.combobox-option[aria-selected="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+.combobox-option[aria-selected="true"] .option-region {
+  color: rgba(255, 255, 255, 0.8);
+}
+.combobox-empty {
+  padding: 9px 10px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 .salary-input-group {
